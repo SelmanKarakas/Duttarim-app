@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Duttar Akort Cihazı</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#160e09;
+    --bg-1:#1e130c;
+    --card:#241708;
+    --card-2:#2c1a0d;
+    --wood-dark:#3a2313;
+    --wood-mid:#7a4c26;
+    --wood-light:#c08a4e;
+    --parchment:#f1e6d2;
+    --muted:#b6a184;
+    --gold:#caa233;
+    --turquoise:#2fb6a6;
+    --rose:#c14a5a;
+    --line: rgba(241,230,210,0.12);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    min-height:100vh;
+    background:
+      radial-gradient(ellipse at 50% -10%, #34210f 0%, transparent 55%),
+      linear-gradient(180deg,var(--bg-0),var(--bg-1) 60%);
+    color:var(--parchment);
+    font-family:'Inter',sans-serif;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding:28px 14px 60px;
+  }
+  .app{
+    width:100%;
+    max-width:440px;
+    background:linear-gradient(180deg,var(--card),var(--card-2));
+    border:1px solid rgba(202,162,51,0.25);
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.7), 0 0 0 1px rgba(0,0,0,0.4);
+    position:relative;
+  }
+  .ikat{
+    height:9px;
+    width:100%;
+    background-image: repeating-linear-gradient(45deg,
+      var(--gold) 0 6px, transparent 6px 12px),
+      repeating-linear-gradient(-45deg, var(--rose) 0 6px, transparent 6px 12px);
+    background-blend-mode: screen;
+    opacity:0.55;
+  }
+  header{
+    text-align:center;
+    padding:22px 20px 6px;
+  }
+  header h1{
+    font-family:'Marcellus',serif;
+    font-size:1.55rem;
+    letter-spacing:0.02em;
+    margin:0 0 4px;
+    color:var(--parchment);
+  }
+  header p{
+    margin:0;
+    font-size:0.82rem;
+    color:var(--muted);
+    letter-spacing:0.03em;
+  }
+
+  .tuning-select{
+    display:flex;
+    gap:6px;
+    padding:16px 18px 4px;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+  .tuning-select button{
+    font-family:'Inter',sans-serif;
+    font-size:0.72rem;
+    font-weight:600;
+    letter-spacing:0.02em;
+    color:var(--muted);
+    background:rgba(241,230,210,0.05);
+    border:1px solid var(--line);
+    padding:7px 11px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:all .18s ease;
+  }
+  .tuning-select button:hover{ color:var(--parchment); border-color:rgba(202,162,51,0.4); }
+  .tuning-select button.active{
+    background:var(--gold);
+    border-color:var(--gold);
+    color:#241708;
+  }
+
+  .stage{
+    position:relative;
+    display:flex;
+    justify-content:center;
+    padding:10px 0 4px;
+  }
+  .stage svg{ width:190px; height:auto; filter:drop-shadow(0 10px 18px rgba(0,0,0,0.45)); }
+
+  .string-line{
+    stroke:var(--parchment);
+    stroke-width:1.6;
+    opacity:0.55;
+    transition:stroke .15s ease, opacity .15s ease;
+  }
+  .string-line.active{ opacity:1; }
+  .peg-pointer{ transform-origin:center; transition:transform .12s ease; }
+
+  .string-tags{
+    display:flex;
+    justify-content:space-between;
+    padding:2px 40px 0;
+    font-family:'Space Grotesk',sans-serif;
+  }
+  .string-tag{
+    text-align:center;
+    font-size:0.75rem;
+    color:var(--muted);
+    transition:color .15s ease;
+    min-width:54px;
+  }
+  .string-tag .n{ font-size:1rem; font-weight:600; display:block; }
+  .string-tag.active{ color:var(--turquoise); }
+  .string-tag.active.flat, .string-tag.active.sharp{ color:var(--rose); }
+
+  .readout{
+    text-align:center;
+    padding:16px 20px 6px;
+  }
+  .note-big{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:3.4rem;
+    font-weight:700;
+    line-height:1;
+    letter-spacing:0.01em;
+    color:var(--parchment);
+    transition:color .15s ease;
+  }
+  .note-big.ok{ color:var(--turquoise); }
+  .note-big.off{ color:var(--rose); }
+  .sub-readout{
+    display:flex;
+    justify-content:center;
+    gap:18px;
+    margin-top:4px;
+    font-family:'Space Grotesk',sans-serif;
+    font-size:0.85rem;
+    color:var(--muted);
+  }
+  .sub-readout span b{ color:var(--parchment); font-weight:600; }
+
+  .gauge{ padding:18px 26px 2px; }
+  .gauge-track{
+    position:relative;
+    height:10px;
+    border-radius:6px;
+    background:rgba(241,230,210,0.08);
+    overflow:hidden;
+  }
+  .gauge-center-line{
+    position:absolute; left:50%; top:-3px; bottom:-3px;
+    width:2px; background:var(--gold); transform:translateX(-1px);
+  }
+  .gauge-fill{
+    position:absolute; top:0; bottom:0; left:50%;
+    width:0; background:var(--turquoise);
+    transition:width .1s linear, background .1s linear, left .1s linear;
+  }
+  .gauge-needle{
+    position:absolute; top:-4px; width:3px; height:18px;
+    background:var(--parchment); border-radius:2px;
+    left:50%; transform:translateX(-1.5px);
+    transition:left .08s linear, background .1s linear;
+    box-shadow:0 0 8px rgba(241,230,210,0.5);
+  }
+  .gauge-labels{
+    display:flex; justify-content:space-between;
+    font-size:0.65rem; color:var(--muted); margin-top:6px;
+    font-family:'Space Grotesk',sans-serif;
+  }
+
+  .controls{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+    padding:22px 20px 8px;
+  }
+  .pena-btn{
+    font-family:'Marcellus',serif;
+    font-size:1rem;
+    letter-spacing:0.02em;
+    color:#241708;
+    background:linear-gradient(180deg,var(--wood-light),var(--gold));
+    border:none;
+    padding:13px 34px;
+    border-radius:999px;
+    cursor:pointer;
+    box-shadow:0 8px 18px -6px rgba(202,162,51,0.5);
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .pena-btn:hover{ transform:translateY(-1px); box-shadow:0 10px 22px -6px rgba(202,162,51,0.65); }
+  .pena-btn.listening{
+    background:linear-gradient(180deg,#8a3a44,var(--rose));
+    color:var(--parchment);
+  }
+  .status{
+    font-size:0.78rem;
+    color:var(--muted);
+    text-align:center;
+    min-height:1.2em;
+    max-width:320px;
+  }
+
+  .calib{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    padding:6px 20px 20px;
+    font-size:0.72rem;
+    color:var(--muted);
+    font-family:'Space Grotesk',sans-serif;
+  }
+  .calib input[type=range]{ width:110px; accent-color:var(--gold); }
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:14px 20px 18px;
+    text-align:center;
+    font-size:0.68rem;
+    color:var(--muted);
+    letter-spacing:0.02em;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="ikat"></div>
+
+  <header>
+    <h1>Duttar Akort Cihazı</h1>
+    <p>Uygur duttarına özel akort aracı</p>
+  </header>
+
+  <div class="tuning-select" id="tuningSelect"></div>
+
+  <div class="stage">
+    <svg viewBox="0 0 320 640" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#9c6b3e"/>
+          <stop offset="55%" stop-color="#6b4226"/>
+          <stop offset="100%" stop-color="#3a2313"/>
+        </linearGradient>
+        <linearGradient id="neckGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#7a4c26"/>
+          <stop offset="50%" stop-color="#9c6b3e"/>
+          <stop offset="100%" stop-color="#5c3a1e"/>
+        </linearGradient>
+      </defs>
+
+      <!-- body -->
+      <path d="M160,336 C92,348 56,418 61,480 C66,558 106,612 160,617 C214,612 254,558 259,480 C264,418 228,348 160,336 Z"
+            fill="url(#bodyGrad)" stroke="#1e1207" stroke-width="2"/>
+      <path d="M160,336 C92,348 56,418 61,480 C66,558 106,612 160,617 C214,612 254,558 259,480 C264,418 228,348 160,336 Z"
+            fill="none" stroke="#caa233" stroke-width="1" opacity="0.35"/>
+
+      <!-- decorative soundholes -->
+      <g fill="#1e1207" opacity="0.75">
+        <circle cx="130" cy="410" r="3"/>
+        <circle cx="148" cy="398" r="3"/>
+        <circle cx="172" cy="398" r="3"/>
+        <circle cx="190" cy="410" r="3"/>
+        <circle cx="160" cy="392" r="3"/>
+      </g>
+
+      <!-- neck -->
+      <path d="M147,44 L173,44 L169,340 L151,340 Z" fill="url(#neckGrad)" stroke="#1e1207" stroke-width="1.5"/>
+      <!-- frets -->
+      <g stroke="#e9d9b8" stroke-width="1" opacity="0.35">
+        <line x1="149" y1="120" x2="171" y2="120"/>
+        <line x1="149" y1="170" x2="171" y2="170"/>
+        <line x1="149" y1="220" x2="171" y2="220"/>
+        <line x1="149" y1="270" x2="171" y2="270"/>
+        <line x1="150" y1="315" x2="170" y2="315"/>
+      </g>
+
+      <!-- pegbox -->
+      <rect x="138" y="14" width="44" height="34" rx="6" fill="url(#neckGrad)" stroke="#1e1207" stroke-width="1.5"/>
+
+      <!-- pegs -->
+      <g id="pegLeft">
+        <line x1="138" y1="28" x2="116" y2="24" stroke="#caa233" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="116" cy="24" r="6" fill="#caa233"/>
+        <g class="peg-pointer" id="pegPointerLeft" style="transform-origin:116px 24px;">
+          <line x1="116" y1="24" x2="106" y2="24" stroke="#f1e6d2" stroke-width="2" stroke-linecap="round"/>
+        </g>
+      </g>
+      <g id="pegRight">
+        <line x1="182" y1="28" x2="204" y2="24" stroke="#caa233" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="204" cy="24" r="6" fill="#caa233"/>
+        <g class="peg-pointer" id="pegPointerRight" style="transform-origin:204px 24px;">
+          <line x1="204" y1="24" x2="214" y2="24" stroke="#f1e6d2" stroke-width="2" stroke-linecap="round"/>
+        </g>
+      </g>
+
+      <!-- strings -->
+      <line id="stringLeft" class="string-line" x1="152" y1="46" x2="146" y2="588" />
+      <line id="stringRight" class="string-line" x1="168" y1="46" x2="174" y2="588" />
+
+      <!-- bridge -->
+      <rect x="138" y="585" width="44" height="8" rx="2" fill="#1e1207"/>
+    </svg>
+  </div>
+
+  <div class="string-tags">
+    <div class="string-tag" id="tagLeft"><span class="n">–</span><span class="c">Kalın Tel</span></div>
+    <div class="string-tag" id="tagRight"><span class="n">–</span><span class="c">İnce Tel</span></div>
+  </div>
+
+  <div class="readout">
+    <div class="note-big" id="noteName">–</div>
+    <div class="sub-readout">
+      <span>Frekans: <b id="freqVal">0.0</b> Hz</span>
+      <span>Sapma: <b id="centsVal">0</b> cent</span>
+    </div>
+  </div>
+
+  <div class="gauge">
+    <div class="gauge-track">
+      <div class="gauge-center-line"></div>
+      <div class="gauge-fill" id="gaugeFill"></div>
+      <div class="gauge-needle" id="gaugeNeedle"></div>
+    </div>
+    <div class="gauge-labels"><span>pes (−50)</span><span>doğru</span><span>tiz (+50)</span></div>
+  </div>
+
+  <div class="controls">
+    <button class="pena-btn" id="micBtn">Mikrofonu Başlat</button>
+    <p class="status" id="status">Akort etmeye başlamak için mikrofona izin verin.</p>
+  </div>
+
+  <div class="calib">
+    <label for="a4">Kalibrasyon (A4)</label>
+    <input type="range" id="a4" min="435" max="445" value="440" step="1">
+    <span id="a4val">440 Hz</span>
+  </div>
+
+  <footer>Duttar akort düzenleri bölgeye ve ustaya göre değişebilir · bu değerler yaygın kullanılan referanslardır</footer>
+</div>
+
+<script>
+(function(){
+  const NOTE_NAMES = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+
+  const TUNINGS = {
+    standard: { label:'Standart (D–A)', strings:[
+      {name:'D3', midi:50}, {name:'A3', midi:57}
+    ]},
+    low: { label:'Kalın Akort (G2–D3)', strings:[
+      {name:'G2', midi:43}, {name:'D3', midi:50}
+    ]},
+    high: { label:'İnce Akort (A3–E4)', strings:[
+      {name:'A3', midi:57}, {name:'E4', midi:64}
+    ]},
+    chromatic: { label:'Serbest (Kromatik)', strings:null }
+  };
+
+  let currentTuningKey = 'standard';
+  let a4 = 440;
+
+  function freqFromMidi(midi){
+    return a4 * Math.pow(2, (midi-69)/12);
+  }
+  function noteNameFromMidi(midi){
+    const n = NOTE_NAMES[((Math.round(midi)%12)+12)%12];
+    const oct = Math.floor(Math.round(midi)/12)-1;
+    return n+oct;
+  }
+
+  // ---- build tuning selector ----
+  const tuningSelect = document.getElementById('tuningSelect');
+  Object.keys(TUNINGS).forEach(key=>{
+    const btn = document.createElement('button');
+    btn.textContent = TUNINGS[key].label;
+    btn.dataset.key = key;
+    if(key===currentTuningKey) btn.classList.add('active');
+    btn.addEventListener('click', ()=>{
+      currentTuningKey = key;
+      [...tuningSelect.children].forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      updateStringTagsIdle();
+    });
+    tuningSelect.appendChild(btn);
+  });
+
+  const tagLeft = document.getElementById('tagLeft');
+  const tagRight = document.getElementById('tagRight');
+  const stringLeft = document.getElementById('stringLeft');
+  const stringRight = document.getElementById('stringRight');
+  const pegPointerLeft = document.getElementById('pegPointerLeft');
+  const pegPointerRight = document.getElementById('pegPointerRight');
+  const noteNameEl = document.getElementById('noteName');
+  const freqValEl = document.getElementById('freqVal');
+  const centsValEl = document.getElementById('centsVal');
+  const gaugeFill = document.getElementById('gaugeFill');
+  const gaugeNeedle = document.getElementById('gaugeNeedle');
+  const micBtn = document.getElementById('micBtn');
+  const statusEl = document.getElementById('status');
+  const a4slider = document.getElementById('a4');
+  const a4val = document.getElementById('a4val');
+
+  a4slider.addEventListener('input', ()=>{
+    a4 = parseInt(a4slider.value,10);
+    a4val.textContent = a4+' Hz';
+    updateStringTagsIdle();
+  });
+
+  function updateStringTagsIdle(){
+    const t = TUNINGS[currentTuningKey];
+    if(t.strings){
+      tagLeft.querySelector('.n').textContent = t.strings[0].name;
+      tagRight.querySelector('.n').textContent = t.strings[1].name;
+    } else {
+      tagLeft.querySelector('.n').textContent = '–';
+      tagRight.querySelector('.n').textContent = '–';
+    }
+    tagLeft.classList.remove('active','flat','sharp');
+    tagRight.classList.remove('active','flat','sharp');
+    stringLeft.classList.remove('active');
+    stringRight.classList.remove('active');
+  }
+  updateStringTagsIdle();
+
+  // ---- pitch detection (autocorrelation, ACF2+) ----
+  function autoCorrelate(buf, sampleRate){
+    const SIZE = buf.length;
+    let rms = 0;
+    for(let i=0;i<SIZE;i++){ const v=buf[i]; rms += v*v; }
+    rms = Math.sqrt(rms/SIZE);
+    if(rms < 0.012) return -1;
+
+    let r1=0, r2=SIZE-1;
+    const thres = 0.2;
+    for(let i=0;i<SIZE/2;i++){ if(Math.abs(buf[i])<thres){ r1=i; break; } }
+    for(let i=1;i<SIZE/2;i++){ if(Math.abs(buf[SIZE-i])<thres){ r2=SIZE-i; break; } }
+
+    const trimmed = buf.slice(r1,r2);
+    const TS = trimmed.length;
+    const c = new Array(TS).fill(0);
+    for(let i=0;i<TS;i++){
+      for(let j=0;j<TS-i;j++){
+        c[i] += trimmed[j]*trimmed[j+i];
+      }
+    }
+    let d=0; while(c[d]>c[d+1]) d++;
+    let maxval=-1, maxpos=-1;
+    for(let i=d;i<TS;i++){
+      if(c[i]>maxval){ maxval=c[i]; maxpos=i; }
+    }
+    let T0 = maxpos;
+    if(T0<=0) return -1;
+    const x1=c[T0-1]||0, x2=c[T0]||0, x3=c[T0+1]||0;
+    const a=(x1+x3-2*x2)/2, b=(x3-x1)/2;
+    if(a) T0 = T0 - b/(2*a);
+    if(T0<=0) return -1;
+    return sampleRate/T0;
+  }
+
+  let audioCtx=null, analyser=null, dataArray=null, source=null, rafId=null, stream=null;
+  let listening=false;
+
+  function midiFromFreq(freq){
+    return 69 + 12*Math.log2(freq/a4);
+  }
+
+  function pickTarget(freq){
+    const t = TUNINGS[currentTuningKey];
+    if(!t.strings){
+      const midi = Math.round(midiFromFreq(freq));
+      return { which:null, targetMidi: midi, name: noteNameFromMidi(midi) };
+    }
+    // choose closer target string in log-frequency space
+    const f0 = freqFromMidi(t.strings[0].midi);
+    const f1 = freqFromMidi(t.strings[1].midi);
+    const d0 = Math.abs(Math.log2(freq/f0));
+    const d1 = Math.abs(Math.log2(freq/f1));
+    if(d0<=d1) return { which:0, targetMidi:t.strings[0].midi, name:t.strings[0].name };
+    return { which:1, targetMidi:t.strings[1].midi, name:t.strings[1].name };
+  }
+
+  function updateUI(freq){
+    if(freq<50 || freq>1200 || !isFinite(freq)){
+      resetIndicators();
+      return;
+    }
+    const target = pickTarget(freq);
+    const targetFreq = freqFromMidi(target.targetMidi);
+    const cents = Math.round(1200*Math.log2(freq/targetFreq));
+    const clamped = Math.max(-50, Math.min(50, cents));
+
+    noteNameEl.textContent = target.name;
+    freqValEl.textContent = freq.toFixed(1);
+    centsValEl.textContent = (cents>0?'+':'')+cents;
+
+    const inTune = Math.abs(cents)<=5;
+    const close = Math.abs(cents)<=15;
+    noteNameEl.classList.toggle('ok', inTune);
+    noteNameEl.classList.toggle('off', !inTune);
+
+    const pct = 50 + clamped; // 0..100
+    gaugeNeedle.style.left = pct+'%';
+    const color = inTune ? 'var(--turquoise)' : (close ? 'var(--gold)' : 'var(--rose)');
+    gaugeNeedle.style.background = color;
+    gaugeFill.style.background = color;
+    if(clamped>=0){
+      gaugeFill.style.left='50%';
+      gaugeFill.style.width=(clamped/50*50)+'%';
+    } else {
+      gaugeFill.style.left=(50+clamped/50*50)+'%';
+      gaugeFill.style.width=(-clamped/50*50)+'%';
+    }
+
+    // string / peg visuals (only meaningful in preset mode)
+    if(target.which===0){
+      tagLeft.classList.add('active'); tagRight.classList.remove('active','flat','sharp');
+      stringLeft.classList.add('active'); stringRight.classList.remove('active');
+      tagLeft.classList.toggle('flat', !inTune && cents<0);
+      tagLeft.classList.toggle('sharp', !inTune && cents>0);
+      pegPointerLeft.style.transform = 'rotate('+(clamped/50*35)+'deg)';
+      pegPointerRight.style.transform = 'rotate(0deg)';
+      stringLeft.style.stroke = color; stringRight.style.stroke='var(--parchment)';
+    } else if(target.which===1){
+      tagRight.classList.add('active'); tagLeft.classList.remove('active','flat','sharp');
+      stringRight.classList.add('active'); stringLeft.classList.remove('active');
+      tagRight.classList.toggle('flat', !inTune && cents<0);
+      tagRight.classList.toggle('sharp', !inTune && cents>0);
+      pegPointerRight.style.transform = 'rotate('+(clamped/50*35)+'deg)';
+      pegPointerLeft.style.transform = 'rotate(0deg)';
+      stringRight.style.stroke = color; stringLeft.style.stroke='var(--parchment)';
+    } else {
+      // chromatic mode: both strings glow neutrally with detected color
+      stringLeft.classList.add('active'); stringRight.classList.add('active');
+      stringLeft.style.stroke = color; stringRight.style.stroke = color;
+      pegPointerLeft.style.transform = 'rotate('+(clamped/50*35)+'deg)';
+      pegPointerRight.style.transform = 'rotate('+(clamped/50*35)+'deg)';
+    }
+  }
+
+  function resetIndicators(){
+    noteNameEl.textContent='–';
+    freqValEl.textContent='0.0';
+    centsValEl.textContent='0';
+    noteNameEl.classList.remove('ok','off');
+    gaugeNeedle.style.left='50%';
+    gaugeFill.style.width='0%';
+    stringLeft.classList.remove('active');
+    stringRight.classList.remove('active');
+    stringLeft.style.stroke='var(--parchment)';
+    stringRight.style.stroke='var(--parchment)';
+    tagLeft.classList.remove('active','flat','sharp');
+    tagRight.classList.remove('active','flat','sharp');
+    pegPointerLeft.style.transform='rotate(0deg)';
+    pegPointerRight.style.transform='rotate(0deg)';
+  }
+
+  function loop(){
+    analyser.getFloatTimeDomainData(dataArray);
+    const freq = autoCorrelate(dataArray, audioCtx.sampleRate);
+    if(freq!==-1){ updateUI(freq); }
+    else { resetIndicators(); }
+    rafId = requestAnimationFrame(loop);
+  }
+
+  async function startMic(){
+    try{
+      statusEl.textContent = 'Mikrofona erişim isteniyor...';
+      stream = await navigator.mediaDevices.getUserMedia({ audio:{ echoCancellation:false, noiseSuppression:false, autoGainControl:false } });
+      audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+      analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 2048;
+      dataArray = new Float32Array(analyser.fftSize);
+      source = audioCtx.createMediaStreamSource(stream);
+      source.connect(analyser);
+      listening = true;
+      micBtn.textContent = 'Mikrofonu Durdur';
+      micBtn.classList.add('listening');
+      statusEl.textContent = 'Dinleniyor — telinizi çalın.';
+      loop();
+    }catch(err){
+      statusEl.textContent = 'Mikrofona erişilemedi. Tarayıcı izinlerini kontrol edin.';
+    }
+  }
+
+  function stopMic(){
+    listening = false;
+    if(rafId) cancelAnimationFrame(rafId);
+    if(source) source.disconnect();
+    if(stream) stream.getTracks().forEach(t=>t.stop());
+    if(audioCtx) audioCtx.close();
+    micBtn.textContent = 'Mikrofonu Başlat';
+    micBtn.classList.remove('listening');
+    statusEl.textContent = 'Akort etmeye başlamak için mikrofona izin verin.';
+    resetIndicators();
+  }
+
+  micBtn.addEventListener('click', ()=>{
+    if(listening) stopMic(); else startMic();
+  });
+})();
+</script>
+
+</body>
+</html>
