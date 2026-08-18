@@ -38,6 +38,9 @@ tr:{
   frets:"PERDELER",
   songs:"PARÇALAR",
 
+  aboutTitle:"Hakkında",
+  feedback:"Geri Bildirim Gönder",
+
   fretsTitle:"Perde Haritası",
   fretsSub:"Alt tel (1. tel / zil) üzerindeki 15 perde ve nota karşılıkları.",
 
@@ -92,6 +95,9 @@ en:{
 
   string1:"STRING 1 · ZIL",
   string2:"STRING 2 · BOM",
+
+  aboutTitle:"About",
+  feedback:"Send Feedback",
 
   tapString:"Tap the string you want to tune.",
 
@@ -154,16 +160,19 @@ ug:{
   string1:"1-تار · زىل",
   string2:"2-تار · بوم",
 
+  aboutTitle:"ھەققىدە",
+  feedback:"پىكىر ئەۋەتىش",
+
   tapString:"تەڭشىمەكچى بولغان تارغا ئۇرۇڭ.",
 
   tuner:"تەڭشىگۈچ",
   frets:"پەردىلەر",
-  songs:"نەغمىلەر",
+  songs:"ناخشىلار",
 
   fretsTitle:"پەردە خەرىتىسى",
   fretsSub:"تۆۋەنكى تارنىڭ 15 پەردىسى ۋە نوتىلىرى.",
 
- songs:"ناخشىلار",
+
  songsTitle:"ناخشىلار",
  songsSub:"دۇتتار ئۈچۈن تەييارلانغان نوتىلار ۋە ئەسەر تەۋسىيەلىرى",
  comingSoon:"يېقىندا كېلىدۇ",
@@ -238,7 +247,6 @@ var noSignalFrames=0;
  */
 
 var userWantsListening=false;
-var pausedByLifecycle=false;
 
 var sessionCompleted=false;
 var wasInTune=false;
@@ -3064,14 +3072,14 @@ if(capacitorApp){
         stopReferenceTone();
 
 
+        userWantsListening=false;
+
+
         if(listening){
-
-          pausedByLifecycle=true;
-
 
           await stopTuner({
             preserveProgress:true,
-            keepIntent:true
+            keepIntent:false
           });
         }
 
@@ -3082,31 +3090,16 @@ if(capacitorApp){
 
       /*
        * Foreground
+       *
+       * Mikrofon otomatik başlamaz.
+       * Kullanıcı tekrar butona basar.
        */
 
-      if(
-        pausedByLifecycle &&
-        userWantsListening &&
-        currentPanel==="tuner" &&
-        !sessionCompleted
-      ){
 
-        pausedByLifecycle=false;
-
-
-        await startTuner({
-          lifecycleResume:true
-        });
-
-
-      }else{
-
-        pausedByLifecycle=false;
-      }
+      userWantsListening=false;
     }
   );
 }
-
 
 /* =========================================
    INITIALISE

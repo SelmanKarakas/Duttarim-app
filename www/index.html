@@ -121,18 +121,143 @@
   </section>
 
   <section id="settingsPanel" class="panel">
-    <h2 class="section-title" data-i18n="settings">Ayarlar</h2>
-    <p class="section-sub" data-i18n="settingsSub">Dili, referans frekansını ve uygulama tercihlerini yönetin.</p>
+
+    <h2 class="section-title" data-i18n="settings">
+      Ayarlar
+    </h2>
+
+    <p class="section-sub" data-i18n="settingsSub">
+      Dili, referans frekansını ve uygulama tercihlerini yönetin.
+    </p>
+
+
+    <!-- DİL -->
     <div class="info-card">
-      <div class="info-head"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg><span data-i18n="language">Dil</span></div>
-      <div class="setting-row"><label for="settingsLang" data-i18n="appLanguage">Uygulama dili</label><select id="settingsLang"><option value="tr">Türkçe</option><option value="en">English</option><option value="ug">ئۇيغۇرچە</option></select></div>
+
+      <div class="info-head">
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M3 12h18"/>
+          <path d="M12 3a15 15 0 0 1 0 18"/>
+          <path d="M12 3a15 15 0 0 0 0 18"/>
+        </svg>
+
+        <span data-i18n="language">
+        Dil
+      </span>
+      </div>
+
+      <div class="setting-row">
+        <label
+                for="settingsLang"
+                data-i18n="appLanguage"
+        >
+          Uygulama dili
+        </label>
+
+        <select id="settingsLang">
+          <option value="tr">Türkçe</option>
+          <option value="en">English</option>
+          <option value="ug">ئۇيغۇرچە</option>
+        </select>
+      </div>
+
     </div>
+
+
+    <!-- AKORT AYARLARI -->
     <div class="info-card">
-      <div class="info-head"><svg viewBox="0 0 24 24"><path d="M4 12h3l2-6 4 12 2-6h5"/></svg><span data-i18n="tuningSettings">Akort ayarları</span></div>
-      <div class="setting-row"><label data-i18n="reference">Referans frekansı</label><button class="pill" id="calibrateBtn">A4 = 440 Hz</button></div>
-      <div class="setting-row"><label data-i18n="notation">Nota gösterimi</label><button class="pill" id="settingsNotation">DO RE Mİ</button></div>
+
+      <div class="info-head">
+        <svg viewBox="0 0 24 24">
+          <path d="M4 12h3l2-6 4 12 2-6h5"/>
+        </svg>
+
+        <span data-i18n="tuningSettings">
+        Akort ayarları
+      </span>
+      </div>
+
+      <div class="setting-row">
+
+        <label data-i18n="reference">
+          Referans frekansı
+        </label>
+
+        <button
+                class="pill"
+                id="calibrateBtn"
+                type="button"
+        >
+          A4 = 440 Hz
+        </button>
+
+      </div>
+
+      <div class="setting-row">
+
+        <label data-i18n="notation">
+          Nota gösterimi
+        </label>
+
+        <button
+                class="pill"
+                id="settingsNotation"
+                type="button"
+        >
+          DO RE Mİ
+        </button>
+
+      </div>
+
     </div>
-    <div class="info-card about"><strong>Duttarim</strong><br><span data-i18n="about">Duttar için sade, kültürel motiflerden esinlenen hassas akort uygulaması.</span><a class="privacy-link" href="privacy.html" data-i18n="privacy">Gizlilik Politikası</a></div>
+
+
+    <!-- HAKKINDA -->
+    <div class="info-card about">
+
+      <div class="info-head">
+
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M12 10v6"/>
+          <path d="M12 7h.01"/>
+        </svg>
+
+        <span data-i18n="aboutTitle">
+        Hakkında
+      </span>
+
+      </div>
+
+      <strong>Duttarim</strong>
+
+      <p data-i18n="about">
+        Duttar için sade, kültürel motiflerden esinlenen hassas akort uygulaması.
+      </p>
+
+      <div class="about-links">
+
+        <a
+                class="privacy-link"
+                href="privacy.html"
+                data-i18n="privacy"
+        >
+          Gizlilik Politikası
+        </a>
+
+        <a
+                class="privacy-link"
+                href="mailto:duttarim.app@gmail.com"
+                data-i18n="feedback"
+        >
+          Geri Bildirim Gönder
+        </a>
+
+      </div>
+
+    </div>
+
   </section>
   <section id="songsPanel" class="panel">
 
@@ -270,3 +395,5 @@
   </div>
 </div>
 <script src="app.js"></script>
+</body>
+</html>
