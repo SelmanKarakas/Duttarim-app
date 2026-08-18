@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Duttarim Akort</string>
-    <string name="title_activity_main">Duttarim Akort</string>
+    <string name="app_name">Duttarim</string>
+    <string name="title_activity_main">Duttarim</string>
     <string name="package_name">com.duttarim.app</string>
     <string name="custom_url_scheme">com.duttarim.app</string>
 </resources>
