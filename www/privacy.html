@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Duttarim</title>
+
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          max-width: 760px;
+          margin: 0 auto;
+          padding: 32px 20px;
+          line-height: 1.7;
+          color: #2d2d2d;
+          background: #faf8f3;
+        }
+
+        h1 {
+          margin-bottom: 8px;
+        }
+
+        h2 {
+          margin-top: 32px;
+        }
+
+        .updated {
+          color: #777;
+          font-size: 14px;
+          margin-bottom: 32px;
+        }
+
+        a {
+          color: inherit;
+        }
+
+        .privacy-back {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+
+          border: 1px solid #d9d5cc;
+          background: #ffffff;
+
+          color: #2d2d2d;
+
+          border-radius: 12px;
+          padding: 9px 13px;
+
+          font-size: 14px;
+          font-weight: 600;
+
+          margin-bottom: 22px;
+
+          cursor: pointer;
+        }
+
+        .privacy-back:active {
+          transform: scale(.97);
+        }
+    </style>
+</head>
+
+<body>
+
+<button
+        class="privacy-back"
+        id="privacyBack"
+        type="button"
+>
+    ← Back to Duttarim
+</button>
+
+<h1>Privacy Policy</h1>
+
+<p class="updated">Last updated: August 16, 2026</p>
+
+<p>
+    Duttarim is a musical instrument tuning application designed for the dutar.
+    This Privacy Policy explains how the application uses device permissions and
+    handles information while you use the app.
+</p>
+
+<h2>Microphone Access</h2>
+
+<p>
+    Duttarim requires access to your device's microphone in order to detect the
+    sound produced by your dutar and determine its pitch.
+</p>
+
+<p>
+    Microphone audio is processed in real time on your device for tuning purposes.
+    Duttarim does not intentionally record, store, upload, or share your microphone
+    audio.
+</p>
+
+<h2>Information We Collect</h2>
+
+<p>
+    Duttarim does not require you to create an account and does not currently
+    collect personal information such as your name, email address, phone number,
+    or precise location.
+</p>
+
+<h2>Local App Preferences</h2>
+
+<p>
+    Some preferences may be stored locally on your device so that the application
+    can remember your settings. These may include:
+</p>
+
+<ul>
+    <li>Selected application language</li>
+    <li>Note notation preference</li>
+    <li>Reference tuning frequency</li>
+    <li>Whether the initial setup has been completed</li>
+</ul>
+
+<p>
+    These preferences are stored locally on your device and are used only to
+    provide the application's features and remember your settings.
+</p>
+
+<h2>Internet Connection</h2>
+
+<p>
+    The core tuning functionality is designed to process audio locally on your
+    device. An internet connection is not required for the microphone pitch
+    analysis itself.
+</p>
+
+<h2>Data Sharing</h2>
+
+<p>
+    Duttarim does not currently sell or share personal information with third
+    parties.
+</p>
+
+<h2>Children's Privacy</h2>
+
+<p>
+    Duttarim does not knowingly collect personal information from children.
+    Because the application does not currently require an account or collect
+    personal information through its core tuning functionality, no personal
+    profile is created for users.
+</p>
+
+<h2>Changes to This Privacy Policy</h2>
+
+<p>
+    This Privacy Policy may be updated when new features or services are added to
+    Duttarim. Any changes will be reflected on this page with an updated revision
+    date.
+</p>
+
+<h2>Contact</h2>
+
+<p>
+    If you have questions about this Privacy Policy, you can contact the developer
+    through the official Duttarim application or its official distribution page.
+</p>
+
+<script>
+    (function(){
+
+      function returnToApp(){
+
+        /*
+         * Privacy sayfasını history'den çıkararak
+         * doğrudan uygulamanın ana sayfasına dön.
+         */
+        window.location.replace(
+          "index.html"
+        );
+      }
+
+      var backButton =
+        document.getElementById(
+          "privacyBack"
+        );
+
+      if(backButton){
+
+        backButton.addEventListener(
+          "click",
+          returnToApp
+        );
+      }
+
+      /*
+       * Capacitor App plugin mevcutsa
+       * Android geri tuşunu da yakala.
+       */
+      var capacitorApp =
+        window.Capacitor &&
+        window.Capacitor.Plugins &&
+        window.Capacitor.Plugins.App;
+
+      if(capacitorApp){
+
+        capacitorApp.addListener(
+          "backButton",
+          function(){
+
+            returnToApp();
+          }
+        );
+      }
+
+    })();
+</script>
+
+</body>
+</html>
