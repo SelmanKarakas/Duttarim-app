@@ -407,247 +407,53 @@ body::before{
   transform:
     scale(.97);
 }
-
 /* =========================================
    SONGS
    ========================================= */
 
 #songsPanel.active{
-  height:calc(100dvh - 170px);
+  height:calc(
+    100dvh
+    - 84px
+    - 72px
+    - env(safe-area-inset-bottom)
+  );
 
   overflow-y:auto;
+  overflow-x:hidden;
 
   overscroll-behavior:contain;
 
-  padding-bottom:170px;
+  padding-bottom:28px;
 }
 
 
-.songs-coming-badge{
-  width:max-content;
-
-  margin:
-    0 auto
-    18px;
-
-  padding:
-    7px 14px;
-
-  border-radius:999px;
-
-  background:
-    var(--mint);
-
-  color:
-    var(--turq);
-
-  font-size:11px;
-
-  font-weight:900;
-
-  letter-spacing:.03em;
-}
-
-
-.songs-filter{
-  display:grid;
-
-  grid-template-columns:
-    1fr
-    1fr;
-
-  gap:6px;
-
-  background:
-    rgba(
-      255,
-      255,
-      255,
-      .92
-    );
-
-  border:
-    1px solid
-    var(--line);
-
-  border-radius:15px;
-
-  padding:4px;
-
-  margin-bottom:14px;
-
-  box-shadow:
-    0 4px 14px
-    rgba(
-      24,
-      51,
-      75,
-      .04
-    );
-}
-
-
-.song-filter-btn{
-  border:0;
-
-  background:
-    transparent;
-
-  border-radius:11px;
-
-  padding:
-    9px;
-
-  color:
-    var(--muted);
-
-  font-size:11px;
-
-  font-weight:900;
-}
-
-
-.song-filter-btn.active{
-  background:
-    var(--turq);
-
-  color:#fff;
-}
-
-
-.coming-card{
-  display:grid;
-
-  grid-template-columns:
-    105px
-    1fr;
-
-  gap:16px;
-
-  align-items:center;
-
-  padding:18px;
-
-  margin-bottom:14px;
-
-  border:
-    1px solid
-    #d6e8e4;
-
-  border-radius:20px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #f7fcfb,
-      #edf7f5
-    );
-
-  box-shadow:
-    0 7px 20px
-    rgba(
-      24,
-      51,
-      75,
-      .05
-    );
-}
-
-
-.coming-visual{
-  height:110px;
-
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
-}
-
-
-.coming-visual img{
-  height:105px;
-
-  width:auto;
-
-  object-fit:contain;
-
-  filter:
-    saturate(.8)
-    opacity(.78)
-    drop-shadow(
-      0 5px 8px
-      rgba(
-        23,
-        59,
-        93,
-        .10
-      )
-    );
-}
-
-
-.coming-copy strong{
-  display:block;
-
-  margin-bottom:8px;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size:20px;
-
-  line-height:1.15;
-
-  color:
-    var(--navy);
-}
-
-
-.coming-copy p{
-  margin:0;
-
-  font-size:11px;
-
-  line-height:1.55;
-
-  color:
-    var(--muted);
-}
-
+/* =========================================
+   SONG LIST
+   ========================================= */
 
 .song-list{
-  display:grid;
+  display:flex;
+  flex-direction:column;
 
-  gap:9px;
+  gap:10px;
 }
 
+.song-card{
+  width:100%;
+  min-height:78px;
 
-.song-placeholder{
   display:grid;
 
   grid-template-columns:
-    58px
-    1fr
-    38px;
+    50px
+    1fr;
+
+  align-items:center;
 
   gap:12px;
 
-  align-items:center;
-
-  min-height:76px;
-
-  padding:
-    9px 11px;
-
-  background:
-    rgba(
-      255,
-      255,
-      255,
-      .95
-    );
+  padding:11px 12px;
 
   border:
     1px solid
@@ -655,20 +461,19 @@ body::before{
 
   border-radius:17px;
 
+  background:
+    rgba(255,255,255,.95);
+
   box-shadow:
-    0 4px 13px
-    rgba(
-      24,
-      51,
-      75,
-      .035
-    );
+    0 5px 15px
+    rgba(24,51,75,.045);
+
+  cursor:pointer;
 }
 
-
-.song-icon{
-  width:54px;
-  height:54px;
+.song-card-icon{
+  width:48px;
+  height:48px;
 
   display:flex;
 
@@ -678,21 +483,26 @@ body::before{
   border-radius:14px;
 
   background:
-    #f1f8f7;
+    var(--mint);
 
   color:
     var(--turq);
-
-  font-size:25px;
 
   font-family:
     Georgia,
     "Times New Roman",
     serif;
+
+  font-size:23px;
 }
 
+.song-card-copy{
+  min-width:0;
 
-.song-info strong{
+  text-align:left;
+}
+
+.song-card-title{
   display:block;
 
   margin-bottom:4px;
@@ -702,52 +512,579 @@ body::before{
     "Times New Roman",
     serif;
 
+  font-size:16px;
+
   color:
     var(--navy);
-
-  font-size:15px;
 }
 
-
-.song-info span{
-  color:
-    var(--muted);
+.song-card-meta{
+  display:block;
 
   font-size:10px;
+  font-weight:700;
 
+  color:
+    var(--muted);
+}
+
+/* =========================================
+   SONG CARD EXTRA INFO
+   ========================================= */
+
+.song-card-wrap{
+  position:relative;
+}
+
+.song-card{
+  padding-right:46px;
+}
+
+.song-title-row{
+  display:flex;
+  align-items:center;
+  gap:7px;
+
+  min-width:0;
+}
+
+.song-title-row .song-card-title{
+  min-width:0;
+
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+
+.song-new{
+  flex:0 0 auto;
+
+  padding:3px 6px;
+
+  border-radius:999px;
+
+  background:var(--mint);
+  color:var(--turq);
+
+  font-size:7px;
+  font-weight:900;
+
+  letter-spacing:.04em;
+
+  text-transform:uppercase;
+}
+
+.song-card-tags{
+  display:flex;
+  flex-wrap:wrap;
+
+  align-items:center;
+
+  gap:4px 8px;
+
+  margin-top:6px;
+
+  color:var(--muted);
+
+  font-size:8px;
   font-weight:700;
 }
 
+.song-card-tags span{
+  white-space:nowrap;
+}
 
-.song-favorite{
-  width:36px;
-  height:36px;
 
-  border:0;
+/* FAVORITE */
+
+.song-favorite-btn{
+  position:absolute;
+
+  right:11px;
+  top:50%;
+
+  transform:
+    translateY(-50%);
+
+  z-index:2;
+
+  width:30px;
+  height:30px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  padding:0;
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius:10px;
 
   background:
-    transparent;
+    rgba(255,255,255,.94);
+
+  color:var(--muted);
+
+  font-size:18px;
+
+  line-height:1;
+}
+
+.song-favorite-btn.active{
+  color:#c46c72;
+
+  border-color:
+    rgba(196,108,114,.25);
+
+  background:#fff8f8;
+}
+
+.song-favorite-btn:active{
+  transform:
+    translateY(-50%)
+    scale(.92);
+}
+
+/* =========================================
+   SONG DETAIL
+   ========================================= */
+
+.song-detail{
+  padding-bottom:20px;
+}
+
+.song-back{
+  border:0;
+
+  background:transparent;
+
+  padding:
+    5px 2px
+    10px;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:6px;
 
   color:
+    var(--navy);
+
+  font-size:11px;
+  font-weight:800;
+}
+
+.song-back span:first-child{
+  font-size:20px;
+}
+
+.song-detail-head{
+  text-align:center;
+
+  margin:
+    4px 0
+    15px;
+}
+
+.song-detail-head h2{
+  margin:0;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size:25px;
+
+  color:
+    var(--navy);
+}
+
+.song-detail-head p{
+  margin:
+    5px 0 0;
+
+  font-size:11px;
+
+  color:
+    var(--muted);
+}
+
+
+/* =========================================
+   SIMPLE / NOTATION SWITCH
+   ========================================= */
+
+.song-view-tabs{
+  display:grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  padding:4px;
+
+  margin-bottom:12px;
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius:15px;
+
+  background:#fff;
+}
+.song-view-tabs.single{
+  grid-template-columns:1fr;
+}
+
+.song-view-btn{
+  border:0;
+
+  padding:
+    10px 5px;
+
+  border-radius:11px;
+
+  background:transparent;
+
+  color:
+    var(--muted);
+
+  font-size:11px;
+  font-weight:900;
+}
+
+.song-view-btn.active{
+  background:
     var(--turq);
 
-  font-size:24px;
+  color:#fff;
+}
 
+
+/* =========================================
+   ZOOM CONTROLS
+   ========================================= */
+
+#scoreZoomLabel{
+  cursor:pointer;
+}
+.score-fullscreen-active{
+  position:fixed;
+
+  inset:0;
+
+  z-index:1000;
+
+  width:100vw;
+  height:100dvh;
+
+  padding:
+    calc(12px + env(safe-area-inset-top))
+    12px
+    calc(12px + env(safe-area-inset-bottom));
+
+  overflow:auto;
+
+  background:var(--paper);
+}
+
+.score-fullscreen-active .song-back,
+.score-fullscreen-active .song-detail-head,
+.score-fullscreen-active .song-source-card{
+  display:none;
+}
+
+body.score-fullscreen{
+  overflow:hidden;
+}
+
+.score-fullscreen-active .simple-score,
+.score-fullscreen-active .notation-sheet{
+  border-radius:12px;
+  box-shadow:none;
+}
+.score-page-btn:disabled{
+  opacity:.3;
+  cursor:default;
+}
+
+.score-tools{
   display:flex;
 
   align-items:center;
   justify-content:center;
 
+  flex-wrap:wrap;
+
+  gap:7px;
+
+  margin:
+    0 0
+    12px;
+}
+
+.score-tool-btn{
+  width:34px;
+  height:30px;
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius:10px;
+
+  background:#fff;
+
+  color:
+    var(--navy);
+
+  font-size:18px;
+  font-weight:800;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+}
+
+#scoreZoomLabel{
+  min-width:44px;
+
+  text-align:center;
+
+  color:
+    var(--muted);
+
+  font-size:10px;
+  font-weight:800;
+}
+
+.score-tool-reset{
+  height:30px;
+
+  padding:
+    0 10px;
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius:10px;
+
+  background:
+    var(--mint);
+
+  color:
+    var(--navy);
+
+  font-size:9px;
+  font-weight:800;
+}
+.score-action-btn{
+  width:34px;
+  height:30px;
+
   padding:0;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius:10px;
+
+  background:#fff;
+
+  color:var(--navy);
+
+  font-size:15px;
+  font-weight:800;
+}
+
+.score-action-btn:active{
+  transform:scale(.94);
+}
+
+/* =========================================
+   SCORE VIEWS
+   ========================================= */
+
+.song-view{
+  display:none;
+}
+
+.song-view.active{
+  display:block;
 }
 
 
-.song-favorite.active{
-  color:
-    var(--turq);
+/* =========================================
+   SCORE CONTAINERS
+   ========================================= */
 
-  transform:
-    scale(1.06);
+.simple-score,
+.notation-sheet{
+  width:100%;
+  min-height:0;
+
+  padding:8px;
+
+  overflow:auto;
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius:18px;
+
+  background:#fff;
+
+  box-shadow:
+    0 6px 18px
+    rgba(24,51,75,.045);
+
+  /*
+   * Büyütülmüş nota üzerinde
+   * parmakla yatay/dikey hareket.
+   */
+  touch-action:
+    pan-x pan-y;
+}
+
+
+/* NOTA IMAGE */
+
+.song-score-image{
+  display:block;
+
+  width:100%;
+  max-width:none;
+
+  height:auto;
+
+  margin:
+    0 auto;
+
+  object-fit:contain;
+
+  transform-origin:
+    top center;
+
+  transition:
+    width .15s ease;
+}
+
+.score-pagination{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+
+  margin-top:10px;
+}
+
+.score-pagination.hidden{
+  display:none;
+}
+
+.score-page-btn{
+  width:32px;
+  height:30px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border:1px solid var(--line);
+  border-radius:10px;
+
+  background:#fff;
+  color:var(--navy);
+
+  font-size:20px;
+  font-weight:700;
+}
+
+#scorePageLabel{
+  min-width:48px;
+  text-align:center;
+
+  font-size:10px;
+  font-weight:800;
+
+  color:var(--muted);
+}
+
+/* PLACEHOLDER */
+
+.notation-placeholder{
+  padding:
+    28px 16px;
+
+  text-align:center;
+
+  color:
+    var(--muted);
+
+  font-size:11px;
+
+  line-height:1.6;
+}
+
+
+/* =========================================
+   SOURCE
+   ========================================= */
+
+.song-source-card{
+  margin-top:13px;
+
+  padding:15px;
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius:17px;
+
+  background:
+    rgba(255,255,255,.90);
+}
+
+.song-source-card h3{
+  margin:
+    0 0
+    8px;
+
+  color:
+    var(--navy);
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size:15px;
+}
+
+.song-source-card p{
+  margin:
+    4px 0;
+
+  color:
+    var(--muted);
+
+  font-size:10px;
+
+  line-height:1.5;
 }
 /* =========================================
    PANELS
@@ -784,25 +1121,31 @@ body::before{
   }
 }
 
+/* PERDELER — kaydırma yok */
+#fretsPanel.active{
+  display:flex;
+  flex-direction:column;
 
-#fretsPanel.active,
-#settingsPanel.active{
-  height:
-    calc(
-      100dvh -
-      170px
-    );
+  height:calc(
+    100dvh
+    - 84px
+    - 72px
+    - env(safe-area-inset-bottom)
+  );
 
-  overflow-y:auto;
+  min-height:0;
 
-  overscroll-behavior:
-    contain;
-
-  padding-bottom:
-    170px;
+  overflow:hidden;
+  padding-bottom:0;
 }
 
-
+/* AYARLAR — kaydırılabilir */
+#settingsPanel.active{
+  height:calc(100dvh - 170px);
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  padding-bottom:170px;
+}
 #tunerPanel.active{
   display:block;
 
@@ -2175,82 +2518,295 @@ body::before{
     );
 }
 
-
 /* =========================================
    FRETS
    ========================================= */
+.fret-map{
+  position:relative;
 
-.fret-grid{
+  width:100%;
+
+  flex:1;
+  min-height:0;
+
+  margin-top:16px;
+
+  overflow:hidden;
+}
+
+.fret-duttar{
+  position:absolute;
+
+  left:50%;
+  top:0;
+
+  transform:translateX(-50%);
+
+  width:100%;
+  height:100%;
+
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+
+  overflow:hidden;
+
+  z-index:1;
+}
+
+.fret-duttar img{
+  display:block;
+
+  width:auto;
+  height:133.33%;
+
+  max-width:none;
+
+  object-fit:contain;
+  object-position:top center;
+
+}
+
+.fret-labels{
+  position:absolute;
+  inset:0;
+
+  width:100%;
+  height:100%;
+
+  overflow:hidden;
+
+  z-index:2;
+}
+
+
+/* LABEL CARD */
+
+.fret-label{
+  position:absolute;
+
   display:grid;
 
   grid-template-columns:
-    repeat(
-      3,
-      1fr
-    );
+    clamp(35px, 11.3vw, 44px)
+    clamp(40px, 12.8vw, 50px);
 
-  gap:8px;
-}
+  align-items:center;
 
+  width:clamp(72px, 23.1vw, 90px);
+  height:clamp(22px, 6.9vw, 27px);
 
-.fret{
+  min-height:0;
+
+  border-radius:
+    clamp(8px, 2.8vw, 11px);
+
   background:
-    rgba(
-      255,
-      255,
-      255,
-      .94
-    );
-
-  border:
-    1px solid
-    var(--line);
-
-  border-radius:14px;
-
-  padding:
-    11px 7px;
-
-  text-align:center;
+    rgba(255,255,255,.94);
 
   box-shadow:
     0 3px 10px
-    rgba(
-      24,
-      51,
-      75,
-      .03
+    rgba(23,59,93,.07);
+}
+
+
+.fret-label:nth-child(odd){
+  left:50%;
+  transform:translateX(-165px);
+}
+
+.fret-label:nth-child(even){
+  right:50%;
+  transform:translateX(165px);
+}
+
+/* SOL BAĞLANTI ÇİZGİSİ */
+.fret-label:nth-child(odd)::before{
+  content:"";
+  position:absolute;
+
+  left:100%;
+  top:50%;
+
+  width:70px;
+
+  border-top:1px dashed var(--turq);
+  opacity:.65;
+}
+
+.fret-label:nth-child(even)::before{
+  content:"";
+  position:absolute;
+
+  right:100%;
+  top:50%;
+
+  width:59px;
+
+  border-top:1px dashed var(--turq);
+  opacity:.65;
+}
+
+
+/* NUMBER */
+
+.fret-number{
+  position:relative;
+
+  display:flex;
+
+  justify-content:center;
+  align-items:center;
+
+  height:100%;
+  min-height:0;
+
+  font-weight:700;
+
+  font-size:
+    clamp(
+      10px,
+      3.33vw,
+      13px
     );
 
-  transition:
-    transform .16s ease,
-    border-color .2s ease;
+  color:var(--navy);
+
+  border-right:
+    1px solid
+    rgba(23,59,93,.08);
 }
 
 
-.fret strong{
-  display:block;
+/* NOTE */
 
-  font-size:17px;
+.fret-note{
+  display:flex;
 
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
+  align-items:center;
 
-  color:
-    var(--navy);
+  height:100%;
+  min-height:0;
+
+  padding-left:
+    clamp(
+      5px,
+      2.05vw,
+      8px
+    );
+
+  font-size:
+    clamp(
+      10px,
+      3.33vw,
+      13px
+    );
+
+  font-weight:700;
+
+  color:var(--navy);
 }
 
 
-.fret span{
-  font-size:9px;
+/* OCTAVE DOT */
 
-  color:
-    var(--muted);
+.fret-octave{
+  position:absolute;
+
+  top:0;
+  left:50%;
+
+  transform:
+    translateX(-50%);
+
+  font-size:
+    clamp(
+      5px,
+      1.8vw,
+      7px
+    );
+
+  line-height:-1;
 }
 
 
+/* =========================================
+   FRET POSITIONS
+   responsive relative to map height
+   ========================================= */
+.fret-label[data-index="0"]{
+  top:19.8%;
+}
+
+.fret-label[data-index="1"]{
+  top:23.3%;
+}
+
+.fret-label[data-index="2"]{
+  top:26.7%;
+}
+
+.fret-label[data-index="3"]{
+  top:30.1%;
+}
+
+.fret-label[data-index="4"]{
+  top:33%;
+}
+
+
+
+
+/* 6 */
+.fret-label[data-index="5"]{
+  top:41%;
+}
+
+/* 6# */
+.fret-label[data-index="6"]{
+  top:44%;
+}
+
+/* 7 */
+.fret-label[data-index="7"]{
+  top:47.3%;
+}
+
+/* •1 */
+.fret-label[data-index="8"]{
+  top:50.4%;
+}
+
+
+/* •2 */
+.fret-label[data-index="9"]{
+  top:57.7%;
+}
+
+/* •2# */
+.fret-label[data-index="10"]{
+  top:60.5%;
+}
+
+/* •3 */
+.fret-label[data-index="11"]{
+  top:63.7%;
+}
+
+/* •4 */
+.fret-label[data-index="12"]{
+  top:66.5%;
+}
+
+/* •4# */
+.fret-label[data-index="13"]{
+  top:69.2%;
+}
+
+/* •5 */
+.fret-label[data-index="14"]{
+  top:71.8%;
+}
 /* =========================================
    SETTINGS
    ========================================= */

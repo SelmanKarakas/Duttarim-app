@@ -90,34 +90,31 @@
   </section>
 
   <section id="fretsPanel" class="panel">
-    <h2
-            class="section-title"
-            data-i18n="fretsTitle"
-    >
+
+    <h2 class="section-title" data-i18n="fretsTitle">
       Perde Haritası
     </h2>
 
-    <p
-            class="section-sub"
-            data-i18n="fretsSub"
-    >
-      Alt tel (1. tel / zil) üzerindeki 15 perde ve nota karşılıkları.
+    <p class="section-sub" data-i18n="fretsSub">
+      Alt tel üzerindeki perde ve nota karşılıkları.
     </p>
 
-    <div
-            class="fret-instrument"
-            aria-hidden="true"
-    >
-      <img
-              src="dutar-head.png"
-              alt=""
-      >
+    <div class="fret-map">
+
+      <div class="fret-duttar">
+        <img
+                src="TamDuttar.png"
+                alt="Duttar perde haritası"
+        >
+      </div>
+
+      <div
+              class="fret-labels"
+              id="fretGrid"
+      ></div>
+
     </div>
 
-    <div
-            class="fret-grid"
-            id="fretGrid"
-    ></div>
   </section>
 
   <section id="settingsPanel" class="panel">
@@ -261,81 +258,168 @@
   </section>
   <section id="songsPanel" class="panel">
 
-    <h2 class="section-title" data-i18n="songsTitle">
-      Parçalar
-    </h2>
+    <div id="songsHome">
 
-    <p class="section-sub" data-i18n="songsSub">
-      Duttar için hazırlanmış notalar ve çalma önerileri.
-    </p>
+      <h2
+              class="section-title"
+              data-i18n="songsTitle"
+      >
+        Parçalar
+      </h2>
 
-    <div class="songs-coming-badge" data-i18n="comingSoon">
-      Yakında geliyor
+      <p
+              class="section-sub"
+              data-i18n="songsSub"
+      >
+        Duttar için derlenmiş ve düzenlenmiş nota kaynakları.
+      </p>
+
+      <div
+              class="song-list"
+              id="songList"
+      ></div>
+
     </div>
 
-    <div class="songs-filter">
-      <button class="song-filter-btn active" data-filter="all" data-i18n="allSongs">
-        Tümü
+
+    <div
+            id="songDetail"
+            class="song-detail hidden"
+    >
+
+      <button
+              class="song-back"
+              id="songBackBtn"
+              type="button"
+      >
+        <span>←</span>
+
+        <span data-i18n="backToSongs">
+        Parçalar
+      </span>
       </button>
 
-      <button class="song-filter-btn" data-filter="favorites" data-i18n="favorites">
-        Favoriler
-      </button>
-    </div>
 
-    <div class="coming-card">
-
-      <div class="coming-visual">
-        <img src="dutar-head.png" alt="">
+      <div class="song-detail-head">
+        <h2 id="songDetailTitle"></h2>
+        <p id="songDetailOrigin"></p>
       </div>
 
-      <div class="coming-copy">
 
-        <strong data-i18n="songsComingTitle">
-          Bu bölüm yakında geliyor
-        </strong>
+      <div class="song-view-tabs">
 
-        <p data-i18n="songsComingText">
-          Duttar parçaları, notalar ve detaylı çalma önerileri üzerinde çalışıyoruz.
-        </p>
+        <button
+                class="song-view-btn active"
+                data-song-view="simple"
+                data-i18n="simplified"
+                type="button"
+        >
+          Basitleştirilmiş
+        </button>
+
+        <button
+                class="song-view-btn"
+                data-song-view="notation"
+                data-i18n="normalNotation"
+                type="button"
+        >
+          Nota
+        </button>
 
       </div>
 
-    </div>
 
-    <div class="song-list">
+      <div class="score-tools">
 
-      <div class="song-placeholder">
-        <div class="song-icon">♪</div>
+        <button
+                id="scoreZoomOut"
+                class="score-tool-btn"
+                type="button"
+                aria-label="Uzaklaştır"
+        >
+          −
+        </button>
 
-        <div class="song-info">
-          <strong data-i18n="songPlaceholder">Yakında eklenecek</strong>
-          <span data-i18n="duttarSongs">Duttar parçaları</span>
-        </div>
+        <span id="scoreZoomLabel">
+        100%
+      </span>
 
-        <button class="song-favorite" type="button">♡</button>
+        <button
+                id="scoreZoomIn"
+                class="score-tool-btn"
+                type="button"
+                aria-label="Yakınlaştır"
+        >
+          +
+        </button>
+
+        <button
+                class="score-action-btn"
+                id="scoreFullscreen"
+                type="button"
+                aria-label="Tam ekran nota"
+        >
+          ⛶
+        </button>
+
       </div>
 
-      <div class="song-placeholder">
-        <div class="song-icon">✦</div>
 
-        <div class="song-info">
-          <strong data-i18n="songPlaceholder">Yakında eklenecek</strong>
-          <span data-i18n="duttarSongs">Duttar parçaları</span>
-        </div>
-
-        <button class="song-favorite" type="button">♡</button>
+      <div
+              id="songSimpleView"
+              class="song-view active"
+      >
+        <div
+                class="simple-score"
+                id="simpleScore"
+        ></div>
       </div>
 
-      <div class="song-placeholder">
-        <div class="song-icon">☾</div>
 
-        <div class="song-info">
-          <strong data-i18n="songPlaceholder">Yakında eklenecek</strong>
-          <span data-i18n="duttarSongs">Duttar parçaları</span>
-        </div>
+      <div
+              id="songNotationView"
+              class="song-view"
+      >
+        <div
+                class="notation-sheet"
+                id="notationSheet"
+        ></div>
+      </div>
+      <div
+              class="score-pagination hidden"
+              id="scorePagination"
+      >
+        <button
+                class="score-page-btn"
+                id="scorePrevPage"
+                type="button"
+        >
+          ‹
+        </button>
 
-        <button class="song-favorite" type="button">♡</button>
+        <span id="scorePageLabel">
+    1 / 1
+  </span>
+
+        <button
+                class="score-page-btn"
+                id="scoreNextPage"
+                type="button"
+        >
+          ›
+        </button>
+      </div>
+
+
+      <div class="song-source-card">
+
+        <h3 data-i18n="sourceNotes">
+          Kaynak ve Notlar
+        </h3>
+
+        <p id="songSource"></p>
+        <p id="songArrangement"></p>
+
       </div>
 
     </div>

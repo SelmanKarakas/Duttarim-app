@@ -60,6 +60,11 @@ tr:{
   language:"Dil",
   appLanguage:"Uygulama dili",
 
+  favorites:"Favoriler",
+  newSong:"Yeni",
+  pages:"sayfa",
+  tempo:"Tempo",
+
   tuningSettings:"Akort ayarları",
   reference:"Referans frekansı",
   notation:"Nota gösterimi",
@@ -79,7 +84,24 @@ tr:{
   openSettings:"Ayarlar",
 
   preview:"DİNLE",
-  privacy:"Gizlilik Politikası"
+  privacy:"Gizlilik Politikası",
+
+  songsSub:"Duttar için derlenmiş ve düzenlenmiş nota kaynakları.",
+
+  simplified:"Basitleştirilmiş",
+  normalNotation:"Nota",
+
+  backToSongs:"Parçalar",
+  sourceNotes:"Kaynak ve Notlar",
+
+  uyghurDuttarPiece:"Uygur Duttar Eseri",
+
+  arrangedSource:"Düzenlenmiş nota kaynağı.",
+  bothViews:"Basitleştirilmiş ve klasik nota görünümü birlikte sunulur.",
+
+  simplifiedMissing:"Basitleştirilmiş nota henüz eklenmedi.",
+  notationMissing:"Normal nota henüz eklenmedi."
+
 },
 
 en:{
@@ -104,6 +126,11 @@ en:{
   tuner:"TUNER",
   frets:"FRETS",
   songs:"SONGS",
+
+  favorites:"Favorites",
+  newSong:"New",
+  pages:"pages",
+  tempo:"Tempo",
 
   fretsTitle:"Fret Map",
   fretsSub:"The 15 frets and notes on the lower string (string 1 / zil).",
@@ -143,7 +170,24 @@ en:{
   openSettings:"Settings",
 
   preview:"LISTEN",
-  privacy:"Privacy Policy"
+  privacy:"Privacy Policy",
+
+    songsSub:"Collected and arranged notation resources for the duttar.",
+
+    simplified:"Simplified",
+    normalNotation:"Notation",
+
+    backToSongs:"Songs",
+
+    sourceNotes:"Sources and Notes",
+
+    uyghurDuttarPiece:"Uyghur Duttar Piece",
+
+    arrangedSource:"Arranged notation source.",
+    bothViews:"Simplified and standard notation views are provided.",
+
+    simplifiedMissing:"Simplified notation has not been added yet.",
+    notationMissing:"Standard notation has not been added yet."
 },
 
 ug:{
@@ -159,6 +203,11 @@ ug:{
 
   string1:"1-تار · زىل",
   string2:"2-تار · بوم",
+
+  favorites:"ياقتۇرغانلار",
+  newSong:"يېڭى",
+  pages:"بەت",
+  tempo:"تېمپو",
 
   aboutTitle:"ھەققىدە",
   feedback:"پىكىر ئەۋەتىش",
@@ -208,7 +257,24 @@ ug:{
   openSettings:"تەڭشەكلەر",
 
   preview:"ئاڭلاڭ",
-  privacy:"مەخپىيەتلىك سىياسىتى"
+  privacy:"مەخپىيەتلىك سىياسىتى",
+
+  songsSub:"دۇتتار ئۈچۈن توپلانغان ۋە تەھرىرلەنگەن نوتا مەنبەلىرى.",
+
+  simplified:"ئاددىيلاشتۇرۇلغان",
+  normalNotation:"نوتا",
+
+  backToSongs:"ناخشىلار",
+
+  sourceNotes:"مەنبە ۋە ئىزاھات",
+
+  uyghurDuttarPiece:"ئۇيغۇر دۇتتار ئەسىرى",
+
+  arrangedSource:"تەھرىرلەنگەن نوتا مەنبەسى.",
+  bothViews:"ئاددىيلاشتۇرۇلغان ۋە نورمال نوتا كۆرۈنۈشى تەمىنلەنگەن.",
+
+  simplifiedMissing:"ئاددىيلاشتۇرۇلغان نوتا تېخى قوشۇلمىدى.",
+  notationMissing:"نورمال نوتا تېخى قوشۇلمىدى."
 }
 
 };
@@ -368,35 +434,794 @@ var solfege={
 
   B:"Sİ"
 };
+/* =========================================
+   SONGS
+   ========================================= */
+
+var songsData = [
+  {
+    id:"talka-tagliri",
+
+    title:{
+      latin:"Talqa Tagliri",
+      ug:"تالقا تاغلىرى"
+    },
+
+    originKey:"uyghurDuttarPiece",
+
+    tempo:92,
+
+    simplePages:[
+      "songs/talka_tagliri_basit.png"
+    ],
+
+    notationPages:[
+      "songs/talka_tagliri_normal.png"
+    ],
+
+    isNew:true,
+
+    sourceKey:"arrangedSource",
+    arrangementKey:"bothViews"
+  },
+
+  {
+    id:"altun-tataymu",
+
+    title:{
+      latin:"Altun Tataymu",
+      ug:"ئالتۇن تاتايىمۇ"
+    },
+
+    originKey:"uyghurDuttarPiece",
+
+    tempo:110,
+
+    /*
+     * Dummy çok sayfalı örnek.
+     * Aynı görsel şimdilik tekrar kullanılıyor.
+     */
+    simplePages:[
+      "songs/altun_tataymu_basit.jpg",
+      "songs/altun_tataymu_basit.jpg"
+    ],
+
+    notationPages:[
+      "songs/altun_tataymu_normal.jpg",
+      "songs/altun_tataymu_normal.jpg",
+      "songs/altun_tataymu_normal.jpg"
+    ],
+
+    isNew:true,
+
+    sourceKey:"arrangedSource",
+    arrangementKey:"bothViews"
+  }
+];
 
 
+/* FAVORITES */
+
+var favoriteSongs =
+  JSON.parse(
+    localStorage.getItem(
+      "favoriteSongs"
+    ) || "[]"
+  );
+
+
+function isFavorite(songId){
+
+  return favoriteSongs.indexOf(
+    songId
+  ) !== -1;
+}
+
+
+function toggleFavorite(songId){
+
+  var index =
+    favoriteSongs.indexOf(
+      songId
+    );
+
+  if(index === -1){
+
+    favoriteSongs.push(
+      songId
+    );
+
+  }else{
+
+    favoriteSongs.splice(
+      index,
+      1
+    );
+  }
+
+  localStorage.setItem(
+    "favoriteSongs",
+    JSON.stringify(
+      favoriteSongs
+    )
+  );
+
+  renderSongs();
+}
+
+
+/* SONG NAME */
+
+function songTitle(song){
+
+  if(
+    lang === "ug" &&
+    song.title &&
+    song.title.ug
+  ){
+
+    return song.title.ug;
+  }
+
+  return song.title.latin;
+}
+
+
+/* SONG STATE */
+
+var activeSong = null;
+var activeScorePage = 0;
+var activeSongView = "simple";
+
+
+/* SONG LIST */
+
+function renderSongs(){
+
+  var list =
+    document.getElementById(
+      "songList"
+    );
+
+  if(!list){
+    return;
+  }
+
+  list.innerHTML =
+    songsData.map(
+      function(song){
+
+        var simpleCount =
+          (
+            song.simplePages ||
+            []
+          ).length;
+
+        var notationCount =
+          (
+            song.notationPages ||
+            []
+          ).length;
+
+        var types = [];
+
+        if(simpleCount){
+
+          types.push(
+            t("simplified")
+          );
+        }
+
+        if(notationCount){
+
+          types.push(
+            t("normalNotation")
+          );
+        }
+
+        /*
+         * Kartta sayfa sayısı:
+         * En uzun nota türünün sayfasını göster.
+         */
+        var totalPages =
+          Math.max(
+            simpleCount,
+            notationCount
+          );
+
+        return (
+          '<div class="song-card-wrap">' +
+
+            '<button ' +
+              'class="song-card" ' +
+              'data-song-id="' +
+              song.id +
+              '" ' +
+              'type="button">' +
+
+              '<div class="song-card-icon">♪</div>' +
+
+              '<div class="song-card-copy">' +
+
+                '<div class="song-title-row">' +
+
+                  '<strong class="song-card-title">' +
+                    songTitle(song) +
+                  '</strong>' +
+
+                  (
+                    song.isNew
+                      ? '<span class="song-new">' +
+                          t("newSong") +
+                        '</span>'
+                      : ''
+                  ) +
+
+                '</div>' +
+
+                '<span class="song-card-meta">' +
+                  t(song.originKey) +
+                '</span>' +
+
+                '<div class="song-card-tags">' +
+
+                  '<span>' +
+                    types.join(" · ") +
+                  '</span>' +
+
+                  (
+                    song.tempo
+                      ? '<span>♩ ' +
+                          song.tempo +
+                        '</span>'
+                      : ''
+                  ) +
+
+                  (
+                    totalPages
+                      ? '<span>' +
+                          totalPages +
+                          ' ' +
+                          t("pages") +
+                        '</span>'
+                      : ''
+                  ) +
+
+                '</div>' +
+
+              '</div>' +
+
+            '</button>' +
+
+            '<button ' +
+              'class="song-favorite-btn ' +
+              (
+                isFavorite(song.id)
+                  ? 'active'
+                  : ''
+              ) +
+              '" ' +
+              'data-favorite-id="' +
+              song.id +
+              '" ' +
+              'type="button" ' +
+              'aria-label="' +
+              t("favorites") +
+              '">' +
+
+              (
+                isFavorite(song.id)
+                  ? '♥'
+                  : '♡'
+              ) +
+
+            '</button>' +
+
+          '</div>'
+        );
+      }
+    )
+    .join("");
+
+
+  document
+    .querySelectorAll(
+      ".song-card"
+    )
+    .forEach(
+      function(card){
+
+        card.onclick =
+          function(){
+
+            openSong(
+              card.dataset.songId
+            );
+          };
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      ".song-favorite-btn"
+    )
+    .forEach(
+      function(button){
+
+        button.onclick =
+          function(e){
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            toggleFavorite(
+              button.dataset.favoriteId
+            );
+          };
+      }
+    );
+}
+
+
+/* AVAILABLE VIEWS */
+
+function updateSongViewAvailability(song){
+
+  var simpleBtn =
+    document.querySelector(
+      '[data-song-view="simple"]'
+    );
+
+  var notationBtn =
+    document.querySelector(
+      '[data-song-view="notation"]'
+    );
+
+  var tabs =
+    document.querySelector(
+      ".song-view-tabs"
+    );
+
+  var hasSimple =
+    !!(
+      song.simplePages &&
+      song.simplePages.length
+    );
+
+  var hasNotation =
+    !!(
+      song.notationPages &&
+      song.notationPages.length
+    );
+
+
+  if(simpleBtn){
+
+    simpleBtn.classList.toggle(
+      "hidden",
+      !hasSimple
+    );
+  }
+
+
+  if(notationBtn){
+
+    notationBtn.classList.toggle(
+      "hidden",
+      !hasNotation
+    );
+  }
+
+
+  if(tabs){
+
+    tabs.classList.toggle(
+      "single",
+      hasSimple !== hasNotation
+    );
+  }
+
+
+  if(hasSimple){
+
+    activeSongView =
+      "simple";
+
+  }else if(hasNotation){
+
+    activeSongView =
+      "notation";
+  }
+}
+
+
+/* CURRENT PAGES */
+
+function getCurrentPages(){
+
+  if(!activeSong){
+    return [];
+  }
+
+  if(
+    activeSongView ===
+    "notation"
+  ){
+
+    return (
+      activeSong.notationPages ||
+      []
+    );
+  }
+
+  return (
+    activeSong.simplePages ||
+    []
+  );
+}
+
+
+/* RENDER CURRENT PAGE */
+
+function renderCurrentScorePage(){
+
+  if(!activeSong){
+    return;
+  }
+
+  var pages =
+    getCurrentPages();
+
+  var container =
+    activeSongView === "notation"
+      ? document.getElementById(
+          "notationSheet"
+        )
+      : document.getElementById(
+          "simpleScore"
+        );
+
+  if(!container){
+    return;
+  }
+
+
+  if(!pages.length){
+
+    container.innerHTML =
+      '<div class="notation-placeholder">' +
+        (
+          activeSongView === "notation"
+            ? t("notationMissing")
+            : t("simplifiedMissing")
+        ) +
+      '</div>';
+
+    updateScorePagination(0);
+
+    return;
+  }
+
+
+  if(
+    activeScorePage >=
+    pages.length
+  ){
+
+    activeScorePage = 0;
+  }
+
+
+  container.innerHTML =
+    '<img ' +
+      'class="song-score-image" ' +
+      'src="' +
+      pages[activeScorePage] +
+      '" ' +
+      'alt="' +
+      songTitle(activeSong) +
+      '">' ;
+
+
+  updateScorePagination(
+    pages.length
+  );
+
+  applyScoreZoom();
+}
+
+
+/* PAGINATION */
+
+function updateScorePagination(
+  pageCount
+){
+
+  var pagination =
+    document.getElementById(
+      "scorePagination"
+    );
+
+  var label =
+    document.getElementById(
+      "scorePageLabel"
+    );
+
+  var previous =
+    document.getElementById(
+      "scorePrevPage"
+    );
+
+  var next =
+    document.getElementById(
+      "scoreNextPage"
+    );
+
+
+  if(!pagination){
+    return;
+  }
+
+
+  if(pageCount <= 1){
+
+    pagination.classList.add(
+      "hidden"
+    );
+
+    return;
+  }
+
+
+  pagination.classList.remove(
+    "hidden"
+  );
+
+
+  if(label){
+
+    label.textContent =
+      (
+        activeScorePage + 1
+      ) +
+      " / " +
+      pageCount;
+  }
+
+
+  if(previous){
+
+    previous.disabled =
+      activeScorePage === 0;
+  }
+
+
+  if(next){
+
+    next.disabled =
+      activeScorePage ===
+      pageCount - 1;
+  }
+}
+
+
+/* OPEN SONG */
+
+function openSong(songId){
+
+  var song =
+    songsData.find(
+      function(item){
+
+        return (
+          item.id === songId
+        );
+      }
+    );
+
+  if(!song){
+    return;
+  }
+
+
+  activeSong =
+    song;
+
+  activeScorePage =
+    0;
+
+  scoreZoom =
+    1;
+
+
+  updateSongViewAvailability(
+    song
+  );
+
+
+  document
+    .getElementById(
+      "songsHome"
+    )
+    .classList
+    .add(
+      "hidden"
+    );
+
+
+  document
+    .getElementById(
+      "songDetail"
+    )
+    .classList
+    .remove(
+      "hidden"
+    );
+
+
+  document.getElementById(
+    "songDetailTitle"
+  ).textContent =
+    songTitle(song);
+
+
+  document.getElementById(
+    "songDetailOrigin"
+  ).textContent =
+    t(song.originKey);
+
+
+  document.getElementById(
+    "songSource"
+  ).textContent =
+    t(song.sourceKey);
+
+
+  document.getElementById(
+    "songArrangement"
+  ).textContent =
+    t(song.arrangementKey);
+
+
+  switchSongView(
+    activeSongView
+  );
+
+
+  document
+    .getElementById(
+      "songsPanel"
+    )
+    .scrollTop = 0;
+}
+
+
+/* SWITCH SIMPLE / NORMAL */
+
+function switchSongView(view){
+
+  if(!activeSong){
+    return;
+  }
+
+
+  var pages =
+    view === "notation"
+      ? activeSong.notationPages
+      : activeSong.simplePages;
+
+
+  /*
+   * Olmayan nota tipine
+   * geçilmesine izin verme.
+   */
+  if(
+    !pages ||
+    !pages.length
+  ){
+    return;
+  }
+
+
+  activeSongView =
+    view;
+
+  activeScorePage =
+    0;
+
+
+  document
+    .querySelectorAll(
+      ".song-view-btn"
+    )
+    .forEach(
+      function(btn){
+
+        btn.classList.toggle(
+          "active",
+          btn.dataset.songView ===
+          view
+        );
+      }
+    );
+
+
+  var simpleView =
+    document.getElementById(
+      "songSimpleView"
+    );
+
+  var notationView =
+    document.getElementById(
+      "songNotationView"
+    );
+
+
+  if(simpleView){
+
+    simpleView.classList.toggle(
+      "active",
+      view === "simple"
+    );
+  }
+
+
+  if(notationView){
+
+    notationView.classList.toggle(
+      "active",
+      view === "notation"
+    );
+  }
+
+
+  renderCurrentScorePage();
+}
+
+
+/* FULLSCREEN */
+function toggleScoreFullscreen(){
+
+  var detail =
+    document.getElementById(
+      "songDetail"
+    );
+
+  if(!detail){
+    return;
+  }
+
+  document.body.classList.toggle(
+    "score-fullscreen"
+  );
+
+  detail.classList.toggle(
+    "score-fullscreen-active"
+  );
+}
 /* =========================================
    FRET DATA
    ========================================= */
+var fretData = [
+  {number:"2#",  note:"D#"},
+  {number:"3-2", note:"E"},
+  {number:"4",   note:"F"},
+  {number:"4#",  note:"F#"},
 
-var fretData=[
+  {number:"5",   note:"G"},
+  {number:"6",   note:"A"},
+  {number:"6#",  note:"A#"},
+  {number:"7",   note:"B"},
+  {number:"1",   note:"C",  octave:true},
 
-["0","D"],
-["1","D#"],
-["2","E"],
-["3","F"],
-["4","F#"],
-["5","G"],
-["5.5","G#"],
-["6","A"],
-["7","A#"],
-["8","B"],
-["9","C"],
-["9.5","C#"],
-["10","D"],
-["11","D#"],
-["12","E"],
-["13","F"],
-["14","F#"],
-["15","G"]
-
+  {number:"2",   note:"D",  octave:true},
+  {number:"2#",  note:"D#", octave:true},
+  {number:"3",   note:"E",  octave:true},
+  {number:"4",   note:"F",  octave:true},
+  {number:"4#",  note:"F#", octave:true},
+  {number:"5",   note:"G",  octave:true}
 ];
-
 
 /* =========================================
    TRANSLATION HELPERS
@@ -509,6 +1334,7 @@ function renderAll(){
 
   renderStrings();
   renderFrets();
+  renderSongs();
   renderNotationButton();
   renderCalibration();
 }
@@ -601,32 +1427,31 @@ function renderStrings(){
 
 function renderFrets(){
 
-  $("#fretGrid").innerHTML=
+  var grid=$("#fretGrid");
 
+  if(!grid){
+    return;
+  }
+
+  grid.innerHTML=
     fretData.map(
-      function(x){
-
-        var fretWord=
-
-          lang==="en"
-            ?"fret"
-            :lang==="ug"
-              ?"پەردە"
-              :"perde";
-
+      function(item,index){
 
         return (
-          '<div class="fret">'+
+          '<div class="fret-label" data-index="'+index+'">'+
 
-          '<strong>'+
-          noteName(x[1])+
-          '</strong>'+
+            '<span class="fret-number">'+
+              (
+                item.octave
+                  ?'<span class="fret-octave">•</span>'
+                  :''
+              )+
+              item.number+
+            '</span>'+
 
-          '<span>'+
-          x[0]+
-          '. '+
-          fretWord+
-          '</span>'+
+            '<span class="fret-note">'+
+              noteName(item.note)+
+            '</span>'+
 
           '</div>'
         );
@@ -800,6 +1625,9 @@ function setTopContext(settingsOpen){
 
 async function showPanel(name){
 
+    var previousPanel =
+        currentPanel;
+
   if(name!=="tuner"){
 
     stopReferenceTone();
@@ -820,6 +1648,35 @@ async function showPanel(name){
 
 
   currentPanel=name;
+  if(name === "songs"){
+
+    renderSongs();
+
+    if(previousPanel !== "songs"){
+
+      var songsHome =
+        document.getElementById(
+          "songsHome"
+        );
+
+      var songDetail =
+        document.getElementById(
+          "songDetail"
+        );
+
+      if(songsHome){
+        songsHome.classList.remove(
+          "hidden"
+        );
+      }
+
+      if(songDetail){
+        songDetail.classList.add(
+          "hidden"
+        );
+      }
+    }
+  }
 
 
   ["tuner","frets","settings","songs"]
@@ -864,7 +1721,6 @@ async function showPanel(name){
     0
   );
 }
-
 
 /* =========================================
    RESET PROGRESS
@@ -1784,14 +2640,14 @@ function updatePitch(freq){
     );
 
 
-  $("#status").textContent=
+  $("#status").textContent =
     inTune
-      ?t("inTune")
-      :(
-        c<0
-          ?t("flat")
-          :t("sharp")
-      );
+      ? t("inTune")
+      : (
+          c < 0
+            ? t("flat")
+            : t("sharp")
+        );
 
 
   $("#status").style.color=
@@ -2815,7 +3671,54 @@ async function stopTuner(options){
 /* =========================================
    EVENTS
    ========================================= */
+var fullscreenButton =
+  document.getElementById(
+    "scoreFullscreen"
+  );
 
+if(fullscreenButton){
+
+  fullscreenButton.onclick =
+    toggleScoreFullscreen;
+}
+
+$("#scorePrevPage").onclick =
+  function(){
+
+    var pages =
+      getCurrentPages();
+
+    if(
+      !pages.length ||
+      activeScorePage <= 0
+    ){
+      return;
+    }
+
+    activeScorePage--;
+
+    renderCurrentScorePage();
+  };
+
+
+$("#scoreNextPage").onclick =
+  function(){
+
+    var pages =
+      getCurrentPages();
+
+    if(
+      !pages.length ||
+      activeScorePage >=
+      pages.length - 1
+    ){
+      return;
+    }
+
+    activeScorePage++;
+
+    renderCurrentScorePage();
+  };
 $$(".mode-btn")
   .forEach(
     function(button){
@@ -2887,21 +3790,218 @@ $$(".preview-tone")
     }
   );
 
+/* =========================================
+   SONG EVENTS
+   ========================================= */
 
-$$(".nav-btn")
+$$(".song-view-btn")
   .forEach(
     function(button){
 
-      button.onclick=
+      button.onclick =
         function(){
 
-          showPanel(
-            button.dataset.panel
+          switchSongView(
+            button.dataset.songView
           );
         };
     }
   );
 
+
+var songBackBtn =
+  document.getElementById(
+    "songBackBtn"
+  );
+
+if(songBackBtn){
+
+  songBackBtn.onclick =
+    function(){
+
+      var detail =
+        document.getElementById(
+          "songDetail"
+        );
+
+      var home =
+        document.getElementById(
+          "songsHome"
+        );
+
+      if(detail){
+        detail.classList.add(
+          "hidden"
+        );
+      }
+
+      if(home){
+        home.classList.remove(
+          "hidden"
+        );
+      }
+
+      var songsPanel =
+        document.getElementById(
+          "songsPanel"
+        );
+
+      if(songsPanel){
+        songsPanel.scrollTop = 0;
+      }
+    };
+}
+$$(".nav-btn")
+  .forEach(
+    function(button){
+
+      button.onclick =
+        function(){
+
+          var panel =
+            button.dataset.panel;
+
+          /*
+           * Songs detayındayken
+           * tekrar Songs'a basılırsa
+           * ana şarkı listesine dön.
+           */
+          if(
+            panel === "songs" &&
+            currentPanel === "songs"
+          ){
+
+            var detail =
+              document.getElementById(
+                "songDetail"
+              );
+
+            var home =
+              document.getElementById(
+                "songsHome"
+              );
+
+            if(
+              detail &&
+              home &&
+              !detail.classList.contains(
+                "hidden"
+              )
+            ){
+
+              detail.classList.add(
+                "hidden"
+              );
+
+              home.classList.remove(
+                "hidden"
+              );
+
+              var songsPanel =
+                document.getElementById(
+                  "songsPanel"
+                );
+
+              if(songsPanel){
+                songsPanel.scrollTop = 0;
+              }
+
+              return;
+            }
+          }
+
+          showPanel(panel);
+        };
+    }
+  );
+var scoreZoom = 1;
+
+var SCORE_ZOOM_MIN = 1;
+var SCORE_ZOOM_MAX = 3;
+var SCORE_ZOOM_STEP = .25;
+function applyScoreZoom(){
+
+  document
+    .querySelectorAll(
+      ".song-score-image"
+    )
+    .forEach(
+      function(img){
+
+        img.style.width =
+          (scoreZoom * 100) + "%";
+      }
+    );
+
+  var label =
+    document.getElementById(
+      "scoreZoomLabel"
+    );
+
+  if(label){
+
+    label.textContent =
+      Math.round(
+        scoreZoom * 100
+      ) + "%";
+  }
+}
+var zoomIn =
+  document.getElementById(
+    "scoreZoomIn"
+  );
+
+var zoomOut =
+  document.getElementById(
+    "scoreZoomOut"
+  );
+
+if(zoomIn){
+
+  zoomIn.onclick =
+    function(){
+
+      scoreZoom =
+        Math.min(
+          SCORE_ZOOM_MAX,
+          scoreZoom +
+          SCORE_ZOOM_STEP
+        );
+
+      applyScoreZoom();
+    };
+}
+
+if(zoomOut){
+
+  zoomOut.onclick =
+    function(){
+
+      scoreZoom =
+        Math.max(
+          SCORE_ZOOM_MIN,
+          scoreZoom -
+          SCORE_ZOOM_STEP
+        );
+
+      applyScoreZoom();
+    };
+}
+var zoomLabel =
+  document.getElementById(
+    "scoreZoomLabel"
+  );
+
+if(zoomLabel){
+
+  zoomLabel.onclick =
+    function(){
+
+      scoreZoom = 1;
+
+      applyScoreZoom();
+    };
+}
 
 $("#notationToggle").onclick=
   toggleNotation;
