@@ -100,7 +100,10 @@ tr:{
   bothViews:"Basitleştirilmiş ve klasik nota görünümü birlikte sunulur.",
 
   simplifiedMissing:"Basitleştirilmiş nota henüz eklenmedi.",
-  notationMissing:"Normal nota henüz eklenmedi."
+  notationMissing:"Normal nota henüz eklenmedi.",
+
+  newSongAdded:"Yeni nota eklendi: {title}",
+  newSongsAdded:"{count} yeni nota eklendi."
 
 },
 
@@ -187,7 +190,10 @@ en:{
     bothViews:"Simplified and standard notation views are provided.",
 
     simplifiedMissing:"Simplified notation has not been added yet.",
-    notationMissing:"Standard notation has not been added yet."
+    notationMissing:"Standard notation has not been added yet.",
+
+    newSongAdded:"New notation added: {title}",
+    newSongsAdded:"{count} new notations added."
 },
 
 ug:{
@@ -274,7 +280,10 @@ ug:{
   bothViews:"ئاددىيلاشتۇرۇلغان ۋە نورمال نوتا كۆرۈنۈشى تەمىنلەنگەن.",
 
   simplifiedMissing:"ئاددىيلاشتۇرۇلغان نوتا تېخى قوشۇلمىدى.",
-  notationMissing:"نورمال نوتا تېخى قوشۇلمىدى."
+  notationMissing:"نورمال نوتا تېخى قوشۇلمىدى.",
+
+  newSongAdded:"يېڭى نوتا قوشۇلدى: {title}",
+  newSongsAdded:"{count} يېڭى نوتا قوشۇلدى."
 }
 
 };
@@ -438,66 +447,466 @@ var solfege={
    SONGS
    ========================================= */
 
-var songsData = [
-  {
-    id:"talka-tagliri",
+var songsData = [];
 
-    title:{
-      latin:"Talqa Tagliri",
-      ug:"تالقا تاغلىرى"
-    },
+var LOCAL_SONGS_URL =
+  "data/songs-local.json";
 
-    originKey:"uyghurDuttarPiece",
+var REMOTE_SONGS_URL =
+  "https://raw.githubusercontent.com/SelmanKarakas/Duttarim-app/main/content/songs.json";
 
-    tempo:92,
+var SONGS_CACHE_KEY =
+  "duttarimSongsCacheV1";
 
-    simplePages:[
-      "songs/talka_tagliri_basit.png"
-    ],
+var KNOWN_SONG_IDS_KEY =
+  "duttarimKnownSongIdsV1";
 
-    notationPages:[
-      "songs/talka_tagliri_normal.png"
-    ],
+var NEW_SONG_IDS_KEY =
+  "duttarimNewSongIdsV1";
 
-    isNew:true,
+var remoteRefreshPromise = null;
 
-    sourceKey:"arrangedSource",
-    arrangementKey:"bothViews"
-  },
 
-  {
-    id:"altun-tataymu",
+function readStoredArray(key){
 
-    title:{
-      latin:"Altun Tataymu",
-      ug:"ئالتۇن تاتايىمۇ"
-    },
+  try{
 
-    originKey:"uyghurDuttarPiece",
+    var value =
+      JSON.parse(
+        localStorage.getItem(key) ||
+        "[]"
+      );
 
-    tempo:110,
+    return Array.isArray(value)
+      ? value
+      : [];
 
-    /*
-     * Dummy çok sayfalı örnek.
-     * Aynı görsel şimdilik tekrar kullanılıyor.
-     */
-    simplePages:[
-      "songs/altun_tataymu_basit.jpg",
-      "songs/altun_tataymu_basit.jpg"
-    ],
+  }catch(e){
 
-    notationPages:[
-      "songs/altun_tataymu_normal.jpg",
-      "songs/altun_tataymu_normal.jpg",
-      "songs/altun_tataymu_normal.jpg"
-    ],
-
-    isNew:true,
-
-    sourceKey:"arrangedSource",
-    arrangementKey:"bothViews"
+    return [];
   }
-];
+}
+
+
+function writeStoredArray(key,value){
+
+  try{
+
+    localStorage.setItem(
+      key,
+      JSON.stringify(value)
+    );
+
+  }catch(e){
+
+    console.warn(
+      "Song state could not be saved",
+      e
+    );
+  }
+}
+
+
+function validSong(song){
+
+  return !!(
+    song &&
+    typeof song.id === "string" &&
+    song.id &&
+    song.title &&
+    typeof song.title.latin === "string" &&
+    Array.isArray(song.simplePages) &&
+    Array.isArray(song.notationPages)
+  );
+}
+
+
+function normaliseCatalog(data,baseUrl){
+
+  if(!Array.isArray(data)){
+    throw new Error("Invalid songs catalog");
+  }
+
+  var ids = Object.create(null);
+
+  return data.map(
+    function(rawSong){
+
+      if(!validSong(rawSong)){
+        throw new Error("Invalid song entry");
+      }
+
+      if(ids[rawSong.id]){
+        throw new Error("Duplicate song id");
+      }
+
+      ids[rawSong.id] = true;
+
+      var song =
+        Object.assign({},rawSong);
+
+      ["simplePages","notationPages"]
+        .forEach(
+          function(key){
+
+            song[key] =
+              rawSong[key].map(
+                function(page){
+
+                  if(typeof page !== "string"){
+                    throw new Error("Invalid score page");
+                  }
+
+                  if(!baseUrl){
+                    return page;
+                  }
+
+                  return new URL(
+                    page,
+                    baseUrl
+                  ).href;
+                }
+              );
+          }
+        );
+
+      return song;
+    }
+  );
+}
+
+
+function applyNewSongFlags(songs){
+
+  var unreadIds =
+    readStoredArray(
+      NEW_SONG_IDS_KEY
+    );
+
+  return songs.map(
+    function(song){
+
+      return Object.assign(
+        {},
+        song,
+        {
+          isNew:
+            unreadIds.indexOf(
+              song.id
+            ) !== -1
+        }
+      );
+    }
+  );
+}
+
+
+async function fetchSongCatalog(url,baseUrl){
+
+  var response =
+    await fetch(
+      url,
+      {cache:"no-store"}
+    );
+
+  if(!response.ok){
+    throw new Error("Songs catalog unavailable");
+  }
+
+  return normaliseCatalog(
+    await response.json(),
+    baseUrl
+  );
+}
+
+
+function loadCachedSongs(){
+
+  try{
+
+    var cached =
+      JSON.parse(
+        localStorage.getItem(
+          SONGS_CACHE_KEY
+        ) ||
+        "[]"
+      );
+
+    return normaliseCatalog(
+      cached,
+      null
+    );
+
+  }catch(e){
+
+    return [];
+  }
+}
+
+
+function saveSongsCache(songs){
+
+  try{
+
+    localStorage.setItem(
+      SONGS_CACHE_KEY,
+      JSON.stringify(songs)
+    );
+
+  }catch(e){
+
+    console.warn(
+      "Songs cache could not be saved",
+      e
+    );
+  }
+}
+
+
+function formatTranslation(key,values){
+
+  return Object.keys(values)
+    .reduce(
+      function(text,keyName){
+
+        return text.replace(
+          "{" + keyName + "}",
+          String(values[keyName])
+        );
+      },
+      t(key)
+    );
+}
+
+
+function showSongsToast(message){
+
+  var toast =
+    document.getElementById(
+      "songsToast"
+    );
+
+  if(!toast){
+
+    toast = document.createElement("div");
+    toast.id = "songsToast";
+    toast.className = "songs-toast";
+    toast.setAttribute("role","status");
+    toast.setAttribute("aria-live","polite");
+    document.body.appendChild(toast);
+  }
+
+  toast.textContent = message;
+  toast.classList.add("visible");
+
+  window.clearTimeout(
+    showSongsToast.timeoutId
+  );
+
+  showSongsToast.timeoutId =
+    window.setTimeout(
+      function(){
+        toast.classList.remove("visible");
+      },
+      5000
+    );
+}
+
+
+async function notifyNewSongs(newSongs){
+
+  if(!newSongs.length){
+    return;
+  }
+
+  var message =
+    newSongs.length === 1
+      ? formatTranslation(
+          "newSongAdded",
+          {title:songTitle(newSongs[0])}
+        )
+      : formatTranslation(
+          "newSongsAdded",
+          {count:newSongs.length}
+        );
+
+  showSongsToast(message);
+
+  var localNotifications =
+    window.Capacitor &&
+    window.Capacitor.Plugins &&
+    window.Capacitor.Plugins.LocalNotifications;
+
+  if(
+    !localNotifications ||
+    !localNotifications.checkPermissions ||
+    !localNotifications.schedule
+  ){
+    return;
+  }
+
+  try{
+
+    var permission =
+      await localNotifications
+        .checkPermissions();
+
+    if(permission.display !== "granted"){
+      return;
+    }
+
+    await localNotifications.schedule({
+      notifications:[{
+        id:Math.floor(Date.now() / 1000) % 2147483647,
+        title:"Duttarim",
+        body:message
+      }]
+    });
+
+  }catch(e){
+
+    console.warn(
+      "System notification unavailable",
+      e
+    );
+  }
+}
+
+
+async function refreshSongsFromRemote(){
+
+  if(remoteRefreshPromise){
+    return remoteRefreshPromise;
+  }
+
+  remoteRefreshPromise =
+    (async function(){
+
+      try{
+
+        var remoteSongs =
+          await fetchSongCatalog(
+            REMOTE_SONGS_URL,
+            REMOTE_SONGS_URL
+          );
+
+        var knownIds =
+          readStoredArray(
+            KNOWN_SONG_IDS_KEY
+          );
+
+        var unreadIds =
+          readStoredArray(
+            NEW_SONG_IDS_KEY
+          );
+
+        var newSongs =
+          remoteSongs.filter(
+            function(song){
+              return knownIds.indexOf(song.id) === -1;
+            }
+          );
+
+        newSongs.forEach(
+          function(song){
+
+            if(unreadIds.indexOf(song.id) === -1){
+              unreadIds.push(song.id);
+            }
+          }
+        );
+
+        writeStoredArray(
+          NEW_SONG_IDS_KEY,
+          unreadIds
+        );
+
+        writeStoredArray(
+          KNOWN_SONG_IDS_KEY,
+          remoteSongs.map(
+            function(song){
+              return song.id;
+            }
+          )
+        );
+
+        saveSongsCache(remoteSongs);
+
+        songsData =
+          applyNewSongFlags(
+            remoteSongs
+          );
+
+        renderSongs();
+
+        await notifyNewSongs(newSongs);
+
+      }catch(e){
+
+        console.log(
+          "Using offline songs catalog"
+        );
+      }finally{
+
+        remoteRefreshPromise = null;
+      }
+    })();
+
+  return remoteRefreshPromise;
+}
+
+
+async function initialiseSongs(){
+
+  var localSongs = [];
+
+  try{
+
+    localSongs =
+      await fetchSongCatalog(
+        LOCAL_SONGS_URL,
+        null
+      );
+
+  }catch(e){
+
+    console.warn(
+      "Bundled songs catalog unavailable",
+      e
+    );
+  }
+
+  var knownIds =
+    readStoredArray(
+      KNOWN_SONG_IDS_KEY
+    );
+
+  if(!knownIds.length && localSongs.length){
+
+    writeStoredArray(
+      KNOWN_SONG_IDS_KEY,
+      localSongs.map(
+        function(song){
+          return song.id;
+        }
+      )
+    );
+  }
+
+  var cachedSongs =
+    loadCachedSongs();
+
+  songsData =
+    applyNewSongFlags(
+      cachedSongs.length
+        ? cachedSongs
+        : localSongs
+    );
+
+  renderSongs();
+
+  refreshSongsFromRemote();
+}
 
 
 /* FAVORITES */
@@ -1022,6 +1431,26 @@ function openSong(songId){
 
   if(!song){
     return;
+  }
+
+  if(song.isNew){
+
+    var unreadIds =
+      readStoredArray(
+        NEW_SONG_IDS_KEY
+      ).filter(
+        function(id){
+          return id !== songId;
+        }
+      );
+
+    writeStoredArray(
+      NEW_SONG_IDS_KEY,
+      unreadIds
+    );
+
+    song.isNew = false;
+    renderSongs();
   }
 
 
@@ -4197,6 +4626,8 @@ if(capacitorApp){
 
 
       userWantsListening=false;
+
+      refreshSongsFromRemote();
     }
   );
 }
@@ -4212,6 +4643,8 @@ applyLanguage(
 setMode(
   "normal"
 );
+
+initialiseSongs();
 
 showPanel(
   "tuner"

@@ -1,0 +1,19 @@
+[
+  {
+    "id": "talka-tagliri",
+    "title": {
+      "latin": "Talqa Tagliri",
+      "ug": "تالقا تاغلىرى"
+    },
+    "originKey": "uyghurDuttarPiece",
+    "tempo": 92,
+    "simplePages": [
+      "songs/talka_tagliri_basit.png"
+    ],
+    "notationPages": [
+      "songs/talka_tagliri_normal.png"
+    ],
+    "sourceKey": "arrangedSource",
+    "arrangementKey": "bothViews"
+  }
+]
