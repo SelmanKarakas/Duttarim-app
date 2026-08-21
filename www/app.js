@@ -4570,8 +4570,15 @@ if(adminUnlockTap){
     adminTapTimer = window.setTimeout(function(){ adminTapCount = 0; },2500);
     if(adminTapCount >= 7){
       adminTapCount = 0;
-      document.getElementById("adminCard").classList.remove("hidden");
-      document.getElementById("adminCard").scrollIntoView({behavior:"smooth",block:"start"});
+      var adminCard = document.getElementById("adminCard");
+      var settingsPanel = document.getElementById("settingsPanel");
+      adminCard.classList.remove("hidden");
+      window.setTimeout(function(){
+        settingsPanel.scrollTo({
+          top:Math.max(0,adminCard.offsetTop-settingsPanel.offsetTop-8),
+          behavior:"smooth"
+        });
+      },0);
     }
   };
 }
