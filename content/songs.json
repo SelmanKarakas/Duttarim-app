@@ -35,24 +35,5 @@
     ],
     "sourceKey": "arrangedSource",
     "arrangementKey": "bothViews"
-  },
-  {
-    "id": "adargul",
-    "title": {
-      "latin": "Adargul",
-      "ug": "ھدھرەۇل"
-    },
-    "originKey": "uyghurDuttarPiece",
-    "tempo": 120,
-    "simplePages": [
-      "songs/adargul_basit_1.png"
-    ],
-    "notationPages": [
-      "songs/adargul_normal_1.jpg",
-      "songs/adargul_normal_2.jpg",
-      "songs/adargul_normal_3.png"
-    ],
-    "sourceKey": "arrangedSource",
-    "arrangementKey": "bothViews"
   }
 ]
