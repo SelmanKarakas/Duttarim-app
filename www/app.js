@@ -453,7 +453,7 @@ var LOCAL_SONGS_URL =
   "data/songs-local.json";
 
 var REMOTE_SONGS_URL =
-  "https://raw.githubusercontent.com/SelmanKarakas/Duttarim-app/main/content/songs.json";
+  "https://selmankarakas.github.io/Duttarim-app/content/songs.json";
 
 var SONGS_CACHE_KEY =
   "duttarimSongsCacheV1";
