@@ -221,7 +221,7 @@
           <path d="M12 7h.01"/>
         </svg>
 
-        <span data-i18n="aboutTitle">
+        <span data-i18n="aboutTitle" id="adminUnlockTap">
         Hakkında
       </span>
 
@@ -253,6 +253,24 @@
 
       </div>
 
+    </div>
+
+    <div class="info-card admin-card hidden" id="adminCard">
+      <div class="info-head">
+        <svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"/></svg>
+        <span>Nota Yönetimi</span>
+      </div>
+      <p class="admin-help">Yeni notayı ve sayfa resimlerini doğrudan telefondan yayınlayın.</p>
+      <form id="adminSongForm">
+        <label class="admin-field">Yönetici anahtarı<input id="adminToken" type="password" autocomplete="off" required></label>
+        <label class="admin-field">Parça adı (Latin)<input id="adminLatinTitle" type="text" required maxlength="100"></label>
+        <label class="admin-field">Parça adı (Uygurca)<input id="adminUyghurTitle" type="text" dir="rtl" maxlength="100"></label>
+        <label class="admin-field">Tempo<input id="adminTempo" type="number" min="20" max="300" value="90" required></label>
+        <label class="admin-field">Basit nota sayfaları<input id="adminSimpleFiles" type="file" accept="image/png,image/jpeg,image/webp" multiple required></label>
+        <label class="admin-field">Normal nota sayfaları<input id="adminNotationFiles" type="file" accept="image/png,image/jpeg,image/webp" multiple required></label>
+        <button class="admin-publish" id="adminPublish" type="submit">Notayı yayınla</button>
+        <p class="admin-status" id="adminStatus" role="status" aria-live="polite"></p>
+      </form>
     </div>
 
   </section>

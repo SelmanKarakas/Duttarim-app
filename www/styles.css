@@ -3336,6 +3336,8 @@ body.score-fullscreen{
   }
 }
 
+.admin-card{margin-top:16px}.admin-help{margin:0 0 14px;color:var(--muted);font-size:14px}.admin-field{display:grid;gap:7px;margin:12px 0;font-size:13px;font-weight:700}.admin-field input{box-sizing:border-box;width:100%;min-height:44px;border:1px solid rgba(108,75,48,.24);border-radius:12px;padding:10px 12px;background:rgba(255,255,255,.72);color:inherit;font:inherit}.admin-field input[type=file]{font-size:12px}.admin-publish{width:100%;min-height:48px;margin-top:8px;border:0;border-radius:14px;background:#7a4b2d;color:#fff;font:inherit;font-weight:800}.admin-publish:disabled{opacity:.55}.admin-status{min-height:20px;margin:12px 0 0;font-size:13px}.admin-status.error{color:#a33}.admin-status.success{color:#26734d}
+
 .songs-toast{
   position:fixed;
   left:50%;

@@ -455,6 +455,10 @@ var LOCAL_SONGS_URL =
 var REMOTE_SONGS_URL =
   "https://selmankarakas.github.io/Duttarim-app/content/songs.json";
 
+/* Set only after the Worker is deployed and its /health endpoint is verified. */
+var ADMIN_API_URL =
+  "https://duttarim-content-api.duttarim-content-api.workers.dev";
+
 var SONGS_CACHE_KEY =
   "duttarimSongsCacheV1";
 
@@ -906,6 +910,103 @@ async function initialiseSongs(){
   renderSongs();
 
   refreshSongsFromRemote();
+}
+
+function adminSlug(value){
+  return value.toLocaleLowerCase("tr-TR").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ı/g,"i").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+}
+
+function adminFileExtension(file){
+  if(file.type === "image/png") return "png";
+  if(file.type === "image/webp") return "webp";
+  return "jpg";
+}
+
+function adminReadFile(file){
+  return new Promise(function(resolve,reject){
+    var reader = new FileReader();
+    reader.onload = function(){ resolve(String(reader.result)); };
+    reader.onerror = function(){ reject(new Error("Resim okunamadı")); };
+    reader.readAsDataURL(file);
+  });
+}
+
+async function publishAdminSong(event){
+  event.preventDefault();
+  var status = document.getElementById("adminStatus");
+  var button = document.getElementById("adminPublish");
+  status.className = "admin-status";
+
+  if(!ADMIN_API_URL){
+    status.textContent = "Yayın servisi henüz bağlanmadı.";
+    status.classList.add("error");
+    return;
+  }
+
+  var title = document.getElementById("adminLatinTitle").value.trim();
+  var id = adminSlug(title);
+  var simple = Array.from(document.getElementById("adminSimpleFiles").files || []);
+  var notation = Array.from(document.getElementById("adminNotationFiles").files || []);
+  if(!id || !simple.length || !notation.length){
+    status.textContent = "Adı ve her iki nota türünün resimlerini seçin.";
+    status.classList.add("error");
+    return;
+  }
+  if(songsData.some(function(song){ return song.id === id; })){
+    status.textContent = "Bu isimde bir nota zaten var.";
+    status.classList.add("error");
+    return;
+  }
+
+  button.disabled = true;
+  status.textContent = "Resimler hazırlanıyor…";
+  try{
+    var uploads = [];
+    async function prepare(files,kind){
+      var paths = [];
+      for(var index=0; index<files.length; index+=1){
+        var file = files[index];
+        var path = "songs/" + id.replace(/-/g,"_") + "_" + kind + "_" + (index+1) + "." + adminFileExtension(file);
+        paths.push(path);
+        uploads.push({path:path,type:file.type,base64:await adminReadFile(file)});
+      }
+      return paths;
+    }
+    var simplePaths = await prepare(simple,"basit");
+    var notationPaths = await prepare(notation,"normal");
+    var cleanCatalog = songsData.map(function(song){
+      var copy = Object.assign({},song);
+      delete copy.isNew;
+      return copy;
+    });
+    cleanCatalog.push({
+      id:id,
+      title:{latin:title,ug:document.getElementById("adminUyghurTitle").value.trim()},
+      originKey:"uyghurDuttarPiece",
+      tempo:Number(document.getElementById("adminTempo").value),
+      simplePages:simplePaths,
+      notationPages:notationPaths,
+      sourceKey:"arrangedSource",
+      arrangementKey:"bothViews"
+    });
+    status.textContent = "Yayınlanıyor…";
+    var response = await fetch(ADMIN_API_URL + "/publish",{
+      method:"POST",
+      headers:{"content-type":"application/json","authorization":"Bearer " + document.getElementById("adminToken").value},
+      body:JSON.stringify({catalog:cleanCatalog,files:uploads,message:"Add " + title + " from Duttarim app"})
+    });
+    var result = await response.json().catch(function(){ return {}; });
+    if(!response.ok) throw new Error(result.error || "Yayın başarısız");
+    status.textContent = "Nota yayınlandı. Liste kısa süre içinde yenilenecek.";
+    status.classList.add("success");
+    document.getElementById("adminSongForm").reset();
+    window.setTimeout(refreshSongsFromRemote,3000);
+  }catch(error){
+    status.textContent = error.message || "Yayın başarısız";
+    status.classList.add("error");
+  }finally{
+    button.disabled = false;
+  }
 }
 
 
@@ -4458,6 +4559,27 @@ $("#settingsLang").onchange=
       e.target.value
     );
   };
+
+var adminTapCount = 0;
+var adminTapTimer = 0;
+var adminUnlockTap = document.getElementById("adminUnlockTap");
+if(adminUnlockTap){
+  adminUnlockTap.onclick = function(){
+    adminTapCount += 1;
+    window.clearTimeout(adminTapTimer);
+    adminTapTimer = window.setTimeout(function(){ adminTapCount = 0; },2500);
+    if(adminTapCount >= 7){
+      adminTapCount = 0;
+      document.getElementById("adminCard").classList.remove("hidden");
+      document.getElementById("adminCard").scrollIntoView({behavior:"smooth",block:"start"});
+    }
+  };
+}
+
+var adminSongForm = document.getElementById("adminSongForm");
+if(adminSongForm){
+  adminSongForm.onsubmit = publishAdminSong;
+}
 
 
 $("#micBtn").onclick=

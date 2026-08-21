@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "duttarim-content-api",
+  "main": "src/index.js",
+  "compatibility_date": "2026-08-21",
+  "compatibility_flags": ["nodejs_compat"],
+  "vars": {
+    "GITHUB_OWNER": "SelmanKarakas",
+    "GITHUB_REPO": "Duttarim-app",
+    "GITHUB_BRANCH": "main",
+    "ALLOWED_ORIGINS": "https://localhost,capacitor://localhost,http://localhost,http://127.0.0.1"
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  }
+}
