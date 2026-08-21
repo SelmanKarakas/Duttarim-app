@@ -15,25 +15,5 @@
     ],
     "sourceKey": "arrangedSource",
     "arrangementKey": "bothViews"
-  },
-  {
-    "id": "altun-tataymu",
-    "title": {
-      "latin": "Altun Tataymu",
-      "ug": "ئالتۇن تاتايىمۇ"
-    },
-    "originKey": "uyghurDuttarPiece",
-    "tempo": 110,
-    "simplePages": [
-      "songs/altun_tataymu_basit.jpg",
-      "songs/altun_tataymu_basit.jpg"
-    ],
-    "notationPages": [
-      "songs/altun_tataymu_normal.jpg",
-      "songs/altun_tataymu_normal_1.jpg",
-      "songs/altun_tataymu_normal.jpg"
-    ],
-    "sourceKey": "arrangedSource",
-    "arrangementKey": "bothViews"
   }
 ]
