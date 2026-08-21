@@ -916,6 +916,10 @@ function adminSlug(value){
   return value.toLocaleLowerCase("tr-TR").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ı/g,"i").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
 }
 
+var adminEditingSongId = null;
+var adminDraftSimplePages = [];
+var adminDraftNotationPages = [];
+
 function adminFileExtension(file){
   if(file.type === "image/png") return "png";
   if(file.type === "image/webp") return "webp";
@@ -947,6 +951,117 @@ function adminCatalogPagePath(page){
   return "";
 }
 
+function adminCleanSong(song){
+  var copy = Object.assign({},song);
+  delete copy.isNew;
+  copy.simplePages = (copy.simplePages || []).map(adminCatalogPagePath);
+  copy.notationPages = (copy.notationPages || []).map(adminCatalogPagePath);
+  return copy;
+}
+
+function adminPageName(item){
+  if(item.file) return item.file.name;
+  var path = adminCatalogPagePath(item.path || "");
+  return path.split("/").pop() || "Nota sayfası";
+}
+
+function renderAdminPages(kind){
+  var pages = kind === "simple" ? adminDraftSimplePages : adminDraftNotationPages;
+  var target = document.getElementById(kind === "simple" ? "adminSimplePages" : "adminNotationPages");
+  target.innerHTML = pages.map(function(item,index){
+    return '<div class="admin-page-row"><span>' + escapeHtml(adminPageName(item)) + '</span>' +
+      '<button type="button" data-admin-page-kind="' + kind + '" data-admin-page-action="up" data-admin-page-index="' + index + '" aria-label="Yukarı">↑</button>' +
+      '<button type="button" data-admin-page-kind="' + kind + '" data-admin-page-action="down" data-admin-page-index="' + index + '" aria-label="Aşağı">↓</button>' +
+      '<button type="button" data-admin-page-kind="' + kind + '" data-admin-page-action="remove" data-admin-page-index="' + index + '" aria-label="Kaldır">×</button></div>';
+  }).join("");
+}
+
+function renderAdminSongs(){
+  var target = document.getElementById("adminSongList");
+  if(!target) return;
+  target.innerHTML = songsData.map(function(song){
+    var protectedSong = song.id === "talka-tagliri";
+    return '<div class="admin-song-row"><strong>' + escapeHtml(songTitle(song)) + '</strong>' +
+      '<button class="admin-mini-btn" type="button" data-admin-edit="' + escapeHtml(song.id) + '">Düzenle</button>' +
+      '<button class="admin-mini-btn danger" type="button" data-admin-remove="' + escapeHtml(song.id) + '" ' + (protectedSong ? 'disabled title="Çevrimdışı temel nota kaldırılamaz"' : '') + '>Kaldır</button></div>';
+  }).join("");
+}
+
+function resetAdminEditor(){
+  var token = document.getElementById("adminToken").value;
+  document.getElementById("adminSongForm").reset();
+  document.getElementById("adminToken").value = token;
+  document.getElementById("adminTempo").value = "90";
+  adminEditingSongId = null;
+  adminDraftSimplePages = [];
+  adminDraftNotationPages = [];
+  document.getElementById("adminPublish").textContent = "Notayı yayınla";
+  document.getElementById("adminCancelEdit").classList.add("hidden");
+  renderAdminPages("simple");
+  renderAdminPages("notation");
+}
+
+function editAdminSong(songId){
+  var song = songsData.find(function(item){ return item.id === songId; });
+  if(!song) return;
+  adminEditingSongId = song.id;
+  document.getElementById("adminLatinTitle").value = song.title.latin || "";
+  document.getElementById("adminUyghurTitle").value = song.title.ug || "";
+  document.getElementById("adminTempo").value = song.tempo || 90;
+  adminDraftSimplePages = (song.simplePages || []).map(function(path){ return {path:path}; });
+  adminDraftNotationPages = (song.notationPages || []).map(function(path){ return {path:path}; });
+  document.getElementById("adminPublish").textContent = "Değişiklikleri yayınla";
+  document.getElementById("adminCancelEdit").classList.remove("hidden");
+  renderAdminPages("simple");
+  renderAdminPages("notation");
+}
+
+function addAdminFiles(kind,fileList){
+  var target = kind === "simple" ? adminDraftSimplePages : adminDraftNotationPages;
+  Array.from(fileList || []).forEach(function(file){ target.push({file:file}); });
+  renderAdminPages(kind);
+}
+
+function moveAdminPage(kind,index,action){
+  var pages = kind === "simple" ? adminDraftSimplePages : adminDraftNotationPages;
+  if(action === "remove") pages.splice(index,1);
+  if(action === "up" && index > 0){ var previous = pages[index-1]; pages[index-1] = pages[index]; pages[index] = previous; }
+  if(action === "down" && index < pages.length-1){ var next = pages[index+1]; pages[index+1] = pages[index]; pages[index] = next; }
+  renderAdminPages(kind);
+}
+
+async function adminPublishRequest(catalog,uploads,message){
+  var response = await fetch(ADMIN_API_URL + "/publish",{
+    method:"POST",
+    headers:{"content-type":"application/json","authorization":"Bearer " + document.getElementById("adminToken").value},
+    body:JSON.stringify({catalog:catalog,files:uploads,message:message})
+  });
+  var result = await response.json().catch(function(){ return {}; });
+  if(!response.ok) throw new Error(result.error || "Yayın başarısız");
+  return result;
+}
+
+async function removeAdminSong(songId){
+  var song = songsData.find(function(item){ return item.id === songId; });
+  if(!song || song.id === "talka-tagliri") return;
+  if(!document.getElementById("adminToken").value){ showSongsToast("Önce yönetici anahtarını girin."); return; }
+  if(!window.confirm(songTitle(song) + " çevrimiçi katalogdan kaldırılsın mı?")) return;
+  var status = document.getElementById("adminStatus");
+  status.className = "admin-status";
+  status.textContent = "Katalog güncelleniyor…";
+  try{
+    var catalog = songsData.filter(function(item){ return item.id !== songId; }).map(adminCleanSong);
+    await adminPublishRequest(catalog,[],"Remove " + song.title.latin + " from Duttarim catalog");
+    songsData = songsData.filter(function(item){ return item.id !== songId; });
+    saveSongsCache(songsData);
+    renderSongs();
+    renderAdminSongs();
+    resetAdminEditor();
+    status.textContent = "Nota çevrimiçi katalogdan kaldırıldı. Dosyalar kurtarma için saklandı.";
+    status.classList.add("success");
+  }catch(error){ status.textContent = error.message || "Kaldırma başarısız"; status.classList.add("error"); }
+}
+
 async function publishAdminSong(event){
   event.preventDefault();
   var status = document.getElementById("adminStatus");
@@ -960,15 +1075,13 @@ async function publishAdminSong(event){
   }
 
   var title = document.getElementById("adminLatinTitle").value.trim();
-  var id = adminSlug(title);
-  var simple = Array.from(document.getElementById("adminSimpleFiles").files || []);
-  var notation = Array.from(document.getElementById("adminNotationFiles").files || []);
-  if(!id || !simple.length || !notation.length){
+  var id = adminEditingSongId || adminSlug(title);
+  if(!id || !adminDraftSimplePages.length || !adminDraftNotationPages.length){
     status.textContent = "Adı ve her iki nota türünün resimlerini seçin.";
     status.classList.add("error");
     return;
   }
-  if(songsData.some(function(song){ return song.id === id; })){
+  if(!adminEditingSongId && songsData.some(function(song){ return song.id === id; })){
     status.textContent = "Bu isimde bir nota zaten var.";
     status.classList.add("error");
     return;
@@ -978,26 +1091,22 @@ async function publishAdminSong(event){
   status.textContent = "Resimler hazırlanıyor…";
   try{
     var uploads = [];
-    async function prepare(files,kind){
+    async function prepare(items,kind){
       var paths = [];
-      for(var index=0; index<files.length; index+=1){
-        var file = files[index];
-        var path = "songs/" + id.replace(/-/g,"_") + "_" + kind + "_" + (index+1) + "." + adminFileExtension(file);
+      for(var index=0; index<items.length; index+=1){
+        var item = items[index];
+        if(!item.file){ paths.push(adminCatalogPagePath(item.path)); continue; }
+        var file = item.file;
+        var path = "songs/" + id.replace(/-/g,"_") + "_" + kind + "_" + Date.now() + "_" + (index+1) + "." + adminFileExtension(file);
         paths.push(path);
         uploads.push({path:path,type:file.type,base64:await adminReadFile(file)});
       }
       return paths;
     }
-    var simplePaths = await prepare(simple,"basit");
-    var notationPaths = await prepare(notation,"normal");
-    var cleanCatalog = songsData.map(function(song){
-      var copy = Object.assign({},song);
-      delete copy.isNew;
-      copy.simplePages = (copy.simplePages || []).map(adminCatalogPagePath);
-      copy.notationPages = (copy.notationPages || []).map(adminCatalogPagePath);
-      return copy;
-    });
-    cleanCatalog.push({
+    var simplePaths = await prepare(adminDraftSimplePages,"basit");
+    var notationPaths = await prepare(adminDraftNotationPages,"normal");
+    var cleanCatalog = songsData.map(adminCleanSong);
+    var updatedSong = {
       id:id,
       title:{latin:title,ug:document.getElementById("adminUyghurTitle").value.trim()},
       originKey:"uyghurDuttarPiece",
@@ -1006,18 +1115,21 @@ async function publishAdminSong(event){
       notationPages:notationPaths,
       sourceKey:"arrangedSource",
       arrangementKey:"bothViews"
-    });
+    };
+    if(adminEditingSongId){
+      cleanCatalog = cleanCatalog.map(function(song){ return song.id === id ? updatedSong : song; });
+    }else{
+      cleanCatalog.push(updatedSong);
+    }
     status.textContent = "Yayınlanıyor…";
-    var response = await fetch(ADMIN_API_URL + "/publish",{
-      method:"POST",
-      headers:{"content-type":"application/json","authorization":"Bearer " + document.getElementById("adminToken").value},
-      body:JSON.stringify({catalog:cleanCatalog,files:uploads,message:"Add " + title + " from Duttarim app"})
-    });
-    var result = await response.json().catch(function(){ return {}; });
-    if(!response.ok) throw new Error(result.error || "Yayın başarısız");
-    status.textContent = "Nota yayınlandı. Liste kısa süre içinde yenilenecek.";
+    await adminPublishRequest(cleanCatalog,uploads,(adminEditingSongId ? "Update " : "Add ") + title + " from Duttarim app");
+    songsData = applyNewSongFlags(cleanCatalog);
+    saveSongsCache(songsData);
+    renderSongs();
+    renderAdminSongs();
+    status.textContent = adminEditingSongId ? "Nota güncellendi." : "Nota yayınlandı.";
     status.classList.add("success");
-    document.getElementById("adminSongForm").reset();
+    resetAdminEditor();
     window.setTimeout(refreshSongsFromRemote,3000);
   }catch(error){
     status.textContent = error.message || "Yayın başarısız";
@@ -4591,6 +4703,7 @@ if(adminUnlockTap){
       var adminCard = document.getElementById("adminCard");
       var settingsPanel = document.getElementById("settingsPanel");
       adminCard.classList.remove("hidden");
+      renderAdminSongs();
       window.setTimeout(function(){
         settingsPanel.scrollTo({
           top:Math.max(0,adminCard.offsetTop-settingsPanel.offsetTop-8),
@@ -4605,6 +4718,33 @@ var adminSongForm = document.getElementById("adminSongForm");
 if(adminSongForm){
   adminSongForm.onsubmit = publishAdminSong;
 }
+
+document.getElementById("adminSimpleFiles").onchange = function(event){
+  addAdminFiles("simple",event.target.files);
+  event.target.value = "";
+};
+
+document.getElementById("adminNotationFiles").onchange = function(event){
+  addAdminFiles("notation",event.target.files);
+  event.target.value = "";
+};
+
+document.getElementById("adminCancelEdit").onclick = resetAdminEditor;
+
+document.getElementById("adminSongList").onclick = function(event){
+  var editButton = event.target.closest("[data-admin-edit]");
+  var removeButton = event.target.closest("[data-admin-remove]");
+  if(editButton) editAdminSong(editButton.dataset.adminEdit);
+  if(removeButton) removeAdminSong(removeButton.dataset.adminRemove);
+};
+
+["adminSimplePages","adminNotationPages"].forEach(function(id){
+  document.getElementById(id).onclick = function(event){
+    var button = event.target.closest("[data-admin-page-action]");
+    if(!button) return;
+    moveAdminPage(button.dataset.adminPageKind,Number(button.dataset.adminPageIndex),button.dataset.adminPageAction);
+  };
+});
 
 
 $("#micBtn").onclick=
