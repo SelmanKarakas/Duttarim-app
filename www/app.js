@@ -931,6 +931,22 @@ function adminReadFile(file){
   });
 }
 
+function adminCatalogPagePath(page){
+  if(typeof page !== "string") return "";
+  if(page.indexOf("songs/") === 0) return page;
+  try{
+    var pathname = new URL(page).pathname;
+    var marker = "/content/songs/";
+    var markerIndex = pathname.indexOf(marker);
+    if(markerIndex !== -1){
+      return "songs/" + decodeURIComponent(pathname.slice(markerIndex + marker.length));
+    }
+  }catch(error){
+    return "";
+  }
+  return "";
+}
+
 async function publishAdminSong(event){
   event.preventDefault();
   var status = document.getElementById("adminStatus");
@@ -977,6 +993,8 @@ async function publishAdminSong(event){
     var cleanCatalog = songsData.map(function(song){
       var copy = Object.assign({},song);
       delete copy.isNew;
+      copy.simplePages = (copy.simplePages || []).map(adminCatalogPagePath);
+      copy.notationPages = (copy.notationPages || []).map(adminCatalogPagePath);
       return copy;
     });
     cleanCatalog.push({
