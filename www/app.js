@@ -842,6 +842,7 @@ async function refreshSongsFromRemote(){
           );
 
         renderSongs();
+        renderAdminSongs();
 
         await notifyNewSongs(newSongs);
 
@@ -908,6 +909,7 @@ async function initialiseSongs(){
     );
 
   renderSongs();
+  renderAdminSongs();
 
   refreshSongsFromRemote();
 }
@@ -919,6 +921,15 @@ function adminSlug(value){
 var adminEditingSongId = null;
 var adminDraftSimplePages = [];
 var adminDraftNotationPages = [];
+
+function adminEscapeHtml(value){
+  return String(value == null ? "" : value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#39;");
+}
 
 function adminFileExtension(file){
   if(file.type === "image/png") return "png";
@@ -969,7 +980,7 @@ function renderAdminPages(kind){
   var pages = kind === "simple" ? adminDraftSimplePages : adminDraftNotationPages;
   var target = document.getElementById(kind === "simple" ? "adminSimplePages" : "adminNotationPages");
   target.innerHTML = pages.map(function(item,index){
-    return '<div class="admin-page-row"><span>' + escapeHtml(adminPageName(item)) + '</span>' +
+    return '<div class="admin-page-row"><span>' + adminEscapeHtml(adminPageName(item)) + '</span>' +
       '<button type="button" data-admin-page-kind="' + kind + '" data-admin-page-action="up" data-admin-page-index="' + index + '" aria-label="Yukarı">↑</button>' +
       '<button type="button" data-admin-page-kind="' + kind + '" data-admin-page-action="down" data-admin-page-index="' + index + '" aria-label="Aşağı">↓</button>' +
       '<button type="button" data-admin-page-kind="' + kind + '" data-admin-page-action="remove" data-admin-page-index="' + index + '" aria-label="Kaldır">×</button></div>';
@@ -981,9 +992,9 @@ function renderAdminSongs(){
   if(!target) return;
   target.innerHTML = songsData.map(function(song){
     var protectedSong = song.id === "talka-tagliri";
-    return '<div class="admin-song-row"><strong>' + escapeHtml(songTitle(song)) + '</strong>' +
-      '<button class="admin-mini-btn" type="button" data-admin-edit="' + escapeHtml(song.id) + '">Düzenle</button>' +
-      '<button class="admin-mini-btn danger" type="button" data-admin-remove="' + escapeHtml(song.id) + '" ' + (protectedSong ? 'disabled title="Çevrimdışı temel nota kaldırılamaz"' : '') + '>Kaldır</button></div>';
+    return '<div class="admin-song-row"><strong>' + adminEscapeHtml(songTitle(song)) + '</strong>' +
+      '<button class="admin-mini-btn" type="button" data-admin-edit="' + adminEscapeHtml(song.id) + '">Düzenle</button>' +
+      '<button class="admin-mini-btn danger" type="button" data-admin-remove="' + adminEscapeHtml(song.id) + '" ' + (protectedSong ? 'disabled title="Çevrimdışı temel nota kaldırılamaz"' : '') + '>Kaldır</button></div>';
   }).join("");
 }
 
