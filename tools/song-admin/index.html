@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Duttarim Nota Yönetimi</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">DUTTARIM İÇERİK YÖNETİMİ</p>
+        <h1>Yeni nota ekle</h1>
+        <p>Parça bilgilerini girin, sayfaları sıralayın ve Android ile iOS’un ortak kataloğuna yayınlayın.</p>
+      </div>
+      <div class="catalog-count"><strong id="songCount">–</strong><span>online parça</span></div>
+    </header>
+
+    <div id="notice" class="notice hidden" role="status"></div>
+
+    <section class="layout">
+      <form id="songForm" class="card form-card">
+        <div class="section-title"><span>1</span><h2>Parça bilgileri</h2></div>
+        <label>Latin adı<input id="latinTitle" required placeholder="Örn. Altun Tataymu"></label>
+        <label>Uygurca adı<input id="ugTitle" dir="rtl" placeholder="ئۇيغۇرچە نامى"></label>
+        <div class="two-col">
+          <label>Parça kimliği<input id="songId" required pattern="[a-z0-9]+(?:-[a-z0-9]+)*" placeholder="altun-tataymu"></label>
+          <label>Tempo<input id="tempo" required type="number" min="20" max="300" value="100"></label>
+        </div>
+
+        <div class="section-title"><span>2</span><h2>Nota sayfaları</h2></div>
+        <label class="drop-zone">Basitleştirilmiş nota
+          <input id="simpleFiles" type="file" accept="image/png,image/jpeg,image/webp" multiple>
+          <small>PNG, JPG veya WEBP · Birden fazla sayfa seçilebilir</small>
+        </label>
+        <div id="simplePreview" class="file-list"></div>
+
+        <label class="drop-zone">Normal nota
+          <input id="notationFiles" type="file" accept="image/png,image/jpeg,image/webp" multiple>
+          <small>Seçim sırası sayfa sırası olarak kullanılır</small>
+        </label>
+        <div id="notationPreview" class="file-list"></div>
+
+        <div class="actions">
+          <button id="saveButton" type="submit" class="secondary">Projeye kaydet</button>
+          <button id="publishButton" type="button" class="primary">Kaydet ve online yayınla</button>
+        </div>
+        <p class="hint">Yayınlama, yalnız ilgili katalog ve görsel dosyalarını commit eder.</p>
+      </form>
+
+      <aside class="card preview-card">
+        <div class="section-title"><span>3</span><h2>Önizleme</h2></div>
+        <article class="song-preview">
+          <div class="note-icon">♪</div>
+          <div><h3 id="previewTitle">Parça adı</h3><p id="previewUg" dir="rtl"></p><small id="previewMeta">♩ 100</small></div>
+          <b>Yeni</b>
+        </article>
+        <h3>Mevcut online parçalar</h3>
+        <div id="catalogList" class="catalog-list"></div>
+      </aside>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
