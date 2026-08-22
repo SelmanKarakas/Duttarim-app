@@ -62,6 +62,7 @@
         <span class="gauge-label flat" data-i18n="flat">PES</span><span class="gauge-label sharp" data-i18n="sharp">TİZ</span>
       </div>
       <div class="status" id="status" data-i18n="ready">HAZIR</div>
+      <div class="tuning-complete-message" id="tuningCompleteMessage" role="status" aria-live="polite" data-i18n="tuningComplete" hidden>✓ Akort tamamlandı</div>
       <div class="pitch-row"><div class="note" id="note">RE</div><div class="cents" id="cents">0 cent</div></div>
       <div
               class="instrument-wrap"
@@ -205,6 +206,16 @@
           DO RE Mİ
         </button>
 
+      </div>
+
+      <div class="setting-row">
+        <label data-i18n="tuningSounds">Akort Sesleri</label>
+        <button class="pill setting-toggle" id="tuningSoundsToggle" type="button" aria-pressed="true">Açık</button>
+      </div>
+
+      <div class="setting-row">
+        <label data-i18n="tuningHaptics">Hafif titreşim</label>
+        <button class="pill setting-toggle" id="tuningHapticsToggle" type="button" aria-pressed="false">Kapalı</button>
       </div>
 
     </div>

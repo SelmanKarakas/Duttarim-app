@@ -3381,3 +3381,36 @@ body.score-fullscreen{
   opacity:1;
   transform:translate(-50%,0);
 }
+
+.tuning-complete-message{
+  position:fixed;
+  z-index:3000;
+  top:50%;
+  left:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-width:220px;
+  padding:20px 24px;
+  border:1px solid rgba(255,255,255,.35);
+  border-radius:20px;
+  color:#fff;
+  background:linear-gradient(145deg,#2f9d70,#247c59);
+  box-shadow:0 18px 46px rgba(31,104,75,.34);
+  font-size:18px;
+  font-weight:800;
+  text-align:center;
+  opacity:0;
+  pointer-events:none;
+  transform:translate(-50%,-50%) scale(.94);
+  transition:opacity .16s ease,transform .16s ease;
+}
+
+.tuning-complete-message.visible{
+  opacity:1;
+  transform:translate(-50%,-50%) scale(1);
+}
+
+.tuning-complete-message[hidden]{
+  display:none!important;
+}

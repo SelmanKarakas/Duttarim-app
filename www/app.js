@@ -103,7 +103,12 @@ tr:{
   notationMissing:"Normal nota henüz eklenmedi.",
 
   newSongAdded:"Yeni nota eklendi: {title}",
-  newSongsAdded:"{count} yeni nota eklendi."
+  newSongsAdded:"{count} yeni nota eklendi.",
+  tuningSounds:"Akort Sesleri",
+  tuningHaptics:"Hafif titreşim",
+  tuningComplete:"✓ Akort tamamlandı",
+  on:"Açık",
+  off:"Kapalı"
 
 },
 
@@ -193,7 +198,12 @@ en:{
     notationMissing:"Standard notation has not been added yet.",
 
     newSongAdded:"New notation added: {title}",
-    newSongsAdded:"{count} new notations added."
+    newSongsAdded:"{count} new notations added.",
+    tuningSounds:"Tuning sounds",
+    tuningHaptics:"Light haptics",
+    tuningComplete:"✓ Tuning complete",
+    on:"On",
+    off:"Off"
 },
 
 ug:{
@@ -283,7 +293,12 @@ ug:{
   notationMissing:"نورمال نوتا تېخى قوشۇلمىدى.",
 
   newSongAdded:"يېڭى نوتا قوشۇلدى: {title}",
-  newSongsAdded:"{count} يېڭى نوتا قوشۇلدى."
+  newSongsAdded:"{count} يېڭى نوتا قوشۇلدى.",
+  tuningSounds:"تەڭشەش ئاۋازى",
+  tuningHaptics:"يېنىك تەۋرىنىش",
+  tuningComplete:"✓ تەڭشەش تاماملاندى",
+  on:"ئوچۇق",
+  off:"تاقاق"
 }
 
 };
@@ -325,6 +340,7 @@ var userWantsListening=false;
 
 var sessionCompleted=false;
 var wasInTune=false;
+var appIsActive=!document.hidden;
 
 
 /* Native tuner */
@@ -382,6 +398,17 @@ var DECAY_TOLERANCE_CENTS=12;
 
 var lastInTuneAt=0;
 var tuneGraceMs=1500;
+var REARM_CENTS=35;
+var REARM_CONFIRM_MS=1200;
+var completedOutOfTuneSince=0;
+
+/* Completion feedback (offline Web Audio + optional vibration) */
+var tuningSoundsEnabled=
+  localStorage.getItem("tuningSoundsEnabled")!=="0";
+var tuningHapticsEnabled=
+  localStorage.getItem("tuningHapticsEnabled")==="1";
+var completionAudioCtx=null;
+var completionMessageTimer=0;
 
 
 /* =========================================
@@ -1987,6 +2014,8 @@ function applyLanguage(v){
     $("#settingsLang").value=v;
   }
 
+  renderFeedbackSettings();
+
 
   renderAll();
 
@@ -2168,6 +2197,8 @@ function setMode(v){
   activeString=0;
 
   pitchHistory=[];
+  completedOutOfTuneSince=0;
+  hideCompletionMessage();
 
   lastInTuneAt=0;
 
@@ -2235,6 +2266,7 @@ function selectString(i){
   activeString=i;
 
   pitchHistory=[];
+  completedOutOfTuneSince=0;
 
 
   $$(".string-card")
@@ -2409,6 +2441,9 @@ function resetTuningProgress(){
   activeString=0;
 
   pitchHistory=[];
+  completedOutOfTuneSince=0;
+
+  hideCompletionMessage();
 
 
   $(".tuner-card").classList.remove(
@@ -3150,6 +3185,12 @@ function completeActiveString(){
     $("#status").style.color=
       "var(--good)";
 
+    showCompletionMessage();
+    playCompletionFeedback(
+      completedIndex,
+      true
+    );
+
 
     setTimeout(
       function(){
@@ -3167,6 +3208,11 @@ function completeActiveString(){
 
     return;
   }
+
+  playCompletionFeedback(
+    completedIndex,
+    false
+  );
 
 
   /*
@@ -3382,6 +3428,40 @@ function updatePitch(freq){
   wasInTune=
     inTune;
 
+  /*
+   * Keep completion latched through ordinary drift. A completed string is
+   * re-armed only after the user selects it and it stays clearly out of
+   * tune across a wider hysteresis window.
+   */
+  var activeCard=$$(".string-card")[activeString];
+
+  if(
+    activeCard &&
+    activeCard.classList.contains("completed")
+  ){
+    cancelTuneAttempt();
+
+    if(absCents>=REARM_CENTS){
+      if(!completedOutOfTuneSince){
+        completedOutOfTuneSince=Date.now();
+      }else if(
+        Date.now()-completedOutOfTuneSince>=REARM_CONFIRM_MS
+      ){
+        activeCard.classList.remove("completed");
+        sessionCompleted=false;
+        completedOutOfTuneSince=0;
+        $(".tuner-card").classList.remove("all-complete");
+        hideCompletionMessage();
+      }
+    }else{
+      completedOutOfTuneSince=0;
+    }
+
+    return;
+  }
+
+  completedOutOfTuneSince=0;
+
 
   /*
    * Tek vuruş doğrulama.
@@ -3521,6 +3601,7 @@ function loop(){
     ){
 
       lastInTuneAt=0;
+      cancelTuneAttempt();
     }
 
 
@@ -3990,7 +4071,7 @@ async function startTuner(options){
                 tuneGraceMs
               ){
 
-                lastInTuneAt=0;
+                cancelTuneAttempt();
               }
 
 
@@ -4051,6 +4132,7 @@ async function startTuner(options){
             ){
 
               lastInTuneAt=0;
+              cancelTuneAttempt();
 
 
               $("#status").textContent=
@@ -4701,6 +4783,30 @@ $("#settingsLang").onchange=
     );
   };
 
+$("#tuningSoundsToggle").onclick=
+  function(){
+    tuningSoundsEnabled=!tuningSoundsEnabled;
+    localStorage.setItem(
+      "tuningSoundsEnabled",
+      tuningSoundsEnabled ? "1" : "0"
+    );
+    renderFeedbackSettings();
+  };
+
+$("#tuningHapticsToggle").onclick=
+  function(){
+    if(typeof navigator.vibrate!=="function"){
+      return;
+    }
+
+    tuningHapticsEnabled=!tuningHapticsEnabled;
+    localStorage.setItem(
+      "tuningHapticsEnabled",
+      tuningHapticsEnabled ? "1" : "0"
+    );
+    renderFeedbackSettings();
+  };
+
 var adminTapCount = 0;
 var adminTapTimer = 0;
 var adminUnlockTap = document.getElementById("adminUnlockTap");
@@ -4723,6 +4829,161 @@ if(adminUnlockTap){
       },0);
     }
   };
+}
+
+function hideCompletionMessage(){
+
+  if(completionMessageTimer){
+    clearTimeout(completionMessageTimer);
+  }
+
+  completionMessageTimer=0;
+
+  var message=$("#tuningCompleteMessage");
+  if(message){
+    message.classList.remove("visible");
+    message.hidden=true;
+  }
+}
+
+
+function showCompletionMessage(){
+
+  if(!appIsActive || document.hidden){
+    return;
+  }
+
+  hideCompletionMessage();
+
+  var message=$("#tuningCompleteMessage");
+  if(!message){
+    return;
+  }
+
+  message.textContent=t("tuningComplete");
+  message.hidden=false;
+  message.classList.add("visible");
+
+  completionMessageTimer=setTimeout(
+    hideCompletionMessage,
+    1000
+  );
+}
+
+
+function createPluck(ctx,hz,start,duration,volume){
+
+  var master=ctx.createGain();
+  var filter=ctx.createBiquadFilter();
+  var fundamental=ctx.createOscillator();
+  var harmonic=ctx.createOscillator();
+  var fundamentalGain=ctx.createGain();
+  var harmonicGain=ctx.createGain();
+
+  filter.type="lowpass";
+  filter.frequency.setValueAtTime(1900,start);
+  filter.frequency.exponentialRampToValueAtTime(700,start+duration);
+
+  master.gain.setValueAtTime(.0001,start);
+  master.gain.exponentialRampToValueAtTime(volume,start+.008);
+  master.gain.exponentialRampToValueAtTime(.0001,start+duration);
+
+  fundamental.type="triangle";
+  harmonic.type="sine";
+  fundamental.frequency.setValueAtTime(hz,start);
+  harmonic.frequency.setValueAtTime(hz*2,start);
+  fundamentalGain.gain.value=.88;
+  harmonicGain.gain.value=.12;
+
+  fundamental.connect(fundamentalGain).connect(master);
+  harmonic.connect(harmonicGain).connect(master);
+  master.connect(filter).connect(ctx.destination);
+
+  fundamental.start(start);
+  harmonic.start(start);
+  fundamental.stop(start+duration+.02);
+  harmonic.stop(start+duration+.02);
+}
+
+
+async function playCompletionFeedback(completedIndex,allComplete){
+
+  if(!appIsActive || document.hidden){
+    return;
+  }
+
+  if(
+    tuningHapticsEnabled &&
+    navigator.vibrate
+  ){
+    navigator.vibrate(allComplete ? [24,45,38] : 28);
+  }
+
+  if(!tuningSoundsEnabled){
+    return;
+  }
+
+  var AudioCtor=window.AudioContext||window.webkitAudioContext;
+  if(!AudioCtor){
+    return;
+  }
+
+  if(!completionAudioCtx || completionAudioCtx.state==="closed"){
+    completionAudioCtx=new AudioCtor();
+  }
+
+  try{
+    await completionAudioCtx.resume();
+  }catch(e){
+    return;
+  }
+
+  if(!appIsActive || document.hidden){
+    return;
+  }
+
+  var targets=tunings[mode];
+  var now=completionAudioCtx.currentTime+.015;
+
+  if(allComplete){
+    /* Active tuning signature: target order, never hardcoded note names. */
+    targets.forEach(function(target,index){
+      createPluck(
+        completionAudioCtx,
+        calibratedHz(target.hz)*2,
+        now+(index*.34),
+        index===targets.length-1 ? .68 : .48,
+        index===targets.length-1 ? .15 : .12
+      );
+    });
+  }else{
+    createPluck(
+      completionAudioCtx,
+      calibratedHz(targets[completedIndex].hz)*2,
+      now,
+      .42,
+      .12
+    );
+  }
+}
+
+
+function renderFeedbackSettings(){
+
+  var soundButton=$("#tuningSoundsToggle");
+  var hapticButton=$("#tuningHapticsToggle");
+
+  if(soundButton){
+    soundButton.setAttribute("aria-pressed",String(tuningSoundsEnabled));
+    soundButton.textContent=t(tuningSoundsEnabled ? "on" : "off");
+  }
+
+  if(hapticButton){
+    var hapticsSupported=typeof navigator.vibrate==="function";
+    hapticButton.disabled=!hapticsSupported;
+    hapticButton.setAttribute("aria-pressed",String(tuningHapticsEnabled && hapticsSupported));
+    hapticButton.textContent=t(tuningHapticsEnabled && hapticsSupported ? "on" : "off");
+  }
 }
 
 var adminSongForm = document.getElementById("adminSongForm");
@@ -4896,6 +5157,13 @@ if(capacitorApp){
 
       if(!state.isActive){
 
+        appIsActive=false;
+        hideCompletionMessage();
+
+        if(navigator.vibrate){
+          navigator.vibrate(0);
+        }
+
         stopReferenceTone();
 
 
@@ -4924,11 +5192,27 @@ if(capacitorApp){
 
 
       userWantsListening=false;
+      appIsActive=true;
 
       refreshSongsFromRemote();
     }
   );
 }
+
+document.addEventListener(
+  "visibilitychange",
+  function(){
+    appIsActive=!document.hidden;
+
+    if(!appIsActive){
+      hideCompletionMessage();
+
+      if(navigator.vibrate){
+        navigator.vibrate(0);
+      }
+    }
+  }
+);
 
 /* =========================================
    INITIALISE
