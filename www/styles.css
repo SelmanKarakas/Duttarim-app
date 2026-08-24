@@ -3414,3 +3414,176 @@ body.score-fullscreen{
 .tuning-complete-message[hidden]{
   display:none!important;
 }
+/* =========================================
+   ADMIN — MULTILINGUAL FIELDS
+   ========================================= */
+
+.admin-field-group{
+  margin:18px 0;
+  padding:14px;
+
+  border:1px solid var(--line);
+  border-radius:15px;
+
+  background:
+    rgba(247,248,246,.72);
+}
+
+.admin-field-group > strong{
+  display:block;
+
+  margin-bottom:10px;
+
+  font-size:12px;
+  font-weight:900;
+
+  color:var(--navy);
+}
+
+.admin-field-group .admin-field{
+  margin:10px 0;
+}
+
+.admin-field-group .admin-field:last-child{
+  margin-bottom:0;
+}
+
+
+/* INPUT + TEXTAREA ortak görünüm */
+
+.admin-field input,
+.admin-field textarea{
+  box-sizing:border-box;
+
+  width:100%;
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius:12px;
+
+  padding:
+    10px 12px;
+
+  background:
+    rgba(255,255,255,.9);
+
+  color:var(--text);
+
+  font:inherit;
+
+  outline:none;
+
+  transition:
+    border-color .18s ease,
+    box-shadow .18s ease,
+    background-color .18s ease;
+}
+
+
+.admin-field input{
+  min-height:44px;
+}
+
+
+.admin-field textarea{
+  min-height:82px;
+
+  resize:vertical;
+
+  line-height:1.45;
+}
+
+
+/* Focus */
+
+.admin-field input:focus,
+.admin-field textarea:focus{
+  border-color:var(--turq);
+
+  background:#fff;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(88,170,168,.10);
+}
+
+
+/* Placeholder */
+
+.admin-field input::placeholder,
+.admin-field textarea::placeholder{
+  color:#9aa8ad;
+
+  opacity:1;
+}
+
+
+/* Uygurca alanlar */
+
+.admin-field input[dir="rtl"],
+.admin-field textarea[dir="rtl"]{
+  text-align:right;
+
+  direction:rtl;
+}
+
+
+/* File input */
+
+.admin-field input[type="file"]{
+  min-height:46px;
+
+  padding:8px;
+
+  font-size:11px;
+
+  background:#fff;
+}
+
+
+/* Form */
+
+#adminSongForm{
+  display:block;
+
+  margin-top:10px;
+}
+
+
+/* Admin buttons */
+
+.admin-publish{
+  background:var(--navy);
+
+  color:#fff;
+
+  box-shadow:
+    0 6px 14px
+    rgba(23,59,93,.13);
+}
+
+.admin-publish:active{
+  transform:scale(.985);
+}
+
+
+.admin-cancel{
+  border:
+    1px solid
+    var(--line);
+
+  background:#f3f6f5;
+
+  color:var(--navy);
+}
+
+
+/* Admin card slightly separated */
+
+.admin-card{
+  margin-top:16px;
+
+  padding-bottom:18px;
+}

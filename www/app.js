@@ -69,7 +69,9 @@ tr:{
   reference:"Referans frekansı",
   notation:"Nota gösterimi",
 
-  about:"Duttar için sade, kültürel motiflerden esinlenen hassas akort uygulaması.",
+aboutMain:
+"Duttarim, Uygur dutarı için geliştirilmiş bir akort ve nota kaynağı uygulamasıdır.",
+
 
   startMic:"MİKROFONU BAŞLAT",
   stopMic:"DİNLEMEYİ DURDUR",
@@ -163,8 +165,14 @@ en:{
   reference:"Reference frequency",
   notation:"Note notation",
 
-  about:"A precise, minimal dutar tuner inspired by cultural motifs.",
+aboutMain:
+"Duttarim is a tuner and notation resource app developed for the Uyghur dutar.",
 
+aboutLibrary:
+"The Songs section aims to bring dutar pieces and different notation formats together in an accessible resource.",
+
+aboutDisclaimer:
+"Notation and source information is provided for each piece and may be updated over time.",
   startMic:"START MICROPHONE",
   stopMic:"STOP LISTENING",
 
@@ -207,8 +215,8 @@ en:{
 },
 
 ug:{
-  normal:"نورمال تەڭشەش",
-  big:"چوڭ تەڭشەش",
+  normal:"نورمال تۈزەش",
+  big:"چوڭ تۈزەش",
   flat:"پەس",
   sharp:"ئېگىز",
   ready:"تەييار",
@@ -220,10 +228,10 @@ ug:{
   string1:"1-تار · زىل",
   string2:"2-تار · بوم",
 
-  favorites:"ياقتۇرغانلار",
+  favorites:"ياقتۇرغانلارىڭىز",
   newSong:"يېڭى",
   pages:"بەت",
-  tempo:"تېمپو",
+  tempo:"رېتىم",
 
   aboutTitle:"ھەققىدە",
   feedback:"پىكىر ئەۋەتىش",
@@ -239,7 +247,7 @@ ug:{
 
 
  songsTitle:"ناخشىلار",
- songsSub:"دۇتتار ئۈچۈن تەييارلانغان نوتىلار ۋە ئەسەر تەۋسىيەلىرى",
+ songsSub:"دۇتار ئۈچۈن تەييارلانغان نوتىلار ۋە ئەسەر تەۋسىيەلىرى",
  comingSoon:"يېقىندا كېلىدۇ",
  allSongs:"ھەممىسى",
  favorites:"ياختۇرغانلىرىڭىز",
@@ -258,8 +266,14 @@ ug:{
   reference:"پايدىلىنىش چاستوتىسى",
   notation:"نوتا كۆرسىتىش",
 
-  about:"مەدەنىي نەقىشلەردىن ئىلھاملانغان ئاددىي ۋە توغرا دۇتار تەڭشىگۈچ.",
+aboutMain:
+"Duttarim ئۇيغۇر دۇتارى ئۈچۈن ياسالغان تەڭشىگۈچ ۋە نوتا مەنبە ئەپى.",
 
+aboutLibrary:
+"ناخشىلار بۆلىكى دۇتار ئەسەرلىرى ۋە ئوخشىمىغان نوتا شەكىللىرىنى بىر مەنبەدە توپلاشنى مەقسەت قىلىدۇ.",
+
+aboutDisclaimer:
+"نوتا ۋە مەنبە ئۇچۇرلىرى ھەر بىر ئەسەرگە ئايرىم كۆرسىتىلىدۇ ۋە ۋاقىتنىڭ ئۆتۈشى بىلەن يېڭىلىنىشى مۇمكىن.",
   startMic:"مىكروفوننى قوزغىتىش",
   stopMic:"ئاڭلاشنى توختىتىش",
 
@@ -282,9 +296,9 @@ ug:{
 
   backToSongs:"ناخشىلار",
 
-  sourceNotes:"مەنبە ۋە ئىزاھات",
+  sourceNotes:"مەنبە ۋە ئىزاھەت",
 
-  uyghurDuttarPiece:"ئۇيغۇر دۇتتار ئەسىرى",
+  uyghurDuttarPiece:"ئۇيغۇر دۇتار ئەسىرى",
 
   arrangedSource:"تەھرىرلەنگەن نوتا مەنبەسى.",
   bothViews:"ئاددىيلاشتۇرۇلغان ۋە نورمال نوتا كۆرۈنۈشى تەمىنلەنگەن.",
@@ -1026,32 +1040,322 @@ function renderAdminSongs(){
 }
 
 function resetAdminEditor(){
-  var token = document.getElementById("adminToken").value;
-  document.getElementById("adminSongForm").reset();
-  document.getElementById("adminToken").value = token;
-  document.getElementById("adminTempo").value = "90";
+
+  var token =
+    document.getElementById(
+      "adminToken"
+    ).value;
+
+  var form =
+    document.getElementById(
+      "adminSongForm"
+    );
+
+  if(form){
+    form.reset();
+  }
+
+
+  document
+    .getElementById(
+      "adminToken"
+    ).value =
+    token;
+
+
+  document
+    .getElementById(
+      "adminTempo"
+    ).value =
+    "90";
+
+
   adminEditingSongId = null;
+
   adminDraftSimplePages = [];
+
   adminDraftNotationPages = [];
-  document.getElementById("adminPublish").textContent = "Notayı yayınla";
-  document.getElementById("adminCancelEdit").classList.add("hidden");
-  renderAdminPages("simple");
-  renderAdminPages("notation");
+
+
+  document
+    .getElementById(
+      "adminPublish"
+    ).textContent =
+    "Notayı yayınla";
+
+
+  document
+    .getElementById(
+      "adminCancelEdit"
+    )
+    .classList
+    .add(
+      "hidden"
+    );
+
+
+  var status =
+    document.getElementById(
+      "adminStatus"
+    );
+
+  if(status){
+
+    status.textContent = "";
+
+    status.className =
+      "admin-status";
+  }
+
+
+  renderAdminPages(
+    "simple"
+  );
+
+  renderAdminPages(
+    "notation"
+  );
 }
 
 function editAdminSong(songId){
-  var song = songsData.find(function(item){ return item.id === songId; });
-  if(!song) return;
-  adminEditingSongId = song.id;
-  document.getElementById("adminLatinTitle").value = song.title.latin || "";
-  document.getElementById("adminUyghurTitle").value = song.title.ug || "";
-  document.getElementById("adminTempo").value = song.tempo || 90;
-  adminDraftSimplePages = (song.simplePages || []).map(function(path){ return {path:path}; });
-  adminDraftNotationPages = (song.notationPages || []).map(function(path){ return {path:path}; });
-  document.getElementById("adminPublish").textContent = "Değişiklikleri yayınla";
-  document.getElementById("adminCancelEdit").classList.remove("hidden");
-  renderAdminPages("simple");
-  renderAdminPages("notation");
+
+  var song =
+    songsData.find(
+      function(item){
+        return item.id === songId;
+      }
+    );
+
+  if(!song){
+    return;
+  }
+
+  adminEditingSongId =
+    song.id;
+
+
+  document.getElementById(
+    "adminLatinTitle"
+  ).value =
+    song.title.latin || "";
+
+
+  document.getElementById(
+    "adminUyghurTitle"
+  ).value =
+    song.title.ug || "";
+
+
+  document.getElementById(
+    "adminTempo"
+  ).value =
+    song.tempo || 90;
+
+
+  /*
+   * Yeni çok dilli alanlar.
+   * Eski Key sistemi varsa otomatik doldur.
+   */
+
+  document.getElementById(
+    "adminOriginTr"
+  ).value =
+    song.origin &&
+    song.origin.tr
+      ? song.origin.tr
+      : (
+          song.originKey
+            ? (
+                translations.tr[
+                  song.originKey
+                ] || ""
+              )
+            : ""
+        );
+
+
+  document.getElementById(
+    "adminOriginEn"
+  ).value =
+    song.origin &&
+    song.origin.en
+      ? song.origin.en
+      : (
+          song.originKey
+            ? (
+                translations.en[
+                  song.originKey
+                ] || ""
+              )
+            : ""
+        );
+
+
+  document.getElementById(
+    "adminOriginUg"
+  ).value =
+    song.origin &&
+    song.origin.ug
+      ? song.origin.ug
+      : (
+          song.originKey
+            ? (
+                translations.ug[
+                  song.originKey
+                ] || ""
+              )
+            : ""
+        );
+
+
+  document.getElementById(
+    "adminSourceTr"
+  ).value =
+    song.sourceNotes &&
+    song.sourceNotes.tr
+      ? song.sourceNotes.tr
+      : (
+          song.sourceKey
+            ? (
+                translations.tr[
+                  song.sourceKey
+                ] || ""
+              )
+            : ""
+        );
+
+
+  document.getElementById(
+    "adminSourceEn"
+  ).value =
+    song.sourceNotes &&
+    song.sourceNotes.en
+      ? song.sourceNotes.en
+      : (
+          song.sourceKey
+            ? (
+                translations.en[
+                  song.sourceKey
+                ] || ""
+              )
+            : ""
+        );
+
+
+  document.getElementById(
+    "adminSourceUg"
+  ).value =
+    song.sourceNotes &&
+    song.sourceNotes.ug
+      ? song.sourceNotes.ug
+      : (
+          song.sourceKey
+            ? (
+                translations.ug[
+                  song.sourceKey
+                ] || ""
+              )
+            : ""
+        );
+
+
+  document.getElementById(
+    "adminArrangementTr"
+  ).value =
+    song.arrangementNotes &&
+    song.arrangementNotes.tr
+      ? song.arrangementNotes.tr
+      : (
+          song.arrangementKey
+            ? (
+                translations.tr[
+                  song.arrangementKey
+                ] || ""
+              )
+            : ""
+        );
+
+
+  document.getElementById(
+    "adminArrangementEn"
+  ).value =
+    song.arrangementNotes &&
+    song.arrangementNotes.en
+      ? song.arrangementNotes.en
+      : (
+          song.arrangementKey
+            ? (
+                translations.en[
+                  song.arrangementKey
+                ] || ""
+              )
+            : ""
+        );
+
+
+  document.getElementById(
+    "adminArrangementUg"
+  ).value =
+    song.arrangementNotes &&
+    song.arrangementNotes.ug
+      ? song.arrangementNotes.ug
+      : (
+          song.arrangementKey
+            ? (
+                translations.ug[
+                  song.arrangementKey
+                ] || ""
+              )
+            : ""
+        );
+
+
+  adminDraftSimplePages =
+    (
+      song.simplePages ||
+      []
+    ).map(
+      function(path){
+        return {
+          path:path
+        };
+      }
+    );
+
+
+  adminDraftNotationPages =
+    (
+      song.notationPages ||
+      []
+    ).map(
+      function(path){
+        return {
+          path:path
+        };
+      }
+    );
+
+
+  document.getElementById(
+    "adminPublish"
+  ).textContent =
+    "Değişiklikleri yayınla";
+
+
+  document.getElementById(
+    "adminCancelEdit"
+  ).classList.remove(
+    "hidden"
+  );
+
+
+  renderAdminPages(
+    "simple"
+  );
+
+  renderAdminPages(
+    "notation"
+  );
 }
 
 function addAdminFiles(kind,fileList){
@@ -1114,9 +1418,21 @@ async function publishAdminSong(event){
 
   var title = document.getElementById("adminLatinTitle").value.trim();
   var id = adminEditingSongId || adminSlug(title);
-  if(!id || !adminDraftSimplePages.length || !adminDraftNotationPages.length){
-    status.textContent = "Adı ve her iki nota türünün resimlerini seçin.";
-    status.classList.add("error");
+  if(
+    !id ||
+    (
+      !adminDraftSimplePages.length &&
+      !adminDraftNotationPages.length
+    )
+  ){
+
+    status.textContent =
+      "Parça adı ve en az bir nota türü gereklidir.";
+
+    status.classList.add(
+      "error"
+    );
+
     return;
   }
   if(!adminEditingSongId && songsData.some(function(song){ return song.id === id; })){
@@ -1145,14 +1461,124 @@ async function publishAdminSong(event){
     var notationPaths = await prepare(adminDraftNotationPages,"normal");
     var cleanCatalog = songsData.map(adminCleanSong);
     var updatedSong = {
+
       id:id,
-      title:{latin:title,ug:document.getElementById("adminUyghurTitle").value.trim()},
-      originKey:"uyghurDuttarPiece",
-      tempo:Number(document.getElementById("adminTempo").value),
-      simplePages:simplePaths,
-      notationPages:notationPaths,
-      sourceKey:"arrangedSource",
-      arrangementKey:"bothViews"
+
+      title:{
+
+        latin:
+          title,
+
+        ug:
+          document
+            .getElementById(
+              "adminUyghurTitle"
+            )
+            .value
+            .trim()
+      },
+
+
+      origin:{
+
+        tr:
+          document
+            .getElementById(
+              "adminOriginTr"
+            )
+            .value
+            .trim(),
+
+        en:
+          document
+            .getElementById(
+              "adminOriginEn"
+            )
+            .value
+            .trim(),
+
+        ug:
+          document
+            .getElementById(
+              "adminOriginUg"
+            )
+            .value
+            .trim()
+      },
+
+
+      tempo:
+        Number(
+          document
+            .getElementById(
+              "adminTempo"
+            )
+            .value
+        ),
+
+
+      simplePages:
+        simplePaths,
+
+
+      notationPages:
+        notationPaths,
+
+
+      sourceNotes:{
+
+        tr:
+          document
+            .getElementById(
+              "adminSourceTr"
+            )
+            .value
+            .trim(),
+
+        en:
+          document
+            .getElementById(
+              "adminSourceEn"
+            )
+            .value
+            .trim(),
+
+        ug:
+          document
+            .getElementById(
+              "adminSourceUg"
+            )
+            .value
+            .trim()
+      },
+
+
+      arrangementNotes:{
+
+        tr:
+          document
+            .getElementById(
+              "adminArrangementTr"
+            )
+            .value
+            .trim(),
+
+        en:
+          document
+            .getElementById(
+              "adminArrangementEn"
+            )
+            .value
+            .trim(),
+
+        ug:
+          document
+            .getElementById(
+              "adminArrangementUg"
+            )
+            .value
+            .trim()
+      }
     };
     if(adminEditingSongId){
       cleanCatalog = cleanCatalog.map(function(song){ return song.id === id ? updatedSong : song; });
@@ -1324,7 +1750,9 @@ function renderSongs(){
                 '<div class="song-title-row">' +
 
                   '<strong class="song-card-title">' +
-                    songTitle(song) +
+                    adminEscapeHtml(
+                      songTitle(song)
+                    ) +
                   '</strong>' +
 
                   (
@@ -1338,7 +1766,9 @@ function renderSongs(){
                 '</div>' +
 
                 '<span class="song-card-meta">' +
-                  t(song.originKey) +
+                  adminEscapeHtml(
+                    songOrigin(song)
+                  ) +
                 '</span>' +
 
                 '<div class="song-card-tags">' +
@@ -1767,19 +2197,19 @@ function openSong(songId){
   document.getElementById(
     "songDetailOrigin"
   ).textContent =
-    t(song.originKey);
+    songOrigin(song);
 
 
   document.getElementById(
     "songSource"
   ).textContent =
-    t(song.sourceKey);
+    songSourceText(song);
 
 
   document.getElementById(
     "songArrangement"
   ).textContent =
-    t(song.arrangementKey);
+    songArrangementText(song);
 
 
   switchSongView(
@@ -1941,6 +2371,117 @@ function noteName(n){
   return noteStyle==="letters"
     ?n
     :(solfege[n]||n);
+}
+function localizedField(field,fallback){
+
+  if(!field){
+    return fallback || "";
+  }
+
+  /*
+   * Alan doğrudan string olarak geldiyse
+   * eski/veri basitliği için destekle.
+   */
+  if(typeof field === "string"){
+    return field;
+  }
+
+  /*
+   * Öncelik:
+   * aktif dil
+   * Türkçe
+   * İngilizce
+   * Uygurca
+   * ilk mevcut değer
+   */
+  if(field[lang]){
+    return field[lang];
+  }
+
+  if(field.tr){
+    return field.tr;
+  }
+
+  if(field.en){
+    return field.en;
+  }
+
+  if(field.ug){
+    return field.ug;
+  }
+
+  var keys=Object.keys(field);
+
+  if(keys.length){
+    return String(
+      field[keys[0]] || ""
+    );
+  }
+
+  return fallback || "";
+}
+
+
+function songOrigin(song){
+
+  if(song.origin){
+    return localizedField(
+      song.origin
+    );
+  }
+
+  /*
+   * Eski katalog desteği
+   */
+  if(song.originKey){
+    return t(
+      song.originKey
+    );
+  }
+
+  return "";
+}
+
+
+function songSourceText(song){
+
+  if(song.sourceNotes){
+    return localizedField(
+      song.sourceNotes
+    );
+  }
+
+  /*
+   * Eski katalog desteği
+   */
+  if(song.sourceKey){
+    return t(
+      song.sourceKey
+    );
+  }
+
+  return "";
+}
+
+
+function songArrangementText(song){
+
+  if(song.arrangementNotes){
+    return localizedField(
+      song.arrangementNotes
+    );
+  }
+
+  /*
+   * Eski katalog desteği
+   */
+  if(song.arrangementKey){
+    return t(
+      song.arrangementKey
+    );
+  }
+
+  return "";
 }
 
 

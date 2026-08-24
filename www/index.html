@@ -240,9 +240,7 @@
 
       <strong>Duttarim</strong>
 
-      <p data-i18n="about">
-        Duttar için sade, kültürel motiflerden esinlenen hassas akort uygulaması.
-      </p>
+      <p data-i18n="aboutMain"></p>
 
       <div class="about-links">
 
@@ -267,25 +265,267 @@
     </div>
 
     <div class="info-card admin-card hidden" id="adminCard">
+
       <div class="info-head">
-        <svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"/></svg>
+        <svg viewBox="0 0 24 24">
+          <path d="M12 3v18M3 12h18"/>
+        </svg>
         <span>Nota Yönetimi</span>
       </div>
-      <p class="admin-help">Yeni nota ekleyin veya çevrimiçi notaları düzenleyin.</p>
-      <div class="admin-song-list" id="adminSongList"></div>
+
+      <p class="admin-help">
+        Yeni nota ekleyin veya çevrimiçi notaları düzenleyin.
+      </p>
+
+      <div
+              class="admin-song-list"
+              id="adminSongList"
+      ></div>
+
+
       <form id="adminSongForm">
-        <label class="admin-field">Yönetici anahtarı<input id="adminToken" type="password" autocomplete="off" required></label>
-        <label class="admin-field">Parça adı (Latin)<input id="adminLatinTitle" type="text" required maxlength="100"></label>
-        <label class="admin-field">Parça adı (Uygurca)<input id="adminUyghurTitle" type="text" dir="rtl" maxlength="100"></label>
-        <label class="admin-field">Tempo<input id="adminTempo" type="number" min="20" max="300" value="90" required></label>
-        <label class="admin-field">Basit nota sayfası ekle<input id="adminSimpleFiles" type="file" accept="image/png,image/jpeg,image/webp" multiple></label>
-        <div class="admin-page-list" id="adminSimplePages"></div>
-        <label class="admin-field">Normal nota sayfası ekle<input id="adminNotationFiles" type="file" accept="image/png,image/jpeg,image/webp" multiple></label>
-        <div class="admin-page-list" id="adminNotationPages"></div>
-        <button class="admin-cancel hidden" id="adminCancelEdit" type="button">Düzenlemeyi iptal et</button>
-        <button class="admin-publish" id="adminPublish" type="submit">Notayı yayınla</button>
-        <p class="admin-status" id="adminStatus" role="status" aria-live="polite"></p>
+
+        <label class="admin-field">
+          Yönetici anahtarı
+
+          <input
+                  id="adminToken"
+                  type="password"
+                  autocomplete="off"
+                  required
+          >
+        </label>
+
+
+        <label class="admin-field">
+          Parça adı (Latin)
+
+          <input
+                  id="adminLatinTitle"
+                  type="text"
+                  required
+                  maxlength="100"
+          >
+        </label>
+
+
+        <label class="admin-field">
+          Parça adı (Uygurca)
+
+          <input
+                  id="adminUyghurTitle"
+                  type="text"
+                  dir="rtl"
+                  maxlength="100"
+          >
+        </label>
+
+
+        <label class="admin-field">
+          Tempo
+
+          <input
+                  id="adminTempo"
+                  type="number"
+                  min="20"
+                  max="300"
+                  value="90"
+                  required
+          >
+        </label>
+
+
+
+        <!-- PARÇA TÜRÜ / AÇIKLAMA -->
+
+        <div class="admin-field-group">
+
+          <strong>
+            Parça türü / açıklama
+          </strong>
+
+          <label class="admin-field">
+            Türkçe
+
+            <input
+                    id="adminOriginTr"
+                    type="text"
+                    placeholder="Uygur Dutar Eseri"
+            >
+          </label>
+
+          <label class="admin-field">
+            English
+
+            <input
+                    id="adminOriginEn"
+                    type="text"
+                    placeholder="Uyghur Dutar Piece"
+            >
+          </label>
+
+          <label class="admin-field">
+            ئۇيغۇرچە
+
+            <input
+                    id="adminOriginUg"
+                    type="text"
+                    dir="rtl"
+                    placeholder="ئۇيغۇر دۇتار ئەسىرى"
+            >
+          </label>
+
+        </div>
+
+
+
+        <!-- KAYNAK -->
+
+        <div class="admin-field-group">
+
+          <strong>
+            Kaynak
+          </strong>
+
+          <label class="admin-field">
+            Türkçe
+
+            <textarea
+                    id="adminSourceTr"
+                    rows="3"
+            ></textarea>
+          </label>
+
+          <label class="admin-field">
+            English
+
+            <textarea
+                    id="adminSourceEn"
+                    rows="3"
+            ></textarea>
+          </label>
+
+          <label class="admin-field">
+            ئۇيغۇرچە
+
+            <textarea
+                    id="adminSourceUg"
+                    rows="3"
+                    dir="rtl"
+            ></textarea>
+          </label>
+
+        </div>
+
+
+
+        <!-- NOTLAR / DÜZENLEME -->
+
+        <div class="admin-field-group">
+
+          <strong>
+            Notlar / Düzenleme
+          </strong>
+
+          <label class="admin-field">
+            Türkçe
+
+            <textarea
+                    id="adminArrangementTr"
+                    rows="3"
+            ></textarea>
+          </label>
+
+          <label class="admin-field">
+            English
+
+            <textarea
+                    id="adminArrangementEn"
+                    rows="3"
+            ></textarea>
+          </label>
+
+          <label class="admin-field">
+            ئۇيغۇرچە
+
+            <textarea
+                    id="adminArrangementUg"
+                    rows="3"
+                    dir="rtl"
+            ></textarea>
+          </label>
+
+        </div>
+
+
+
+        <!-- BASİT NOTA -->
+
+        <label class="admin-field">
+          Basit nota sayfası ekle
+
+          <input
+                  id="adminSimpleFiles"
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp"
+                  multiple
+          >
+        </label>
+
+        <div
+                class="admin-page-list"
+                id="adminSimplePages"
+        ></div>
+
+
+
+        <!-- NORMAL NOTA -->
+
+        <label class="admin-field">
+          Normal nota sayfası ekle
+
+          <input
+                  id="adminNotationFiles"
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp"
+                  multiple
+          >
+        </label>
+
+        <div
+                class="admin-page-list"
+                id="adminNotationPages"
+        ></div>
+
+
+
+        <button
+                class="admin-cancel hidden"
+                id="adminCancelEdit"
+                type="button"
+        >
+          Düzenlemeyi iptal et
+        </button>
+
+
+        <button
+                class="admin-publish"
+                id="adminPublish"
+                type="submit"
+        >
+          Notayı yayınla
+        </button>
+
+
+        <p
+                class="admin-status"
+                id="adminStatus"
+                role="status"
+                aria-live="polite"
+        ></p>
+
       </form>
+
     </div>
 
   </section>
