@@ -14,7 +14,7 @@
         <item name="android:background">@null</item>
     </style>
 
-    <style name="AppTheme.NoActionBarLaunch" parent="Theme.SplashScreen">
+    <style name="DuttarimLaunchBase" parent="Theme.SplashScreen">
 
         <item name="windowSplashScreenBackground">#FFFFFF</item>
 
@@ -24,12 +24,12 @@
 
         <item name="android:windowLightStatusBar">true</item>
 
-        <item name="android:windowLightNavigationBar">true</item>
-
         <item name="windowSplashScreenAnimatedIcon">@drawable/splash_image</item>
 
         <item name="postSplashScreenTheme">@style/AppTheme.NoActionBar</item>
 
     </style>
+
+    <style name="AppTheme.NoActionBarLaunch" parent="@style/DuttarimLaunchBase" />
 
 </resources>
