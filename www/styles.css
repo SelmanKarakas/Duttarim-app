@@ -502,6 +502,10 @@ body::before{
   text-align:left;
 }
 
+html[dir="rtl"] .song-card-copy{
+  text-align:right;
+}
+
 .song-card-title{
   display:block;
 
@@ -704,6 +708,12 @@ body::before{
   line-height:1;
 
   transform:translateY(-1px);
+}
+
+html[dir="rtl"] .song-back span:first-child{
+  transform:
+    translateY(-1px)
+    scaleX(-1);
 }
 
 .song-back span:last-child{

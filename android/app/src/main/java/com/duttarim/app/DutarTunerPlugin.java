@@ -1,6 +1,7 @@
 package com.duttarim.app;
 
 import android.Manifest;
+import android.content.pm.ActivityInfo;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
@@ -32,6 +33,23 @@ import java.util.List;
 public class DutarTunerPlugin extends Plugin {
 
     private static final String TAG = "DutarTuner";
+
+    @PluginMethod
+    public void setNoteDetailOrientation(PluginCall call) {
+        boolean allowRotation =
+                Boolean.TRUE.equals(
+                        call.getBoolean("allowRotation")
+                );
+
+        getActivity().runOnUiThread(() -> {
+            getActivity().setRequestedOrientation(
+                    allowRotation
+                            ? ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+                            : ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            );
+            call.resolve();
+        });
+    }
 
     /*
      * =========================================================

@@ -368,6 +368,23 @@ var nativePitchListener=null;
 var nativeWatchdog=0;
 
 
+function setNoteDetailOrientation(allowRotation){
+
+  if(
+    !nativeTuner ||
+    !nativeTuner.setNoteDetailOrientation
+  ){
+    return;
+  }
+
+  nativeTuner
+    .setNoteDetailOrientation({
+      allowRotation:Boolean(allowRotation)
+    })
+    .catch(function(){});
+}
+
+
 /* Pitch */
 
 var pitchHistory=[];
@@ -2187,6 +2204,8 @@ function openSong(songId){
       "hidden"
     );
 
+  setNoteDetailOrientation(true);
+
 
   document.getElementById(
     "songDetailTitle"
@@ -2872,6 +2891,10 @@ async function showPanel(name){
     var previousPanel =
         currentPanel;
 
+  if(name !== "songs"){
+    setNoteDetailOrientation(false);
+  }
+
   if(name!=="tuner"){
 
     stopReferenceTone();
@@ -2918,6 +2941,8 @@ async function showPanel(name){
         songDetail.classList.add(
           "hidden"
         );
+
+        setNoteDetailOrientation(false);
       }
     }
   }
@@ -5127,6 +5152,8 @@ if(songBackBtn){
         detail.classList.add(
           "hidden"
         );
+
+        setNoteDetailOrientation(false);
       }
 
       if(home){
@@ -5186,6 +5213,8 @@ $$(".nav-btn")
               detail.classList.add(
                 "hidden"
               );
+
+              setNoteDetailOrientation(false);
 
               home.classList.remove(
                 "hidden"
