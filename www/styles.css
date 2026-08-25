@@ -691,7 +691,23 @@ body::before{
 }
 
 .song-back span:first-child{
-  font-size:20px;
+  width:16px;
+  height:16px;
+
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+
+  flex:0 0 16px;
+
+  font-size:17px;
+  line-height:1;
+
+  transform:translateY(-1px);
+}
+
+.song-back span:last-child{
+  line-height:16px;
 }
 
 .song-detail-head{
