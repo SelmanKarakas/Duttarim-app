@@ -2,18 +2,28 @@
   {
     "id": "talka-tagliri",
     "title": {
-      "latin": "Talqa Tagliri",
+      "latin": "Talka Tagliri",
       "ug": "تالقا تاغلىرى"
     },
-    "originKey": "uyghurDuttarPiece",
-    "tempo": 92,
+    "origin": {
+      "tr": "Duttar Eseri",
+      "en": "Duttar Piece",
+      "ug": "دۇتار ئەسىرى"
+    },
+    "tempo": 90,
     "simplePages": [
       "songs/talka_tagliri_basit.png"
     ],
-    "notationPages": [
-      "songs/talka_tagliri_normal.png"
-    ],
-    "sourceKey": "arrangedSource",
-    "arrangementKey": "bothViews"
+    "notationPages": [],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "Basitleştirilmiş ve klasik nota görünümü birlikte sunulur.",
+      "en": "Simplified and standard notation views are provided.",
+      "ug": "ئاددىيلاشتۇرۇلغان ۋە نورمال نوتا كۆرۈنۈشى تەمىنلەنگەن."
+    }
   }
 ]
