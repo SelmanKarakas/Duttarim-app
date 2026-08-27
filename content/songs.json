@@ -52,5 +52,34 @@
       "en": "Transcribed manually from original and media sources. Minor errors may occur. If you notice anything, feel free to send us feedback.",
       "ug": "ئەسلى ۋە مېدىيا مەنبەلىرىدىن كۆچۈرۈپ رەتلەنگەن. كىچىك خاتالىقلار بولۇشى مۇمكىن. ئەگەر بىرەر خاتالىق بايقىسىڭىز، بىزگە پىكىر-تەكلىپ ئەۋەتىشىڭىزنى قارشى ئالىمىز."
     }
+  },
+  {
+    "id": "taxway",
+    "title": {
+      "latin": "Taxway",
+      "ug": "تاشۋاي"
+    },
+    "origin": {
+      "tr": "Duttar Eseri",
+      "en": "Duttar Piece",
+      "ug": "دۇتار ئەسىرى"
+    },
+    "tempo": 92,
+    "simplePages": [
+      "songs/taxway_basit_1787857786803_1.webp",
+      "songs/taxway_basit_1787857786809_2.webp",
+      "songs/taxway_basit_1787857786811_3.webp"
+    ],
+    "notationPages": [],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "Orijinal ve medya kaynaklarından elle aktarılmıştır. Küçük hatalar olabilir. Herhangi bir hata fark ederseniz geri bildirim göndermekten çekinmeyin.",
+      "en": "Transcribed manually from original and media sources. Minor errors may occur. If you notice anything, feel free to send us feedback.",
+      "ug": "ئەسلى ۋە مېدىيا مەنبەلىرىدىن كۆچۈرۈپ رەتلەنگەن. كىچىك خاتالىقلار بولۇشى مۇمكىن. ئەگەر بىرەر خاتالىق بايقىسىڭىز، بىزگە پىكىر-تەكلىپ ئەۋەتىشىڭىزنى قارشى ئالىمىز."
+    }
   }
 ]
