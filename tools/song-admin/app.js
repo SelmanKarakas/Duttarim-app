@@ -71,6 +71,7 @@ async function submitSong(publish){
   try{
     const payload={
       id:$("#songId").value,
+      category:$("#category").value,
       title:{latin:$("#latinTitle").value,ug:$("#ugTitle").value},
       tempo:Number($("#tempo").value),
       simpleFiles:await Promise.all(state.simpleFiles.map(readAsDataUrl)),

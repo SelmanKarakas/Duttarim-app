@@ -46,3 +46,7 @@ gradlew.bat assembleDebug testDebugUnitTest lintDebug bundleRelease
 - No exercise notation files were supplied; the category/editor/viewer are implemented, and the category shows an empty state until content is added.
 - Test real microphone input, speaker bleed/decay timing, headphones, permission denial/re-grant, and font scaling on physical devices. Browser audio tests use native mocks; emulator opening alone does not validate physical audio behavior.
 - Review the selected-string overlay alignment and Frets visual spacing together with the user.
+
+## Visual review revision
+
+User-requested changes after build 2: removed tuner instrument glow and Library search; evenly distributed category filters; page-specific header titles; distinct piece/exercise icons instead of thumbnails. Frets now matches the supplied reference with Bom on the left (only Do 1), Zil on the right, numbered natural notes and connector lines. The label map is illustrative and does not change audio tuning. Both upload forms provide a content-type selector, and the local publication path persists the category; the existing online API already preserves it. The earlier ticket table describes the initial build and is superseded by these UI choices.

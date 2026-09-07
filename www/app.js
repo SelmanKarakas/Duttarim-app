@@ -419,7 +419,7 @@ var tunerStatus="ready";
 var navigationHistory=[];
 var restoringNavigation=false;
 var libraryCategory="all";
-var libraryQuery="";
+
 var toneOscillators=[];
 var toneTimer=0;
 
@@ -1709,18 +1709,17 @@ var activeSongView = "simple";
 /* SONG LIST */
 
 function songThumbnail(song){
-  var src=(song.notationPages||[])[0]||(song.simplePages||[])[0];
-  var fallback='<span class="preview-fallback">'+adminEscapeHtml(t('previewMissing'))+'</span>';
-  if(typeof src!=='string'||! /\.(png|jpe?g|webp|gif|svg)(\?|$)/i.test(src)) return '<div class="song-card-icon">'+fallback+'</div>';
-  return '<div class="song-card-icon">'+fallback+'<img class="score-thumbnail" loading="lazy" decoding="async" alt="" src="'+adminEscapeHtml(src)+'"></div>';
+  var exercise=song.category==='exercise'||song.category==='exercises';
+  var shape=exercise
+    ? '<path d="M8 20h8L13 4h-2L8 20Z"/><path d="m12 14 6-7M10 17h4"/>'
+    : '<path d="M9 17V5l10-2v12M9 8l10-2"/><ellipse cx="6" cy="17" rx="3" ry="2"/><ellipse cx="16" cy="15" rx="3" ry="2"/>';
+  return '<div class="song-card-icon" role="img" aria-label="'+t(exercise?'exercises':'pieces')+'"><svg viewBox="0 0 24 24" aria-hidden="true">'+shape+'</svg></div>';
 }
 
 function renderSongs(){
   var filters=$('#libraryFilters');
   if(filters){
     filters.querySelectorAll('[data-category]').forEach(function(button){button.textContent=t(button.dataset.category==='all'?'allContent':button.dataset.category);button.setAttribute('aria-pressed',String(libraryCategory===button.dataset.category));});
-    $('#librarySearch').placeholder=t('librarySearch');
-    $('#librarySearch').setAttribute('aria-label',t('librarySearch'));
   }
 
   var list =
@@ -1735,7 +1734,7 @@ function renderSongs(){
   list.innerHTML =
     songsData.filter(function(song){
       var category=song.category==='exercise'||song.category==='exercises'?'exercises':'pieces';
-      return (libraryCategory==='all'||libraryCategory===category||libraryCategory==='favorites'&&isFavorite(song.id)) && (songTitle(song)+' '+songOrigin(song)).toLocaleLowerCase().includes(libraryQuery.toLocaleLowerCase());
+      return (libraryCategory==='all'||libraryCategory===category||libraryCategory==='favorites'&&isFavorite(song.id));
     }).map(
       function(song){
 
@@ -1877,7 +1876,6 @@ function renderSongs(){
 
 
   if(!list.children.length) list.textContent=t('emptyLibrary');
-  list.querySelectorAll('.score-thumbnail').forEach(function(img){img.onerror=function(){img.remove();};});
   document
     .querySelectorAll(
       ".song-card"
@@ -2403,8 +2401,11 @@ var fretData = [
    TRANSLATION HELPERS
    ========================================= */
 
-Object.assign(translations.tr,{"songs":"KÜTÜPHANE","songsTitle":"Kütüphane","backToSongs":"Kütüphane","fretsSub":"1. ve 2. telin ana notaları. Perde konumları korunmuştur.","micRequired":"Mikrofon izni gerekli","micSettings":"Mikrofon izni için Ayarları Aç","allContent":"Tümü","pieces":"Parçalar","exercises":"Alıştırmalar","librarySearch":"Kütüphanede ara","emptyLibrary":"Bu kategoride henüz içerik yok.","previewMissing":"Önizleme yok"});
-Object.assign(translations.en,{"songs":"LIBRARY","songsTitle":"Library","backToSongs":"Library","fretsSub":"Natural notes on both strings. Original fret positions are preserved.","micRequired":"Microphone permission required","micSettings":"Open Settings for microphone access","allContent":"All","pieces":"Pieces","exercises":"Exercises","librarySearch":"Search library","emptyLibrary":"No content in this category yet.","previewMissing":"No preview"});
+Object.assign(translations.tr,{contentType:"İçerik türü"});
+Object.assign(translations.en,{contentType:"Content type"});
+Object.assign(translations.ug,{contentType:"مەزمۇن تۈرى"});
+Object.assign(translations.tr,{"songs":"KÜTÜPHANE","songsTitle":"Kütüphane","backToSongs":"Kütüphane","fretsSub":"1. ve 2. telin ana nota konumlarını gösterir.","micRequired":"Mikrofon izni gerekli","micSettings":"Mikrofon izni için Ayarları Aç","allContent":"Tümü","pieces":"Parçalar","exercises":"Alıştırmalar","librarySearch":"Kütüphanede ara","emptyLibrary":"Bu kategoride henüz içerik yok.","previewMissing":"Önizleme yok"});
+Object.assign(translations.en,{"songs":"LIBRARY","songsTitle":"Library","backToSongs":"Library","fretsSub":"Shows the main note positions on strings 1 and 2.","micRequired":"Microphone permission required","micSettings":"Open Settings for microphone access","allContent":"All","pieces":"Pieces","exercises":"Exercises","librarySearch":"Search library","emptyLibrary":"No content in this category yet.","previewMissing":"No preview"});
 Object.assign(translations.ug,{"songs":"كۈتۈپخانا","songsTitle":"كۈتۈپخانا","backToSongs":"كۈتۈپخانا","fretsSub":"ئىككى تارنىڭ ئاساسىي نوتىلىرى.","micRequired":"مىكروفون ئىجازىتى كېرەك","micSettings":"مىكروفون ئۈچۈن تەڭشەكنى ئېچىڭ","allContent":"ھەممىسى","pieces":"ناخشىلار","exercises":"مەشىقلەر","librarySearch":"كۈتۈپخانىدىن ئىزدەش","emptyLibrary":"بۇ تۈردە تېخى مەزمۇن يوق.","previewMissing":"ئالدىن كۆرۈش يوق"});
 
 function t(k){
@@ -2621,6 +2622,7 @@ function applyLanguage(v){
 
 
 function renderAll(){
+  renderPanelTitle();
 
   renderStrings();
   renderFrets();
@@ -2718,15 +2720,15 @@ function renderStrings(){
 function renderFrets(){
   var grid=$('#fretGrid');
   if(!grid) return;
-  var chromatic=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
-  var offset=mode==='big'?7:5;
-  grid.innerHTML=fretData.map(function(item,index){
-    var second=chromatic[(chromatic.indexOf(item.note)+offset)%12];
-    return [item.note,second].map(function(note,string){
-      if(note.includes('#')) return '';
-      return '<div class="fret-label dual-fret string-'+string+'" data-index="'+index+'"><span class="fret-note">'+noteName(note)+'</span></div>';
-    }).join('');
-  }).join('');
+  var degrees={C:1,D:2,E:3,F:4,G:5,A:6,B:7};
+  function label(note,string,index){
+    var text=string===0?degrees[note]+' '+noteName(note):noteName(note)+' '+degrees[note];
+    return '<div class="fret-label dual-fret string-'+string+'" data-index="'+index+'"><span class="fret-note">'+text+'</span></div>';
+  }
+  // Physical fret positions stay tied to the existing map; reference labels are intentionally sparse.
+  grid.innerHTML=label('D',0,'open')+fretData.map(function(item,index){
+    return item.note.includes('#')?'':label(item.note,0,index);
+  }).join('')+label('C',1,4);
 }
 
 /* =========================================
@@ -2866,6 +2868,11 @@ function selectString(i){
    TOP CONTEXT
    ========================================= */
 
+function renderPanelTitle(){
+  var titles={tr:{tuner:'Akort',frets:'Perdeler',songs:'Kütüphane',settings:'Ayarlar'},en:{tuner:'Tuner',frets:'Frets',songs:'Library',settings:'Settings'}};
+  $('.brand').textContent=titles[lang]?titles[lang][currentPanel||'tuner']:t(currentPanel||'tuner');
+}
+
 function setTopContext(settingsOpen){
 
   $("#gearIcon").classList.toggle(
@@ -2926,6 +2933,7 @@ async function showPanel(name){
 
 
   currentPanel=name;
+  renderPanelTitle();
   if(name === "songs"){
 
     renderSongs();
@@ -5815,6 +5823,5 @@ if(capacitorApp){
   });
 }
 $('#libraryFilters').addEventListener('click',function(event){var button=event.target.closest('[data-category]');if(button){libraryCategory=button.dataset.category;renderSongs();}});
-$('#librarySearch').addEventListener('input',function(event){libraryQuery=event.target.value;renderSongs();});
 
 })();

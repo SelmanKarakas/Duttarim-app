@@ -45,6 +45,7 @@ function validatePayload(payload){
   if(!payload.title || typeof payload.title.latin !== "string" || !payload.title.latin.trim()){
     throw new Error("Latin parça adı zorunludur.");
   }
+  if(payload.category!==undefined && !['piece','exercise'].includes(payload.category)) throw new Error("Geçersiz içerik türü.");
   if(typeof payload.title.ug !== "string") throw new Error("Uygurca ad geçersiz.");
   if(!Number.isFinite(payload.tempo) || payload.tempo < 20 || payload.tempo > 300){
     throw new Error("Tempo 20–300 arasında olmalıdır.");
@@ -108,6 +109,7 @@ async function saveSong(payload){
   const catalog = await readCatalog();
   const entry = {
     id:payload.id,
+    category:payload.category || catalog.find(song=>song.id===payload.id)?.category || "piece",
     title:{latin:payload.title.latin.trim(),ug:payload.title.ug.trim()},
     originKey:"uyghurDuttarPiece",
     tempo:Math.round(payload.tempo),
