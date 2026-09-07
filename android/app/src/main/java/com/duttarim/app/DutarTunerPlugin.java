@@ -32,6 +32,24 @@ import java.util.List;
 )
 public class DutarTunerPlugin extends Plugin {
 
+    private volatile long analysisMutedUntil=0;
+
+    @PluginMethod
+    public void setAnalysisMuted(PluginCall call) {
+        analysisMutedUntil=Boolean.TRUE.equals(call.getBoolean("muted"))
+                ? Long.MAX_VALUE : android.os.SystemClock.elapsedRealtime()+350;
+        call.resolve();
+    }
+
+    @PluginMethod
+    public void openMicrophoneSettings(PluginCall call) {
+        android.content.Intent intent=new android.content.Intent(
+                android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                android.net.Uri.parse("package:"+getContext().getPackageName()));
+        getActivity().startActivity(intent);
+        call.resolve();
+    }
+
     private static final String TAG = "DutarTuner";
 
     @PluginMethod
@@ -667,6 +685,12 @@ public class DutarTunerPlugin extends Plugin {
             }
 
             consecutiveReadErrors = 0;
+            // Continue draining AudioRecord; discard playback and its decay tail.
+            if(android.os.SystemClock.elapsedRealtime()<analysisMutedUntil){
+                filledSamples=0;
+                resetPitchStabilizer();
+                continue;
+            }
 
 
             /*
