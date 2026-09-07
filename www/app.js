@@ -411,6 +411,15 @@ var referenceHz=
 /* Reference tone */
 
 var toneCtx=null;
+var referenceActive=false;
+var referenceRequest=0;
+var analysisResumeAt=0;
+var tunerStartPending=false;
+var tunerStatus="ready";
+var navigationHistory=[];
+var restoringNavigation=false;
+var libraryCategory="all";
+var libraryQuery="";
 var toneOscillators=[];
 var toneTimer=0;
 
@@ -1147,6 +1156,7 @@ function editAdminSong(songId){
     return;
   }
 
+  $('#adminCategory').value= song.category==='exercise'||song.category==='exercises'?'exercise':'piece';
   adminEditingSongId =
     song.id;
 
@@ -1478,6 +1488,7 @@ async function publishAdminSong(event){
     var notationPaths = await prepare(adminDraftNotationPages,"normal");
     var cleanCatalog = songsData.map(adminCleanSong);
     var updatedSong = {
+      category:$("#adminCategory").value,
 
       id:id,
 
@@ -1697,7 +1708,20 @@ var activeSongView = "simple";
 
 /* SONG LIST */
 
+function songThumbnail(song){
+  var src=(song.notationPages||[])[0]||(song.simplePages||[])[0];
+  var fallback='<span class="preview-fallback">'+adminEscapeHtml(t('previewMissing'))+'</span>';
+  if(typeof src!=='string'||! /\.(png|jpe?g|webp|gif|svg)(\?|$)/i.test(src)) return '<div class="song-card-icon">'+fallback+'</div>';
+  return '<div class="song-card-icon">'+fallback+'<img class="score-thumbnail" loading="lazy" decoding="async" alt="" src="'+adminEscapeHtml(src)+'"></div>';
+}
+
 function renderSongs(){
+  var filters=$('#libraryFilters');
+  if(filters){
+    filters.querySelectorAll('[data-category]').forEach(function(button){button.textContent=t(button.dataset.category==='all'?'allContent':button.dataset.category);button.setAttribute('aria-pressed',String(libraryCategory===button.dataset.category));});
+    $('#librarySearch').placeholder=t('librarySearch');
+    $('#librarySearch').setAttribute('aria-label',t('librarySearch'));
+  }
 
   var list =
     document.getElementById(
@@ -1709,7 +1733,10 @@ function renderSongs(){
   }
 
   list.innerHTML =
-    songsData.map(
+    songsData.filter(function(song){
+      var category=song.category==='exercise'||song.category==='exercises'?'exercises':'pieces';
+      return (libraryCategory==='all'||libraryCategory===category||libraryCategory==='favorites'&&isFavorite(song.id)) && (songTitle(song)+' '+songOrigin(song)).toLocaleLowerCase().includes(libraryQuery.toLocaleLowerCase());
+    }).map(
       function(song){
 
         var simpleCount =
@@ -1760,7 +1787,7 @@ function renderSongs(){
               '" ' +
               'type="button">' +
 
-              '<div class="song-card-icon">♪</div>' +
+              songThumbnail(song) +
 
               '<div class="song-card-copy">' +
 
@@ -1849,6 +1876,8 @@ function renderSongs(){
     .join("");
 
 
+  if(!list.children.length) list.textContent=t('emptyLibrary');
+  list.querySelectorAll('.score-thumbnail').forEach(function(img){img.onerror=function(){img.remove();};});
   document
     .querySelectorAll(
       ".song-card"
@@ -2374,6 +2403,10 @@ var fretData = [
    TRANSLATION HELPERS
    ========================================= */
 
+Object.assign(translations.tr,{"songs":"KÜTÜPHANE","songsTitle":"Kütüphane","backToSongs":"Kütüphane","fretsSub":"1. ve 2. telin ana notaları. Perde konumları korunmuştur.","micRequired":"Mikrofon izni gerekli","micSettings":"Mikrofon izni için Ayarları Aç","allContent":"Tümü","pieces":"Parçalar","exercises":"Alıştırmalar","librarySearch":"Kütüphanede ara","emptyLibrary":"Bu kategoride henüz içerik yok.","previewMissing":"Önizleme yok"});
+Object.assign(translations.en,{"songs":"LIBRARY","songsTitle":"Library","backToSongs":"Library","fretsSub":"Natural notes on both strings. Original fret positions are preserved.","micRequired":"Microphone permission required","micSettings":"Open Settings for microphone access","allContent":"All","pieces":"Pieces","exercises":"Exercises","librarySearch":"Search library","emptyLibrary":"No content in this category yet.","previewMissing":"No preview"});
+Object.assign(translations.ug,{"songs":"كۈتۈپخانا","songsTitle":"كۈتۈپخانا","backToSongs":"كۈتۈپخانا","fretsSub":"ئىككى تارنىڭ ئاساسىي نوتىلىرى.","micRequired":"مىكروفون ئىجازىتى كېرەك","micSettings":"مىكروفون ئۈچۈن تەڭشەكنى ئېچىڭ","allContent":"ھەممىسى","pieces":"ناخشىلار","exercises":"مەشىقلەر","librarySearch":"كۈتۈپخانىدىن ئىزدەش","emptyLibrary":"بۇ تۈردە تېخى مەزمۇن يوق.","previewMissing":"ئالدىن كۆرۈش يوق"});
+
 function t(k){
 
   return (
@@ -2582,10 +2615,7 @@ function applyLanguage(v){
 
   if(!listening){
 
-    $("#status").textContent=
-      sessionCompleted
-        ?t("inTune")
-        :t("ready");
+    setTunerStatus(sessionCompleted?"inTune":tunerStatus);
   }
 }
 
@@ -2686,39 +2716,18 @@ function renderStrings(){
 
 
 function renderFrets(){
-
-  var grid=$("#fretGrid");
-
-  if(!grid){
-    return;
-  }
-
-  grid.innerHTML=
-    fretData.map(
-      function(item,index){
-
-        return (
-          '<div class="fret-label" data-index="'+index+'">'+
-
-            '<span class="fret-number">'+
-              (
-                item.octave
-                  ?'<span class="fret-octave">•</span>'
-                  :''
-              )+
-              item.number+
-            '</span>'+
-
-            '<span class="fret-note">'+
-              noteName(item.note)+
-            '</span>'+
-
-          '</div>'
-        );
-      }
-    ).join("");
+  var grid=$('#fretGrid');
+  if(!grid) return;
+  var chromatic=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+  var offset=mode==='big'?7:5;
+  grid.innerHTML=fretData.map(function(item,index){
+    var second=chromatic[(chromatic.indexOf(item.note)+offset)%12];
+    return [item.note,second].map(function(note,string){
+      if(note.includes('#')) return '';
+      return '<div class="fret-label dual-fret string-'+string+'" data-index="'+index+'"><span class="fret-note">'+noteName(note)+'</span></div>';
+    }).join('');
+  }).join('');
 }
-
 
 /* =========================================
    NOTATION
@@ -2754,6 +2763,7 @@ function setMode(v){
   wasInTune=false;
 
   mode=v;
+  renderFrets();
   activeString=0;
 
   pitchHistory=[];
@@ -2806,8 +2816,7 @@ function setMode(v){
 
   if(listening){
 
-    $("#status").textContent=
-      t("listening");
+    setTunerStatus("listening");
   }
 }
 
@@ -2848,8 +2857,7 @@ function selectString(i){
 
   if(listening){
 
-    $("#status").textContent=
-      t("listening");
+    setTunerStatus("listening");
   }
 }
 
@@ -2887,6 +2895,9 @@ function setTopContext(settingsOpen){
    ========================================= */
 
 async function showPanel(name){
+  if(!restoringNavigation && currentPanel && currentPanel!==name){
+    navigationHistory.push({panel:currentPanel,song:currentPanel==='songs' && !$('#songDetail').classList.contains('hidden') && activeSong ? activeSong.id : null,view:activeSongView,page:activeScorePage});
+  }
 
     var previousPanel =
         currentPanel;
@@ -3135,8 +3146,7 @@ function resetGauge(){
     "0 cent";
 
 
-  $("#status").textContent=
-    t("ready");
+  setTunerStatus("ready");
 
 
   $("#status").style.color="";
@@ -3306,7 +3316,19 @@ function normalizePitchForTarget(
    PROCESS PITCH
    ========================================= */
 
+function setTunerStatus(key){
+  tunerStatus=key;
+  var card=$('.tuner-card');
+  card.dataset.state=key==='inTune'&&sessionCompleted?'completed':key;
+  $('#status').textContent=t(key);
+  if(key==='micRequired'||key==='micSettings'||key==='micError'){
+    card.classList.remove('in-tune','off-tune','all-complete');
+    $('#status').style.color='var(--muted)';
+  }
+}
+
 function processDetectedPitch(freq){
+  if(referenceActive || Date.now()<analysisResumeAt) return;
 
   if(
     !isFinite(freq) ||
@@ -3744,8 +3766,7 @@ function completeActiveString(){
     );
 
 
-    $("#status").textContent=
-      t("inTune");
+    setTunerStatus("inTune");
 
 
     $("#status").style.color=
@@ -3805,8 +3826,7 @@ function completeActiveString(){
   resetGaugeForNextString();
 
 
-  $("#status").textContent=
-    t("listening");
+  setTunerStatus("listening");
 
 
   $("#status").style.color="";
@@ -3923,14 +3943,7 @@ function updatePitch(freq){
     );
 
 
-  $("#status").textContent =
-    inTune
-      ? t("inTune")
-      : (
-          c < 0
-            ? t("flat")
-            : t("sharp")
-        );
+  setTunerStatus(inTune?"inTune":c<0?"flat":"sharp");
 
 
   $("#status").style.color=
@@ -4171,8 +4184,7 @@ function loop(){
     }
 
 
-    $("#status").textContent=
-      t("noSignal");
+    setTunerStatus("noSignal");
 
 
     $("#status").style.color=
@@ -4192,6 +4204,13 @@ function loop(){
    ========================================= */
 
 function stopReferenceTone(){
+  referenceRequest++;
+  if(referenceActive){
+    referenceActive=false;
+    analysisResumeAt=Date.now()+350;
+    pitchHistory=[];
+    if(nativeTuner) nativeTuner.setAnalysisMuted({muted:false}).catch(console.error);
+  }
 
   if(toneTimer){
 
@@ -4233,16 +4252,8 @@ function stopReferenceTone(){
 
 async function playReference(i){
 
-  if(listening){
-
-    await stopTuner({
-      preserveProgress:false,
-      keepIntent:false
-    });
-  }
-
-
   stopReferenceTone();
+  var request=referenceRequest;
 
 
   selectString(i);
@@ -4276,6 +4287,14 @@ async function playReference(i){
   }
 
 
+  if(request!==referenceRequest || currentPanel!=="tuner" || !appIsActive) return;
+  referenceActive=true;
+  cancelTuneAttempt();
+  pitchHistory=[];
+  if(nativeTuner){
+    try{ await nativeTuner.setAnalysisMuted({muted:true}); }
+    catch(error){ referenceActive=false; return; }
+  }
   var hz=
     calibratedHz(
       tunings[mode][i].hz
@@ -4505,8 +4524,7 @@ function toggleCalibration(){
 
   if(listening){
 
-    $("#status").textContent=
-      t("listening");
+    setTunerStatus("listening");
   }
 }
 
@@ -4516,6 +4534,41 @@ function toggleCalibration(){
    ========================================= */
 
 async function startTuner(options){
+  if(tunerStartPending) return;
+  tunerStartPending=true;
+  try{
+    if(!listening && nativeTuner){
+      var p=await nativeTuner.checkPermissions();
+      if(p.microphone!=='granted'){
+        setTunerStatus('micRequired');
+        if(p.microphone==='denied'){
+          setTunerStatus('micSettings');
+          await nativeTuner.openMicrophoneSettings();
+          return;
+        }
+        p=await nativeTuner.requestPermissions({permissions:['microphone']});
+        if(p.microphone!=='granted'){
+          setTunerStatus(p.microphone==='denied'?'micSettings':'micRequired');
+          return;
+        }
+      }
+    }
+    if(currentPanel!=="tuner" || !appIsActive) return;
+    await startTunerSession(options);
+  }catch(error){ setTunerStatus('micError'); }
+  finally{ tunerStartPending=false; }
+}
+
+async function refreshMicrophonePermission(){
+  if(!nativeTuner || listening) return;
+  try{
+    var permission=await nativeTuner.checkPermissions();
+    if(permission.microphone!=='granted') setTunerStatus('micRequired');
+    else setTunerStatus('ready');
+  }catch(error){console.error(error);}
+}
+
+async function startTunerSession(options){
 
   options=
     options||{};
@@ -4585,7 +4638,7 @@ async function startTuner(options){
 
           function(data){
 
-            if(!listening){
+            if(!listening || referenceActive || Date.now()<analysisResumeAt){
 
               return;
             }
@@ -4593,6 +4646,7 @@ async function startTuner(options){
 
             lastPitchEventAt=
               Date.now();
+            if(referenceActive || Date.now()<analysisResumeAt) return;
 
 
             var freq=
@@ -4641,8 +4695,7 @@ async function startTuner(options){
               }
 
 
-              $("#status").textContent=
-                t("noSignal");
+              setTunerStatus("noSignal");
 
 
               $("#status").style.color=
@@ -4653,6 +4706,7 @@ async function startTuner(options){
 
 
       await nativeTuner.start();
+      if(currentPanel!=="tuner" || !appIsActive){await stopTuner();return;}
 
 
       listening=true;
@@ -4685,7 +4739,7 @@ async function startTuner(options){
         setInterval(
           function(){
 
-            if(!listening){
+            if(!listening || referenceActive || Date.now()<analysisResumeAt){
 
               return;
             }
@@ -4701,8 +4755,7 @@ async function startTuner(options){
               cancelTuneAttempt();
 
 
-              $("#status").textContent=
-                t("micError");
+              setTunerStatus("micError");
 
 
               $("#status").style.color=
@@ -4723,8 +4776,7 @@ async function startTuner(options){
         t("stopMic");
 
 
-      $("#status").textContent=
-        t("listening");
+      setTunerStatus("listening");
 
 
       $("#status").style.color="";
@@ -4802,8 +4854,7 @@ async function startTuner(options){
       t("stopMic");
 
 
-    $("#status").textContent=
-      t("listening");
+    setTunerStatus("listening");
 
 
     $("#status").style.color="";
@@ -4819,8 +4870,7 @@ async function startTuner(options){
     userWantsListening=false;
 
 
-    $("#status").textContent=
-      t("micError");
+    setTunerStatus("micError");
 
 
     $("#status").style.color=
@@ -4977,8 +5027,7 @@ async function stopTuner(options){
 
   }else if(completedSession){
 
-    $("#status").textContent=
-      t("inTune");
+    setTunerStatus("inTune");
 
 
     $("#status").style.color=
@@ -5430,7 +5479,8 @@ function showCompletionMessage(){
     return;
   }
 
-  message.textContent=t("tuningComplete");
+  message.textContent="✓";
+  message.setAttribute("aria-label",t("tuningComplete"));
   message.hidden=false;
   message.classList.add("visible");
 
@@ -5633,62 +5683,11 @@ $$(".language-options button")
   );
 
 
-$("#allowMic").onclick=
-  async function(){
-
-    try{
-
-      if(
-        nativeTuner &&
-        nativeTuner.requestPermissions
-      ){
-
-        var permission=
-          await nativeTuner
-            .requestPermissions();
-
-
-        if(
-          permission.microphone!==
-          "granted"
-        ){
-
-          $("#status").textContent=
-            t("micError");
-
-
-          return;
-        }
-      }
-
-
-      localStorage.setItem(
-        "onboardingDone",
-        "1"
-      );
-
-
-      $("#onboarding")
-        .classList
-        .add(
-          "hidden"
-        );
-
-
-      await startTuner();
-
-
-    }catch(e){
-
-      $("#status").textContent=
-        t("micError");
-
-
-      $("#status").style.color=
-        "#b55b5b";
-    }
-  };
-
+$("#allowMic").onclick=async function(){
+  localStorage.setItem('onboardingDone','1');
+  $('#onboarding').classList.add('hidden');
+  await startTuner();
+};
 
 if(
   !localStorage.getItem(
@@ -5798,8 +5797,24 @@ setMode(
 
 initialiseSongs();
 
-showPanel(
-  "tuner"
-);
+showPanel("tuner");
+refreshMicrophonePermission();
+if(capacitorApp){
+  capacitorApp.addListener('appStateChange',function(state){if(state.isActive) refreshMicrophonePermission();});
+  capacitorApp.addListener('backButton',async function(){
+    var detail=$('#songDetail');
+    if(currentPanel==='songs'&&!detail.classList.contains('hidden')){
+      if(detail.classList.contains('score-fullscreen-active')){toggleScoreFullscreen();return;}
+      $('#songBackBtn').click();return;
+    }
+    var previous=navigationHistory.pop();
+    if(!previous){capacitorApp.exitApp();return;}
+    restoringNavigation=true;
+    try{await showPanel(previous.panel);if(previous.song){openSong(previous.song);activeSongView=previous.view;activeScorePage=previous.page;renderCurrentScorePage();}}
+    finally{restoringNavigation=false;}
+  });
+}
+$('#libraryFilters').addEventListener('click',function(event){var button=event.target.closest('[data-category]');if(button){libraryCategory=button.dataset.category;renderSongs();}});
+$('#librarySearch').addEventListener('input',function(event){libraryQuery=event.target.value;renderSongs();});
 
 })();

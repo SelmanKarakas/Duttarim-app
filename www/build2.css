@@ -1,0 +1,33 @@
+/* Android build 2: use the space between the header and bottom navigation. */
+.app:has(#tunerPanel.active){display:flex;flex-direction:column;height:calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom))}
+.app:has(#tunerPanel.active)>.topbar{flex:none}
+#tunerPanel.active{display:flex;flex-direction:column;flex:1;min-height:0;overflow:auto}
+#tunerPanel .mode-tabs{flex:none}
+#tunerPanel .tuner-card{flex:1;min-height:320px;height:auto;grid-template-rows:minmax(90px,1fr) 32px 40px minmax(70px,1.3fr) 78px;position:relative;overflow:visible}
+#tunerPanel .gauge{width:min(100%,280px);height:100%;max-height:145px;align-self:center}
+#tunerPanel .gauge svg{width:100%;height:100%}
+#tunerPanel .status{height:32px;min-height:32px;line-height:16px;display:flex;align-items:center;justify-content:center;font-size:12px}
+#tunerPanel .pitch-row{height:40px;min-width:0;white-space:nowrap}
+#tunerPanel .note,#tunerPanel .cents{font-variant-numeric:tabular-nums}
+#tunerPanel .instrument-wrap img{height:100%;max-height:215px;max-width:92%;object-fit:contain}
+#tunerPanel .listen-help{display:none}
+.instrument-wrap::after{z-index:3;pointer-events:none;opacity:1;box-shadow:0 0 7px 2px rgba(88,170,168,.65)}
+.tuning-complete-message{width:72px;height:72px;min-width:72px;padding:0;border-radius:50%;font-size:40px}
+.fret-legend{display:flex;justify-content:space-between;gap:20px;color:var(--navy);font-size:12px;font-weight:800;direction:ltr}
+.fret-legend span:last-child{color:#347c78}
+.fret-label.dual-fret{display:flex;justify-content:center;width:74px;height:22px;transform:none;direction:ltr}
+.fret-label.dual-fret::before{display:none}
+.fret-label.dual-fret.string-0{left:calc(50% - 140px);right:auto;border-inline-start:3px solid var(--navy)}
+.fret-label.dual-fret.string-1{left:auto;right:calc(50% - 140px);border-inline-end:3px solid var(--turq)}
+.dual-fret .fret-note{font-size:13px}
+#fretsPanel.active{overflow-y:auto;overscroll-behavior:contain}
+#fretsPanel .fret-map{flex:none;height:max(680px,calc(100dvh - 240px))}
+#fretsPanel .fret-label.dual-fret{height:18px}
+.library-filters{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.library-filters button{padding:8px 10px;border:1px solid var(--line);border-radius:12px;background:white;font-size:12px}
+.library-filters button[aria-pressed=true]{background:var(--navy);color:white}
+#librarySearch{box-sizing:border-box;width:100%;padding:10px;border:1px solid var(--line);border-radius:12px;margin-bottom:12px;font:inherit}
+.song-card-icon{position:relative;width:66px;height:76px;min-width:66px;overflow:hidden;background:#fff}
+.score-thumbnail{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;background:#fff}
+.preview-fallback{font-size:10px;line-height:1.3;text-align:center;padding:4px;color:var(--muted)}
+@media(max-height:650px){#tunerPanel .tuner-card{grid-template-rows:90px 32px 32px minmax(60px,1fr) 70px;min-height:304px;padding:6px}#tunerPanel .string-grid{gap:5px}#tunerPanel .string-card{padding:7px}#tunerPanel .mode-tabs{margin:0}.app:has(#tunerPanel.active){padding-top:4px}.app:has(#tunerPanel.active) .topbar{padding-bottom:5px}}

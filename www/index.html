@@ -9,6 +9,7 @@
 >
   <title>Duttarim</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="build2.css">
 </head>
 <body>
 <main class="app">
@@ -62,7 +63,7 @@
         <span class="gauge-label flat" data-i18n="flat">PES</span><span class="gauge-label sharp" data-i18n="sharp">TİZ</span>
       </div>
       <div class="status" id="status" data-i18n="ready">HAZIR</div>
-      <div class="tuning-complete-message" id="tuningCompleteMessage" role="status" aria-live="polite" data-i18n="tuningComplete" hidden>✓ Akort tamamlandı</div>
+      <div class="tuning-complete-message" id="tuningCompleteMessage" role="status" aria-live="polite" hidden aria-label="Akort tamamlandı">✓</div>
       <div class="pitch-row"><div class="note" id="note">RE</div><div class="cents" id="cents">0 cent</div></div>
       <div
               class="instrument-wrap"
@@ -100,6 +101,7 @@
       Alt tel üzerindeki perde ve nota karşılıkları.
     </p>
 
+    <div class="fret-legend"><span data-i18n="string1">1. TEL · ZİL</span><span data-i18n="string2">2. TEL · BOM</span></div>
     <div class="fret-map">
 
       <div class="fret-duttar">
@@ -284,6 +286,7 @@
 
 
       <form id="adminSongForm">
+<label class="admin-field"><span data-i18n="allContent">İçerik</span><select id="adminCategory"><option value="piece" data-i18n="pieces">Parçalar</option><option value="exercise" data-i18n="exercises">Alıştırmalar</option></select></label>
 
         <label class="admin-field">
           Yönetici anahtarı
@@ -547,7 +550,8 @@
         Duttar için derlenmiş ve düzenlenmiş nota kaynakları.
       </p>
 
-      <div
+      <div id="libraryFilters" class="library-filters"><button data-category="all" type="button">Tümü</button><button data-category="pieces" type="button">Parçalar</button><button data-category="exercises" type="button">Alıştırmalar</button><button data-category="favorites" type="button">Favoriler</button></div><input id="librarySearch" type="search" aria-label="Kütüphanede ara">
+<div
               class="song-list"
               id="songList"
       ></div>
