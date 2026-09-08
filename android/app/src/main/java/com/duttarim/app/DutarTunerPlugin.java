@@ -606,12 +606,19 @@ public class DutarTunerPlugin extends Plugin {
                         recorder != null
         ) {
 
+            // stopRecorder may clear the shared field between the loop check and read.
+            // Keep one reference for this iteration; stopped-record errors are handled below.
+            final AudioRecord activeRecorder = recorder;
+            if (activeRecorder == null) {
+                break;
+            }
+
             int read;
 
             try {
 
                 read =
-                        recorder.read(
+                        activeRecorder.read(
                                 readBuffer,
                                 0,
                                 readBuffer.length
