@@ -2774,27 +2774,31 @@ body.score-fullscreen{
 
 
 /* =========================================
-   FRET POSITIONS
-   responsive relative to map height
+   FRET POSITIONS — right-side natural notes
+   index 0 = 3 Mi, 1 = 4 Fa, 2 = 5 Sol, 3 = 6 La,
+   index 4 = 7 Si, 5 = 1 Do, 6 = 2 Re, 7 = 2 Re (upper octave),
+   index 8 = 3 Mi (upper octave), 9 = 4 Fa (upper octave),
+   index 10 = 5 Sol (upper octave).
+   The left open label (data-index="open") is 1 Do.
    ========================================= */
 .fret-label[data-index="0"]{
-  top:19.8%;
+  top:23.5%;
 }
 
 .fret-label[data-index="1"]{
-  top:23.3%;
+  top:26.9%;
 }
 
 .fret-label[data-index="2"]{
-  top:26.7%;
+  top:33.4%;
 }
 
 .fret-label[data-index="3"]{
-  top:30.1%;
+  top:41.1%;
 }
 
 .fret-label[data-index="4"]{
-  top:33%;
+  top:47.3%;
 }
 
 
@@ -2802,33 +2806,33 @@ body.score-fullscreen{
 
 /* 6 */
 .fret-label[data-index="5"]{
-  top:41%;
+  top:50.7%;
 }
 
 /* 6# */
 .fret-label[data-index="6"]{
-  top:44%;
+  top:17.4%;
 }
 
 /* 7 */
 .fret-label[data-index="7"]{
-  top:47.3%;
+  top:57.7%;
 }
 
 /* •1 */
 .fret-label[data-index="8"]{
-  top:50.4%;
+  top:63.9%;
 }
 
 
 /* •2 */
 .fret-label[data-index="9"]{
-  top:57.7%;
+  top:66.8%;
 }
 
 /* •2# */
 .fret-label[data-index="10"]{
-  top:60.5%;
+  top:72%;
 }
 
 /* •3 */
@@ -3613,3 +3617,99 @@ body.score-fullscreen{
 
   padding-bottom:18px;
 }
+/* Android build 2: use the space between the header and bottom navigation. */
+.app:has(#tunerPanel.active){display:flex;flex-direction:column;height:calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom))}
+.app:has(#tunerPanel.active)>.topbar{flex:none}
+#tunerPanel.active{display:flex;flex-direction:column;flex:1;min-height:0;overflow:auto}
+#tunerPanel .mode-tabs{flex:none}
+#tunerPanel .tuner-card{flex:1;min-height:320px;height:auto;grid-template-rows:minmax(90px,1fr) 32px 40px minmax(70px,1.3fr) 78px;position:relative;overflow:visible}
+#tunerPanel .gauge{width:min(100%,280px);height:100%;max-height:145px;align-self:center}
+#tunerPanel .gauge svg{width:100%;height:100%}
+#tunerPanel .status{height:32px;min-height:32px;line-height:16px;display:flex;align-items:center;justify-content:center;font-size:12px}
+#tunerPanel .pitch-row{height:40px;min-width:0;white-space:nowrap}
+#tunerPanel .note,#tunerPanel .cents{font-variant-numeric:tabular-nums}
+#tunerPanel .gauge-label.sharp{right:-4px;white-space:nowrap}
+#tunerPanel .gauge-label.flat{left:-4px;white-space:nowrap}
+#tunerPanel .instrument-wrap img{height:100%;max-height:215px;max-width:92%;object-fit:contain}
+#tunerPanel .listen-help{display:none}
+.instrument-wrap::after{display:none}
+.tuning-complete-message{width:72px;height:72px;min-width:72px;padding:0;border-radius:50%;font-size:40px}
+.fret-legend{display:flex;justify-content:space-between;gap:20px;color:var(--navy);font-size:12px;font-weight:800;direction:ltr}
+.fret-legend span:last-child{color:inherit}
+.fret-label.dual-fret{display:flex;justify-content:center;width:74px;height:22px;transform:none;direction:ltr}
+.fret-label.dual-fret::before{display:none}
+.fret-label.dual-fret.string-0{left:auto;right:0;border:0;text-align:left}
+.fret-label.dual-fret.string-1{left:0;right:auto;border:0;text-align:right}
+.dual-fret .fret-note{font-size:13px}
+#fretsPanel.active{display:flex;flex-direction:column;height:calc(100dvh - 150px);min-height:0;overflow:hidden;padding-bottom:0}
+#fretsPanel .section-title,#songsPanel .section-title,#songsPanel .section-sub,#settingsPanel .section-title{display:none}
+#fretsPanel .section-sub{display:block;margin:2px auto 8px;text-align:center;max-width:300px;color:var(--muted);font-size:12px;font-weight:600;line-height:17px;flex:none}
+#fretsPanel .fret-map{flex:1;min-height:0;height:auto;margin-top:8px;overflow:hidden}
+#fretsPanel .fret-duttar img{height:133.33%;max-height:none;width:auto;object-fit:contain;object-position:top center}
+#fretsPanel .fret-label.dual-fret{display:grid;grid-template-columns:clamp(28px,9.4vw,40px) clamp(36px,11.5vw,49px);width:clamp(66px,21.5vw,88px);height:clamp(18px,5vw,22px);background:rgba(255,255,255,.94);box-shadow:0 3px 10px rgba(23,59,93,.07);border-radius:9px;justify-content:initial;text-align:left;color:var(--navy)}
+#fretsPanel .fret-label.dual-fret.string-0{left:calc(50% - 190px);right:auto}
+#fretsPanel .fret-label.dual-fret.string-1{left:auto;right:calc(50% - 190px);justify-content:initial;text-align:left}
+#fretsPanel .fret-label.dual-fret::before{content:'- - - - -';border:0;background:transparent;opacity:.75;top:50%;height:14px;width:58px;transform:translateY(-50%);color:var(--turq);font-size:12px;line-height:14px;letter-spacing:0;white-space:nowrap;overflow:hidden}
+#fretsPanel .fret-label.dual-fret.string-0::before{left:100%;right:auto}
+#fretsPanel .fret-label.dual-fret.string-1::before{right:100%;left:auto}
+#fretsPanel .fret-number{position:relative;display:flex;align-items:center;justify-content:center;height:100%;font-size:clamp(10px,3.2vw,13px);font-weight:700;color:var(--navy);border-right:1px solid rgba(23,59,93,.08)}
+#fretsPanel .fret-note{display:flex;align-items:center;height:100%;padding-left:6px;font-size:clamp(10px,3.2vw,13px);font-weight:700;color:var(--navy)}
+#fretsPanel .fret-octave{position:absolute;top:0;left:50%;transform:translateX(-50%);font-size:7px;line-height:7px}
+.library-filters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:10px 0;width:100%}
+.library-filters button{padding:8px 10px;border:1px solid var(--line);border-radius:12px;background:white;font-size:12px}
+.library-filters button[aria-pressed=true]{background:var(--navy);color:white}
+.song-card-icon{position:relative;width:66px;height:76px;min-width:66px;overflow:hidden;background:#fff}
+@media(max-height:650px){#tunerPanel .tuner-card{grid-template-rows:90px 32px 32px minmax(60px,1fr) 70px;min-height:304px;padding:6px}#tunerPanel .string-grid{gap:5px}#tunerPanel .string-card{padding:7px}#tunerPanel .mode-tabs{margin:0}.app:has(#tunerPanel.active){padding-top:4px}.app:has(#tunerPanel.active) .topbar{padding-bottom:5px}}
+
+/* Reference-style labels: Bom left, Zil right. */
+.fret-label.dual-fret{background:transparent;box-shadow:none;border-radius:0;width:32%;justify-content:initial;color:var(--navy)}
+.fret-label.dual-fret.string-1{justify-content:flex-end}
+.fret-label.dual-fret::before{content:'';display:block;position:absolute;top:50%;height:1px;background:var(--navy);width:clamp(18px,5vw,38px);transform:none}
+.fret-label.dual-fret.string-0::before{left:calc(-1 * clamp(20px,6vw,42px));right:auto}
+.fret-label.dual-fret.string-1::before{right:calc(-1 * clamp(20px,6vw,42px));left:auto}
+.fret-label[data-index="open"]{top:41.3%}
+.dual-fret .fret-note{font-size:14px;font-weight:600;white-space:nowrap}
+.song-card-icon{width:48px;height:48px;min-width:48px;background:var(--mint);border-radius:14px;display:flex;align-items:center;justify-content:center}
+.song-card-icon svg{width:27px;height:27px;fill:none;stroke:var(--navy);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.library-filters button{padding:11px 3px;text-align:center;min-width:0;font-size:12px;font-weight:800}
+.library-filters button[aria-pressed=true]{background:var(--turq);border-color:var(--turq);color:#fff}
+#songsPanel .library-filters button{color:var(--navy);background:#fff;border-color:var(--line)}
+#songsPanel .library-filters button[aria-pressed=true]{color:#fff;background:var(--turq);border-color:var(--turq)}
+#songsPanel .song-card-icon svg{stroke:var(--navy)}
+#songsPanel .song-card-title{font-size:15px;font-weight:600;color:rgba(23,59,93,.84);letter-spacing:.01em}
+#songsPanel .song-card-meta{font-size:10px;font-weight:500;color:rgba(23,59,93,.56)}
+#songsPanel .song-card-tags{font-weight:500;color:rgba(23,59,93,.58)}
+#songsPanel .library-filters button{font-weight:700;color:rgba(23,59,93,.72)}
+#songsPanel .library-filters button[aria-pressed=true]{font-weight:700;color:#fff}
+.permission-actions{display:grid;gap:10px}
+.onboard-deny{width:100%;min-height:48px;border:1px solid var(--line);border-radius:14px;background:transparent;color:var(--navy);font-weight:800}
+
+#tunerPanel .instrument-wrap img,#tunerPanel .tuner-card.in-tune .instrument-wrap img{filter:none;transform:translateX(-6px)}
+
+
+/* Keep the fret artwork on one reference canvas.  Labels use the same
+   percentage coordinates as the artwork, so changing device size scales the
+   whole map together instead of changing its crop. */
+#fretsPanel .fret-map{
+  width:min(100%,420px);
+  aspect-ratio:390 / 650;
+  height:auto;
+  flex:0 1 auto;
+  max-height:calc(100% - 28px);
+  margin:4px auto 0;
+}
+#fretsPanel .fret-duttar img{height:133.33%;width:auto;max-width:none}
+#fretsPanel .fret-label.dual-fret.string-0{left:4%;right:auto}
+#fretsPanel .fret-label.dual-fret.string-1{left:auto;right:4%}
+
+/* Single source of truth for vertical note alignment on the Android map. */
+/* Keep fixed bottom navigation from covering the interactive panels. */
+#tunerPanel.active{
+  padding-bottom:0;
+  box-sizing:border-box;
+  overflow-y:auto;
+}
+#tunerPanel.active .mic-dock{margin-top:2px;margin-bottom:calc(76px + env(safe-area-inset-bottom))}
+#fretsPanel.active{box-sizing:border-box;padding-bottom:0}
+#fretsPanel .fret-map{max-height:100%;margin-bottom:0}
+#fretsPanel .fret-label[data-index="open"]{top:41.3%}

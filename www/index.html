@@ -9,7 +9,6 @@
 >
   <title>Duttarim</title>
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="build2.css">
 </head>
 <body>
 <main class="app">
@@ -98,10 +97,9 @@
     </h2>
 
     <p class="section-sub" data-i18n="fretsSub">
-      Alt tel üzerindeki perde ve nota karşılıkları.
+        Solda 2. tel · Bom, sağda 1. tel · Zil ana perde konumlarını gösterir.
     </p>
 
-    <div class="fret-legend"><span data-i18n="string2">2. TEL · BOM</span><span data-i18n="string1">1. TEL · ZİL</span></div>
     <div class="fret-map">
 
       <div class="fret-duttar">
@@ -752,7 +750,10 @@
   <div class="sheet hidden" id="permissionStep">
     <div class="mic-orbit"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3M9 21h6"/></svg></div>
     <h1 data-i18n="micTitle">Mikrofon izni</h1><p data-i18n="micExplain">Duttarınızın sesini dinleyip doğru notayı göstermek için mikrofon erişimi gerekir.</p>
-    <button class="onboard-next" id="allowMic" data-i18n="allowMic">MİKROFONA İZİN VER</button>
+    <div class="permission-actions">
+      <button class="onboard-next" id="allowMic" data-i18n="allowMic">İZİN VER</button>
+      <button class="onboard-deny" id="denyMic" data-i18n="denyMic">İZİN VERME</button>
+    </div>
   </div>
 </div>
 <script src="app.js"></script>

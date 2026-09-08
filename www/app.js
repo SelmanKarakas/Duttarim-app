@@ -80,7 +80,8 @@ aboutMain:
 
   micTitle:"Mikrofon izni",
   micExplain:"Duttarınızın sesini dinleyip doğru notayı göstermek için mikrofon erişimi gerekir.",
-  allowMic:"MİKROFONA İZİN VER",
+  allowMic:"İZİN VER",
+  denyMic:"İZİN VERME",
 
   home:"Ana sayfa",
   openSettings:"Ayarlar",
@@ -180,7 +181,8 @@ aboutDisclaimer:
 
   micTitle:"Microphone access",
   micExplain:"Microphone access is required to listen to your dutar and identify the note.",
-  allowMic:"ALLOW MICROPHONE",
+  allowMic:"ALLOW",
+  denyMic:"DON'T ALLOW",
 
   home:"Home",
   openSettings:"Settings",
@@ -281,7 +283,8 @@ aboutDisclaimer:
 
   micTitle:"مىكروفون ئىجازىتى",
   micExplain:"دۇتار ئاۋازىنى ئاڭلاپ نوتىنى تېپىش ئۈچۈن مىكروفون زۆرۈر.",
-  allowMic:"مىكروفونغا ئىجازەت بېرىش",
+  allowMic:"ئىجازەت بېرىش",
+  denyMic:"ئىجازەت بەرمەسلىك",
 
   home:"باش بەت",
   openSettings:"تەڭشەكلەر",
@@ -914,10 +917,8 @@ async function refreshSongsFromRemote(){
         await notifyNewSongs(newSongs);
 
       }catch(e){
-
-        console.log(
-          "Using offline songs catalog"
-        );
+        // Offline use is an expected state; keep the cached catalog without
+        // exposing implementation details in the production console.
       }finally{
 
         remoteRefreshPromise = null;
@@ -1634,12 +1635,9 @@ async function publishAdminSong(event){
 
 /* FAVORITES */
 
-var favoriteSongs =
-  JSON.parse(
-    localStorage.getItem(
-      "favoriteSongs"
-    ) || "[]"
-  );
+var favoriteSongs = readStoredArray("favoriteSongs").filter(function(id){
+  return typeof id === "string";
+});
 
 
 function isFavorite(songId){
@@ -1671,12 +1669,7 @@ function toggleFavorite(songId){
     );
   }
 
-  localStorage.setItem(
-    "favoriteSongs",
-    JSON.stringify(
-      favoriteSongs
-    )
-  );
+  writeStoredArray("favoriteSongs", favoriteSongs);
 
   renderSongs();
 }
@@ -1782,7 +1775,7 @@ function renderSongs(){
             '<button ' +
               'class="song-card" ' +
               'data-song-id="' +
-              song.id +
+              adminEscapeHtml(song.id) +
               '" ' +
               'type="button">' +
 
@@ -1823,7 +1816,7 @@ function renderSongs(){
                   (
                     song.tempo
                       ? '<span>♩ ' +
-                          song.tempo +
+                          adminEscapeHtml(song.tempo) +
                         '</span>'
                       : ''
                   ) +
@@ -1853,7 +1846,7 @@ function renderSongs(){
               ) +
               '" ' +
               'data-favorite-id="' +
-              song.id +
+              adminEscapeHtml(song.id) +
               '" ' +
               'type="button" ' +
               'aria-label="' +
@@ -2069,10 +2062,10 @@ function renderCurrentScorePage(){
     '<img ' +
       'class="song-score-image" ' +
       'src="' +
-      pages[activeScorePage] +
+      adminEscapeHtml(pages[activeScorePage]) +
       '" ' +
       'alt="' +
-      songTitle(activeSong) +
+      adminEscapeHtml(songTitle(activeSong)) +
       '">' ;
 
 
@@ -2379,7 +2372,7 @@ function toggleScoreFullscreen(){
    ========================================= */
 var fretData = [
   {number:"2#",  note:"D#"},
-  {number:"3-2", note:"E"},
+  {number:"3",   note:"E"},
   {number:"4",   note:"F"},
   {number:"4#",  note:"F#"},
 
@@ -2389,6 +2382,7 @@ var fretData = [
   {number:"7",   note:"B"},
   {number:"1",   note:"C",  octave:true},
 
+  {number:"2",   note:"D"},
   {number:"2",   note:"D",  octave:true},
   {number:"2#",  note:"D#", octave:true},
   {number:"3",   note:"E",  octave:true},
@@ -2404,9 +2398,9 @@ var fretData = [
 Object.assign(translations.tr,{contentType:"İçerik türü"});
 Object.assign(translations.en,{contentType:"Content type"});
 Object.assign(translations.ug,{contentType:"مەزمۇن تۈرى"});
-Object.assign(translations.tr,{"songs":"KÜTÜPHANE","songsTitle":"Kütüphane","backToSongs":"Kütüphane","fretsSub":"1. ve 2. telin ana nota konumlarını gösterir.","micRequired":"Mikrofon izni gerekli","micSettings":"Mikrofon izni için Ayarları Aç","allContent":"Tümü","pieces":"Parçalar","exercises":"Alıştırmalar","librarySearch":"Kütüphanede ara","emptyLibrary":"Bu kategoride henüz içerik yok.","previewMissing":"Önizleme yok"});
-Object.assign(translations.en,{"songs":"LIBRARY","songsTitle":"Library","backToSongs":"Library","fretsSub":"Shows the main note positions on strings 1 and 2.","micRequired":"Microphone permission required","micSettings":"Open Settings for microphone access","allContent":"All","pieces":"Pieces","exercises":"Exercises","librarySearch":"Search library","emptyLibrary":"No content in this category yet.","previewMissing":"No preview"});
-Object.assign(translations.ug,{"songs":"كۈتۈپخانا","songsTitle":"كۈتۈپخانا","backToSongs":"كۈتۈپخانا","fretsSub":"ئىككى تارنىڭ ئاساسىي نوتىلىرى.","micRequired":"مىكروفون ئىجازىتى كېرەك","micSettings":"مىكروفون ئۈچۈن تەڭشەكنى ئېچىڭ","allContent":"ھەممىسى","pieces":"ناخشىلار","exercises":"مەشىقلەر","librarySearch":"كۈتۈپخانىدىن ئىزدەش","emptyLibrary":"بۇ تۈردە تېخى مەزمۇن يوق.","previewMissing":"ئالدىن كۆرۈش يوق"});
+Object.assign(translations.tr,{"songs":"KÜTÜPHANE","songsTitle":"Kütüphane","backToSongs":"Kütüphane","fretsSub":"Solda 2. tel · Bom, sağda 1. tel · Zil ana perde konumlarını gösterir.","micRequired":"Mikrofon izni gerekli","micSettings":"Mikrofon izni için Ayarları Aç","allContent":"Tümü","pieces":"Parçalar","exercises":"Alıştırmalar","librarySearch":"Kütüphanede ara","emptyLibrary":"Bu kategoride henüz içerik yok.","previewMissing":"Önizleme yok"});
+Object.assign(translations.en,{"songs":"LIBRARY","songsTitle":"Library","backToSongs":"Library","fretsSub":"Left: string 2 · Bom. Right: string 1 · Zil. Main fret positions.","micRequired":"Microphone permission required","micSettings":"Open Settings for microphone access","allContent":"All","pieces":"Pieces","exercises":"Exercises","librarySearch":"Search library","emptyLibrary":"No content in this category yet.","previewMissing":"No preview"});
+Object.assign(translations.ug,{"songs":"كۈتۈپخانا","songsTitle":"كۈتۈپخانا","backToSongs":"كۈتۈپخانا","fretsSub":"سول تەرەپتە 2-تار · بوم، ئوڭ تەرەپتە 1-تار · زىلنىڭ ئاساسىي پەردە ئورۇنلىرى كۆرسىتىلدى.","micRequired":"مىكروفون ئىجازىتى كېرەك","micSettings":"مىكروفون ئىجازىتى ئۈچۈن تەڭشەكلەرنى ئېچىڭ","allContent":"ھەممىسى","pieces":"نەغمە پارچىلىرى","exercises":"مەشىقلەر","favorites":"ياقتۇرغانلار","librarySearch":"كۈتۈپخانىدىن ئىزدەش","emptyLibrary":"بۇ تۈرگە تېخى مەزمۇن قوشۇلمىغان.","previewMissing":"ئالدىن كۆرۈش يوق"});
 
 function t(k){
 
@@ -2721,14 +2715,14 @@ function renderFrets(){
   var grid=$('#fretGrid');
   if(!grid) return;
   var degrees={C:1,D:2,E:3,F:4,G:5,A:6,B:7};
-  function label(note,string,index){
-    var text=string===0?degrees[note]+' '+noteName(note):noteName(note)+' '+degrees[note];
-    return '<div class="fret-label dual-fret string-'+string+'" data-index="'+index+'"><span class="fret-note">'+text+'</span></div>';
+  function label(number,note,string,index,octave){
+    return '<div class="fret-label dual-fret string-'+string+'" data-index="'+index+'">'+
+      '<span class="fret-number">'+(octave?'<span class="fret-octave">•</span>':'')+number+'</span>'+
+      '<span class="fret-note">'+noteName(note)+'</span></div>';
   }
-  // Physical fret positions stay tied to the existing map; reference labels are intentionally sparse.
-  grid.innerHTML=label('D',0,'open')+fretData.map(function(item,index){
-    return item.note.includes('#')?'':label(item.note,0,index);
-  }).join('')+label('C',1,4);
+  var natural=fretData.filter(function(item){return !item.note.includes('#');});
+  var right=natural.map(function(item,index){return label(item.number,item.note,1,index,item.octave);}).join('');
+  grid.innerHTML=label('1','C',0,'open',false)+right;
 }
 
 /* =========================================
@@ -2870,7 +2864,7 @@ function selectString(i){
 
 function renderPanelTitle(){
   var titles={tr:{tuner:'Akort',frets:'Perdeler',songs:'Kütüphane',settings:'Ayarlar'},en:{tuner:'Tuner',frets:'Frets',songs:'Library',settings:'Settings'}};
-  $('.brand').textContent=titles[lang]?titles[lang][currentPanel||'tuner']:t(currentPanel||'tuner');
+  $('.brand').textContent=(currentPanel||'tuner')==='tuner'?'Duttarim':(titles[lang]?titles[lang][currentPanel||'tuner']:t(currentPanel||'tuner'));
 }
 
 function setTopContext(settingsOpen){
@@ -4303,6 +4297,7 @@ async function playReference(i){
     try{ await nativeTuner.setAnalysisMuted({muted:true}); }
     catch(error){ referenceActive=false; return; }
   }
+  if(request!==referenceRequest || currentPanel!=="tuner" || !appIsActive) return;
   var hz=
     calibratedHz(
       tunings[mode][i].hz
@@ -5695,6 +5690,11 @@ $("#allowMic").onclick=async function(){
   localStorage.setItem('onboardingDone','1');
   $('#onboarding').classList.add('hidden');
   await startTuner();
+};
+$("#denyMic").onclick=function(){
+  localStorage.setItem('onboardingDone','1');
+  $('#onboarding').classList.add('hidden');
+  setTunerStatus('micRequired');
 };
 
 if(
