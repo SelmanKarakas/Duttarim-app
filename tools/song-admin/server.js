@@ -204,6 +204,13 @@ const server = http.createServer(async (req,res) => {
       return;
     }
     if(req.method === "POST" && req.url === "/api/song"){
+      const origin = req.headers.origin;
+      const allowedOrigins = [`http://${HOST}:${PORT}`, `http://localhost:${PORT}`];
+      if((origin && !allowedOrigins.includes(origin)) ||
+         !(req.headers["content-type"] || "").toLowerCase().startsWith("application/json")){
+        sendJson(res,403,{error:"Erişim reddedildi."});
+        return;
+      }
       const payload = await readBody(req);
       const result = await saveSong(payload);
       let publication = null;

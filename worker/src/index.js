@@ -32,8 +32,10 @@ async function secretsEqual(left, right) {
 }
 
 async function authorised(request, env) {
+  if (typeof env.ADMIN_TOKEN !== "string" || !env.ADMIN_TOKEN) return false;
   const header = request.headers.get("authorization") || "";
   const token = header.startsWith("Bearer ") ? header.slice(7) : "";
+  if (!token) return false;
   return secretsEqual(token, env.ADMIN_TOKEN);
 }
 
