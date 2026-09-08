@@ -2790,7 +2790,7 @@ body.score-fullscreen{
 }
 
 .fret-label[data-index="2"]{
-  top:33.4%;
+  top:var(--fret-sol-top,33.4%);
 }
 
 .fret-label[data-index="3"]{
@@ -3649,7 +3649,7 @@ body.score-fullscreen{
 #fretsPanel .fret-label.dual-fret{display:grid;grid-template-columns:clamp(28px,9.4vw,40px) clamp(36px,11.5vw,49px);width:clamp(66px,21.5vw,88px);height:clamp(18px,5vw,22px);background:rgba(255,255,255,.94);box-shadow:0 3px 10px rgba(23,59,93,.07);border-radius:9px;justify-content:initial;text-align:left;color:var(--navy)}
 #fretsPanel .fret-label.dual-fret.string-0{left:calc(50% - 190px);right:auto}
 #fretsPanel .fret-label.dual-fret.string-1{left:auto;right:calc(50% - 190px);justify-content:initial;text-align:left}
-#fretsPanel .fret-label.dual-fret::before{content:'- - - - -';border:0;background:transparent;opacity:.75;top:50%;height:14px;width:58px;transform:translateY(-50%);color:var(--turq);font-size:12px;line-height:14px;letter-spacing:0;white-space:nowrap;overflow:hidden}
+#fretsPanel .fret-label.dual-fret::before{content:'';border:0;background:repeating-linear-gradient(to right,var(--turq) 0 3px,transparent 3px 6px);opacity:.75;top:50%;height:1px;width:clamp(64px,20vw,84px);transform:translateY(-50%);pointer-events:none}
 #fretsPanel .fret-label.dual-fret.string-0::before{left:100%;right:auto}
 #fretsPanel .fret-label.dual-fret.string-1::before{right:100%;left:auto}
 #fretsPanel .fret-number{position:relative;display:flex;align-items:center;justify-content:center;height:100%;font-size:clamp(10px,3.2vw,13px);font-weight:700;color:var(--navy);border-right:1px solid rgba(23,59,93,.08)}
@@ -3667,7 +3667,7 @@ body.score-fullscreen{
 .fret-label.dual-fret::before{content:'';display:block;position:absolute;top:50%;height:1px;background:var(--navy);width:clamp(18px,5vw,38px);transform:none}
 .fret-label.dual-fret.string-0::before{left:calc(-1 * clamp(20px,6vw,42px));right:auto}
 .fret-label.dual-fret.string-1::before{right:calc(-1 * clamp(20px,6vw,42px));left:auto}
-.fret-label[data-index="open"]{top:41.3%}
+.fret-label[data-index="open"]{top:var(--fret-sol-top,33.4%)}
 .dual-fret .fret-note{font-size:14px;font-weight:600;white-space:nowrap}
 .song-card-icon{width:48px;height:48px;min-width:48px;background:var(--mint);border-radius:14px;display:flex;align-items:center;justify-content:center}
 .song-card-icon svg{width:27px;height:27px;fill:none;stroke:var(--navy);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
@@ -3712,4 +3712,4 @@ body.score-fullscreen{
 #tunerPanel.active .mic-dock{margin-top:2px;margin-bottom:calc(76px + env(safe-area-inset-bottom))}
 #fretsPanel.active{box-sizing:border-box;padding-bottom:0}
 #fretsPanel .fret-map{max-height:100%;margin-bottom:0}
-#fretsPanel .fret-label[data-index="open"]{top:41.3%}
+#fretsPanel .fret-label[data-index="open"]{top:var(--fret-sol-top,33.4%)}
