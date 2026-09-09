@@ -81,5 +81,33 @@
       "en": "",
       "ug": ""
     }
+  },
+  {
+    "category": "exercise",
+    "id": "kiqik-yultuz",
+    "title": {
+      "latin": "Kiqik Yultuz",
+      "ug": "كىچىك يۇلتۇزلار"
+    },
+    "origin": {
+      "tr": "Alıştırma",
+      "en": "Exercise",
+      "ug": "مەشىق"
+    },
+    "tempo": 90,
+    "simplePages": [
+      "songs/kiqik_yultuz_basit_1788958805473_1.jpg"
+    ],
+    "notationPages": [],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    }
   }
 ]
