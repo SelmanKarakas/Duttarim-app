@@ -1077,6 +1077,50 @@ body.score-fullscreen{
   line-height:1.6;
 }
 
+.score-offline{
+  min-height:180px;
+  padding:28px 18px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  text-align:center;
+  color:var(--muted);
+  background:rgba(242,248,247,.92);
+  border:1px dashed var(--line);
+  border-radius:18px;
+}
+
+.score-offline svg{
+  display:block;
+  flex:0 0 auto;
+  width:44px;
+  height:44px;
+  fill:none;
+  color:var(--teal);
+  stroke:currentColor;
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+.score-offline .score-offline-dot{
+  fill:currentColor;
+  stroke:none;
+}
+
+.score-offline strong{
+  color:var(--navy);
+  font-size:18px;
+}
+
+.score-offline span{
+  max-width:280px;
+  font-size:14px;
+  line-height:1.45;
+}
+
 
 /* =========================================
    SOURCE
@@ -3713,3 +3757,66 @@ body.score-fullscreen{
 #fretsPanel.active{box-sizing:border-box;padding-bottom:0}
 #fretsPanel .fret-map{max-height:100%;margin-bottom:0}
 #fretsPanel .fret-label[data-index="open"]{top:var(--fret-sol-top,33.4%)}
+
+/* Keep the microphone control fully above the fixed bottom navigation. */
+.app:has(#tunerPanel.active){
+  box-sizing:border-box;
+  height:100dvh;
+  padding-bottom:calc(72px + env(safe-area-inset-bottom));
+}
+
+#tunerPanel.active{
+  flex:1 1 auto;
+  min-height:0;
+  overflow-y:auto;
+}
+
+.app>.mic-dock{
+  flex:0 0 67px;
+  box-sizing:border-box;
+  margin:0 0 8px;
+  padding:8px;
+}
+
+.app>.mic-dock .mic-btn{
+  height:49px;
+  border-radius:14px;
+  font-size:12px;
+}
+
+/* On short devices only the tuner content scrolls; controls keep normal scale. */
+@media(max-height:650px){
+  #tunerPanel .tuner-card{
+    min-height:304px;
+  }
+
+  .app>.mic-dock{
+    flex-basis:63px;
+    margin-bottom:6px;
+    padding:6px 8px 8px;
+  }
+}
+
+/* Keep the original fret coordinates; only labels scale on narrow phones. */
+@media(max-width:360px){
+  #fretsPanel .fret-label.dual-fret{
+    width:60px;
+    height:17px;
+    grid-template-columns:40% 60%;
+    border-radius:6px;
+  }
+
+  #fretsPanel .fret-number,
+  #fretsPanel .fret-note{
+    font-size:11px;
+    line-height:1.15;
+  }
+
+  #fretsPanel .fret-note{
+    padding-left:4px;
+  }
+
+  #fretsPanel .fret-label.dual-fret::before{
+    width:34px;
+  }
+}

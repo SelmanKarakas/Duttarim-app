@@ -14,9 +14,10 @@ for(const bad of ['{broken','null','{}']){
  await page.evaluate(v=>localStorage.setItem('favoriteSongs',v),bad);
  await page.reload(); await page.waitForFunction(()=>window.testApp);
 }
-await page.evaluate(()=>{testApp.songs=[{id:'safe',title:{latin:'Score\" onerror=\"window.qaInjected=1'},tempo:'<img src=x onerror=window.qaInjected=1>',simplePages:['missing.png'],notationPages:[]}];testApp.showPanel('songs');testApp.openSong('safe')});
+await page.evaluate(()=>{testApp.songs=[{id:'safe',title:{latin:'Score\" onerror=\"window.qaInjected=1'},tempo:'<img src=x onerror=window.qaInjected=1>',simplePages:['dutar-head.png'],notationPages:[]}];testApp.showPanel('songs');testApp.openSong('safe')});
 await page.waitForTimeout(200);assert.equal(await page.evaluate(()=>window.qaInjected),undefined);
 assert.equal(await page.locator('.song-score-image').getAttribute('onerror'),null);
+await page.locator('.song-score-image').evaluate(img=>{img.src='missing.png'});await page.locator('.score-offline').waitFor();assert.equal(await page.locator('.score-offline strong').innerText(),'Çevrimdışı');
 await page.evaluate(async()=>{await testApp.showPanel('tuner');nativeMock.permission='granted';await testApp.startTuner();await nativeMock.listeners.appStateChange({isActive:false})});
 assert.equal(await page.evaluate(()=>testApp.listening),false);
 

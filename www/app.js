@@ -104,6 +104,8 @@ aboutMain:
 
   simplifiedMissing:"Basitleştirilmiş nota henüz eklenmedi.",
   notationMissing:"Normal nota henüz eklenmedi.",
+  scoreOffline:"Çevrimdışı",
+  scoreOfflineDetail:"Nota görseli şu anda yüklenemiyor.",
 
   newSongAdded:"Yeni nota eklendi: {title}",
   newSongsAdded:"{count} yeni nota eklendi.",
@@ -206,6 +208,8 @@ aboutDisclaimer:
 
     simplifiedMissing:"Simplified notation has not been added yet.",
     notationMissing:"Standard notation has not been added yet.",
+    scoreOffline:"Offline",
+    scoreOfflineDetail:"The score image cannot be loaded right now.",
 
     newSongAdded:"New notation added: {title}",
     newSongsAdded:"{count} new notations added.",
@@ -308,6 +312,8 @@ aboutDisclaimer:
 
   simplifiedMissing:"ئاددىيلاشتۇرۇلغان نوتا تېخى قوشۇلمىدى.",
   notationMissing:"نورمال نوتا تېخى قوشۇلمىدى.",
+  scoreOffline:"تورسىز ھالەت",
+  scoreOfflineDetail:"نوتا رەسىمىنى ھازىر يۈكلىگىلى بولمىدى.",
 
   newSongAdded:"يېڭى نوتا قوشۇلدى: {title}",
   newSongsAdded:"{count} يېڭى نوتا قوشۇلدى.",
@@ -2067,6 +2073,30 @@ function renderCurrentScorePage(){
       'alt="' +
       adminEscapeHtml(songTitle(activeSong)) +
       '">' ;
+
+  var scoreImage = container.querySelector(
+    ".song-score-image"
+  );
+
+  if(scoreImage){
+    scoreImage.addEventListener(
+      "error",
+      function(){
+        container.innerHTML =
+          '<div class="score-offline" role="status">' +
+            '<svg viewBox="0 0 24 24" aria-hidden="true">' +
+              '<circle cx="12" cy="12" r="9"></circle>' +
+              '<path d="M7.5 10.5c2.5-2 6.5-2 9 0M9.5 13.5c1.5-1 3.5-1 5 0M5 5l14 14"></path>' +
+              '<circle class="score-offline-dot" cx="12" cy="16.5" r=".8"></circle>' +
+            '</svg>' +
+            '<strong>' + adminEscapeHtml(t("scoreOffline")) + '</strong>' +
+            '<span>' + adminEscapeHtml(t("scoreOfflineDetail")) + '</span>' +
+          '</div>';
+        updateScorePagination(0);
+      },
+      {once:true}
+    );
+  }
 
 
   updateScorePagination(
@@ -5805,7 +5835,15 @@ setMode(
 
 initialiseSongs();
 
-showPanel("tuner");
+var privacyReturnPanel=sessionStorage.getItem("privacyReturnPanel");
+sessionStorage.removeItem("privacyReturnPanel");
+var privacyLink=document.querySelector('.privacy-link[href="privacy.html"]');
+if(privacyLink){
+  privacyLink.addEventListener("click",function(){
+    sessionStorage.setItem("privacyReturnPanel","settings");
+  });
+}
+showPanel(privacyReturnPanel==="settings"?"settings":"tuner");
 refreshMicrophonePermission();
 if(capacitorApp){
   capacitorApp.addListener('appStateChange',function(state){if(state.isActive) refreshMicrophonePermission();});
