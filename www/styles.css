@@ -1223,10 +1223,9 @@ body.score-fullscreen{
 
 /* AYARLAR — kaydırılabilir */
 #settingsPanel.active{
-  height:calc(100dvh - 170px);
+  height:calc(100dvh - 130px);
   overflow-y:auto;
   overscroll-behavior:contain;
-  padding-bottom:170px;
 }
 #tunerPanel.active{
   display:block;
@@ -2313,14 +2312,6 @@ body.score-fullscreen{
 
   padding:8px;
 
-  background:
-    rgba(
-      247,
-      248,
-      246,
-      .90
-    );
-
   border-top:0;
 }
 
@@ -3322,7 +3313,7 @@ body.score-fullscreen{
         270px
       );
 
-    min-height:330px;
+    min-height:0;
 
     grid-template-rows:
       116px
@@ -3664,9 +3655,15 @@ body.score-fullscreen{
 /* Android build 2: use the space between the header and bottom navigation. */
 .app:has(#tunerPanel.active){display:flex;flex-direction:column;height:calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom))}
 .app:has(#tunerPanel.active)>.topbar{flex:none}
-#tunerPanel.active{display:flex;flex-direction:column;flex:1;min-height:0;overflow:auto}
+#tunerPanel.active{display:flex;flex-direction:column;flex:1;min-height:0;overflow:hidden}
 #tunerPanel .mode-tabs{flex:none}
-#tunerPanel .tuner-card{flex:1;min-height:320px;height:auto;grid-template-rows:minmax(90px,1fr) 32px 40px minmax(70px,1.3fr) 78px;position:relative;overflow:visible}
+#tunerPanel .tuner-card{
+  flex:1 1 auto;
+  height:auto;
+  min-height:0 !important;
+  overflow:hidden;
+  grid-template-rows:minmax(70px,1fr) 24px 32px minmax(45px,1fr) 58px;
+}
 #tunerPanel .gauge{width:min(100%,280px);height:100%;max-height:145px;align-self:center}
 #tunerPanel .gauge svg{width:100%;height:100%}
 #tunerPanel .status{height:32px;min-height:32px;line-height:16px;display:flex;align-items:center;justify-content:center;font-size:12px}
@@ -3703,8 +3700,6 @@ body.score-fullscreen{
 .library-filters button{padding:8px 10px;border:1px solid var(--line);border-radius:12px;background:white;font-size:12px}
 .library-filters button[aria-pressed=true]{background:var(--navy);color:white}
 .song-card-icon{position:relative;width:66px;height:76px;min-width:66px;overflow:hidden;background:#fff}
-@media(max-height:650px){#tunerPanel .tuner-card{grid-template-rows:90px 32px 32px minmax(60px,1fr) 70px;min-height:304px;padding:6px}#tunerPanel .string-grid{gap:5px}#tunerPanel .string-card{padding:7px}#tunerPanel .mode-tabs{margin:0}.app:has(#tunerPanel.active){padding-top:4px}.app:has(#tunerPanel.active) .topbar{padding-bottom:5px}}
-
 /* Reference-style labels: Bom left, Zil right. */
 .fret-label.dual-fret{background:transparent;box-shadow:none;border-radius:0;width:32%;justify-content:initial;color:var(--navy)}
 .fret-label.dual-fret.string-1{justify-content:flex-end}
@@ -3751,9 +3746,8 @@ body.score-fullscreen{
 #tunerPanel.active{
   padding-bottom:0;
   box-sizing:border-box;
-  overflow-y:auto;
+  overflow-y:hidden;
 }
-#tunerPanel.active .mic-dock{margin-top:2px;margin-bottom:calc(76px + env(safe-area-inset-bottom))}
 #fretsPanel.active{box-sizing:border-box;padding-bottom:0}
 #fretsPanel .fret-map{max-height:100%;margin-bottom:0}
 #fretsPanel .fret-label[data-index="open"]{top:var(--fret-sol-top,33.4%)}
@@ -3761,39 +3755,82 @@ body.score-fullscreen{
 /* Keep the microphone control fully above the fixed bottom navigation. */
 .app:has(#tunerPanel.active){
   box-sizing:border-box;
-  height:100dvh;
-  padding-bottom:calc(72px + env(safe-area-inset-bottom));
+  height:calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  padding-bottom:72px;
 }
 
 #tunerPanel.active{
   flex:1 1 auto;
   min-height:0;
-  overflow-y:auto;
+  overflow-y:hidden;
 }
 
-.app>.mic-dock{
-  flex:0 0 67px;
+.app > .mic-dock{
+  flex:0 0 57px;
+  height:57px;
+  min-height:57px;
   box-sizing:border-box;
-  margin:0 0 8px;
-  padding:8px;
+  margin:0;
+  padding:4px 8px;
 }
 
-.app>.mic-dock .mic-btn{
+.app > .mic-dock .mic-btn{
   height:49px;
-  border-radius:14px;
-  font-size:12px;
+  min-height:49px;
 }
 
 /* On short devices only the tuner content scrolls; controls keep normal scale. */
 @media(max-height:650px){
   #tunerPanel .tuner-card{
-    min-height:304px;
+    min-height:0 !important;
+    grid-template-rows:minmax(62px,1fr) 20px 28px minmax(38px,.8fr) 52px;
+    padding:4px 7px;
+    row-gap:2px;
   }
 
-  .app>.mic-dock{
-    flex-basis:63px;
-    margin-bottom:6px;
-    padding:6px 8px 8px;
+  #tunerPanel .gauge{
+    max-height:95px;
+  }
+
+  #tunerPanel .status{
+    height:20px;
+    min-height:20px;
+    line-height:20px;
+    font-size:10px;
+  }
+
+  #tunerPanel .pitch-row{
+    height:28px;
+  }
+
+  #tunerPanel .note{
+    font-size:24px;
+  }
+
+  #tunerPanel .cents{
+    font-size:10px;
+  }
+
+  #tunerPanel .instrument-wrap img{
+    max-height:105px;
+  }
+
+  #tunerPanel .string-card{
+    height:46px;
+    padding:4px 7px;
+  }
+
+  .app > .mic-dock{
+    flex:0 0 53px;
+    height:53px;
+    min-height:53px;
+    margin:0;
+    padding:3px 8px;
+  }
+
+  .app > .mic-dock .mic-btn{
+    height:47px;
+    min-height:47px;
   }
 }
 
