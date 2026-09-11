@@ -137,5 +137,33 @@
       "en": "",
       "ug": ""
     }
+  },
+  {
+    "category": "piece",
+    "id": "bilim-ixkida",
+    "title": {
+      "latin": "Bilim Ixkida",
+      "ug": ""
+    },
+    "origin": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "tempo": 90,
+    "simplePages": [
+      "songs/bilim_ixkida_basit_1789150689526_1.jpg"
+    ],
+    "notationPages": [],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    }
   }
 ]
