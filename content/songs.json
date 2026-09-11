@@ -109,5 +109,33 @@
       "en": "",
       "ug": ""
     }
+  },
+  {
+    "category": "piece",
+    "id": "bilim-ixkida",
+    "title": {
+      "latin": "Bilim Ixkida",
+      "ug": ""
+    },
+    "origin": {
+      "tr": "Dutar Eseri",
+      "en": "Dutar Piece",
+      "ug": ""
+    },
+    "tempo": 80,
+    "simplePages": [
+      "songs/bilim_ixkida_basit_1789141476151_1.jpg"
+    ],
+    "notationPages": [],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    }
   }
 ]
