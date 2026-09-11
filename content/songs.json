@@ -112,9 +112,9 @@
   },
   {
     "category": "piece",
-    "id": "bilim-ixkida",
+    "id": "oz-yaring",
     "title": {
-      "latin": "Bilim Ixkida",
+      "latin": "Oz yaring",
       "ug": ""
     },
     "origin": {
@@ -122,9 +122,9 @@
       "en": "Dutar Piece",
       "ug": ""
     },
-    "tempo": 80,
+    "tempo": 90,
     "simplePages": [
-      "songs/bilim_ixkida_basit_1789141476151_1.jpg"
+      "songs/oz_yaring_basit_1789141593131_1.jpg"
     ],
     "notationPages": [],
     "sourceNotes": {
@@ -133,7 +133,7 @@
       "ug": ""
     },
     "arrangementNotes": {
-      "tr": "",
+      "tr": "Chanaymen org",
       "en": "",
       "ug": ""
     }
