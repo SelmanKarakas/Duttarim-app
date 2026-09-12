@@ -140,9 +140,9 @@
   },
   {
     "category": "piece",
-    "id": "ketmeydu",
+    "id": "vijdan-soriqi",
     "title": {
-      "latin": "Ketmeydu",
+      "latin": "Vijdan Soriqi",
       "ug": ""
     },
     "origin": {
@@ -150,10 +150,38 @@
       "en": "Duttar Piece",
       "ug": "دۇتار ئەسىرى"
     },
-    "tempo": 120,
+    "tempo": 100,
     "simplePages": [],
     "notationPages": [
-      "songs/ketmeydu_normal_1789241997602_1.png"
+      "songs/vijdan_soriqi_normal_1789241849413_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    }
+  },
+  {
+    "category": "piece",
+    "id": "aldida",
+    "title": {
+      "latin": "Aldida",
+      "ug": ""
+    },
+    "origin": {
+      "tr": "Duttar Eseri",
+      "en": "Duttar Piece",
+      "ug": "دۇتار ئەسىرى"
+    },
+    "tempo": 90,
+    "simplePages": [],
+    "notationPages": [
+      "songs/aldida_normal_1789242037432_1.png"
     ],
     "sourceNotes": {
       "tr": "",
