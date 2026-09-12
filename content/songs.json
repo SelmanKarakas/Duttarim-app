@@ -168,20 +168,20 @@
   },
   {
     "category": "piece",
-    "id": "aldida",
+    "id": "uchrashqanda",
     "title": {
-      "latin": "Aldida",
+      "latin": "Uchrashqanda",
       "ug": ""
     },
     "origin": {
-      "tr": "Duttar Eseri",
+      "tr": "",
       "en": "Duttar Piece",
       "ug": "دۇتار ئەسىرى"
     },
     "tempo": 90,
     "simplePages": [],
     "notationPages": [
-      "songs/aldida_normal_1789242037432_1.png"
+      "songs/uchrashqanda_normal_1789242101816_1.png"
     ],
     "sourceNotes": {
       "tr": "",
