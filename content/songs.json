@@ -168,20 +168,20 @@
   },
   {
     "category": "piece",
-    "id": "uchrashqanda",
+    "id": "ketmeydu",
     "title": {
-      "latin": "Uchrashqanda",
+      "latin": "Ketmeydu",
       "ug": ""
     },
     "origin": {
-      "tr": "",
+      "tr": "Duttar Eseri",
       "en": "Duttar Piece",
       "ug": "دۇتار ئەسىرى"
     },
-    "tempo": 90,
+    "tempo": 120,
     "simplePages": [],
     "notationPages": [
-      "songs/uchrashqanda_normal_1789242101816_1.png"
+      "songs/ketmeydu_normal_1789242423046_1.png"
     ],
     "sourceNotes": {
       "tr": "",
