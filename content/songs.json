@@ -193,5 +193,33 @@
       "en": "",
       "ug": ""
     }
+  },
+  {
+    "category": "piece",
+    "id": "uchrashqanda",
+    "title": {
+      "latin": "Uchrashqanda",
+      "ug": ""
+    },
+    "origin": {
+      "tr": "Duttar Eseri",
+      "en": "Duttar Piece",
+      "ug": "دۇتار ئەسىرى"
+    },
+    "tempo": 90,
+    "simplePages": [],
+    "notationPages": [
+      "songs/uchrashqanda_normal_1789242685391_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    }
   }
 ]
