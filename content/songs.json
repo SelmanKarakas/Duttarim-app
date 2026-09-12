@@ -137,5 +137,33 @@
       "en": "",
       "ug": ""
     }
+  },
+  {
+    "category": "piece",
+    "id": "vijdan-soriqi",
+    "title": {
+      "latin": "Vijdan Soriqi",
+      "ug": ""
+    },
+    "origin": {
+      "tr": "Duttar Eseri",
+      "en": "Duttar Piece",
+      "ug": "دۇتار ئەسىرى"
+    },
+    "tempo": 100,
+    "simplePages": [],
+    "notationPages": [
+      "songs/vijdan_soriqi_normal_1789241849413_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    }
   }
 ]
