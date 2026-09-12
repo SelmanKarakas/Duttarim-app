@@ -196,9 +196,9 @@
   },
   {
     "category": "piece",
-    "id": "uchrashqanda",
+    "id": "aldida",
     "title": {
-      "latin": "Uchrashqanda",
+      "latin": "Aldida",
       "ug": ""
     },
     "origin": {
@@ -209,7 +209,7 @@
     "tempo": 90,
     "simplePages": [],
     "notationPages": [
-      "songs/uchrashqanda_normal_1789242685391_1.png"
+      "songs/aldida_normal_1789242755041_1.png"
     ],
     "sourceNotes": {
       "tr": "",
