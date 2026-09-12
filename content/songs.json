@@ -140,9 +140,9 @@
   },
   {
     "category": "piece",
-    "id": "vijdan-soriqi",
+    "id": "ketmeydu",
     "title": {
-      "latin": "Vijdan Soriqi",
+      "latin": "Ketmeydu",
       "ug": ""
     },
     "origin": {
@@ -150,10 +150,10 @@
       "en": "Duttar Piece",
       "ug": "دۇتار ئەسىرى"
     },
-    "tempo": 100,
+    "tempo": 120,
     "simplePages": [],
     "notationPages": [
-      "songs/vijdan_soriqi_normal_1789241849413_1.png"
+      "songs/ketmeydu_normal_1789241997602_1.png"
     ],
     "sourceNotes": {
       "tr": "",
