@@ -23,12 +23,11 @@
     },
     "arrangementNotes": {
       "tr": "Orijinal ve medya kaynaklarından elle aktarılmıştır. Küçük hatalar olabilir. Herhangi bir hata fark ederseniz geri bildirim göndermekten çekinmeyin.",
-      "en": "Manually transcribed for reference. Minor errors may occur. Source information is provided where available. Feedback and corrections are welcome.",
+      "en": "Transcribed manually. Minor errors may occur. If you notice anything, feel free to send us feedback.",
       "ug": "ئاددىيلاشتۇرۇلغان ۋە نورمال نوتا كۆرۈنۈشى تەمىنلەنگەن."
     }
   },
   {
-    "category": "piece",
     "id": "altun-tupraq",
     "title": {
       "latin": "Altun Tupraq",
@@ -51,7 +50,7 @@
     },
     "arrangementNotes": {
       "tr": "Orijinal ve medya kaynaklarından elle aktarılmıştır. Küçük hatalar olabilir. Herhangi bir hata fark ederseniz geri bildirim göndermekten çekinmeyin.",
-      "en": "Transcribed manually. Minor errors may occur. If you notice anything, feel free to send us feedback.",
+      "en": "Transcribed manually from original and media sources. Minor errors may occur. If you notice anything, feel free to send us feedback.",
       "ug": "ئەسلى ۋە مېدىيا مەنبەلىرىدىن كۆچۈرۈپ رەتلەنگەن. كىچىك خاتالىقلار بولۇشى مۇمكىن. ئەگەر بىرەر خاتالىق بايقىسىڭىز، بىزگە پىكىر-تەكلىپ ئەۋەتىشىڭىزنى قارشى ئالىمىز."
     }
   },
