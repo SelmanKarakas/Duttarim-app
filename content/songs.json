@@ -55,6 +55,7 @@
     }
   },
   {
+    "category": "piece",
     "id": "taxway",
     "title": {
       "latin": "Taxway",
@@ -79,7 +80,7 @@
     },
     "arrangementNotes": {
       "tr": "",
-      "en": "",
+      "en": "Transcribed manually. Minor errors may occur. If you notice anything, feel free to send us feedback.",
       "ug": ""
     }
   },
@@ -107,7 +108,7 @@
     },
     "arrangementNotes": {
       "tr": "",
-      "en": "Transcribed manually. Minor errors may occur. If you notice anything, feel free to send us feedback.",
+      "en": "",
       "ug": ""
     }
   },
