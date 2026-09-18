@@ -1,5 +1,6 @@
 [
   {
+    "category": "piece",
     "id": "talka-tagliri",
     "title": {
       "latin": "Talka Tagliri",
@@ -22,7 +23,7 @@
     },
     "arrangementNotes": {
       "tr": "Orijinal ve medya kaynaklarından elle aktarılmıştır. Küçük hatalar olabilir. Herhangi bir hata fark ederseniz geri bildirim göndermekten çekinmeyin.",
-      "en": "Simplified and standard notation views are provided.",
+      "en": "Manually transcribed for reference. Minor errors may occur. Source information is provided where available. Feedback and corrections are welcome.",
       "ug": "ئاددىيلاشتۇرۇلغان ۋە نورمال نوتا كۆرۈنۈشى تەمىنلەنگەن."
     }
   },
@@ -218,7 +219,7 @@
     },
     "arrangementNotes": {
       "tr": "",
-      "en": "",
+      "en": "Transcribed manually. Minor errors may occur. If you notice anything, feel free to send us feedback.",
       "ug": ""
     }
   },
@@ -246,7 +247,7 @@
     },
     "arrangementNotes": {
       "tr": "",
-      "en": "Transcribed manually. Minor errors may occur. If you notice anything, feel free to send us feedback.",
+      "en": "",
       "ug": ""
     }
   }
