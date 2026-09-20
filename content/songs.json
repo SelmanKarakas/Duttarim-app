@@ -314,5 +314,35 @@
       "en": "",
       "ug": ""
     }
+  },
+  {
+    "category": "piece",
+    "id": "ana-mihri",
+    "title": {
+      "latin": "Ana mihri",
+      "ug": "ئانا مېھرى"
+    },
+    "origin": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "tempo": 90,
+    "simplePages": [
+      "songs/ana_mihri_basit_1789897320034_1.png"
+    ],
+    "notationPages": [
+      "songs/ana_mihri_normal_1789897320040_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    }
   }
 ]
