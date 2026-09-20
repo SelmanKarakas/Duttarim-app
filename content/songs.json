@@ -437,10 +437,10 @@
   },
   {
     "category": "piece",
-    "id": "texnalik",
+    "id": "bir-kuni",
     "title": {
-      "latin": "Texnalik",
-      "ug": "تاشنالىق"
+      "latin": "Bir kuni",
+      "ug": "بىر كۈنى"
     },
     "origin": {
       "tr": "",
@@ -449,10 +449,10 @@
     },
     "tempo": 90,
     "simplePages": [
-      "songs/texnalik_basit_1789898217645_1.png"
+      "songs/bir_kuni_basit_1789898284081_1.png"
     ],
     "notationPages": [
-      "songs/texnalik_normal_1789898217650_1.png"
+      "songs/bir_kuni_normal_1789898284086_1.png"
     ],
     "sourceNotes": {
       "tr": "",
