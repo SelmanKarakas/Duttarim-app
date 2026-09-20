@@ -524,5 +524,35 @@
       "en": "",
       "ug": ""
     }
+  },
+  {
+    "category": "piece",
+    "id": "koy-piyalige-qayni",
+    "title": {
+      "latin": "Koy Piyalige Qayni",
+      "ug": "قوي پىيالىگە چاينى"
+    },
+    "origin": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "tempo": 90,
+    "simplePages": [
+      "songs/koy_piyalige_qayni_basit_1789898637544_1.png"
+    ],
+    "notationPages": [
+      "songs/koy_piyalige_qayni_normal_1789898637548_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    }
   }
 ]
