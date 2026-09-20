@@ -251,5 +251,35 @@
       "en": "Transcribed manually. Minor errors may occur. If you notice anything, feel free to send us feedback.",
       "ug": ""
     }
+  },
+  {
+    "category": "piece",
+    "id": "tirek-bostan",
+    "title": {
+      "latin": "Tirek bostan",
+      "ug": "تېرەك بوستان"
+    },
+    "origin": {
+      "tr": "Tirek bostan",
+      "en": "Tirek bostan",
+      "ug": "تېرەك بوستان"
+    },
+    "tempo": 90,
+    "simplePages": [
+      "songs/tirek_bostan_basit_1789894269266_1.png"
+    ],
+    "notationPages": [
+      "songs/tirek_bostan_normal_1789894269276_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    }
   }
 ]
