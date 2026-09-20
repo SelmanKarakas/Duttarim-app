@@ -374,5 +374,35 @@
       "en": "",
       "ug": ""
     }
+  },
+  {
+    "category": "piece",
+    "id": "berbat-bolgan-muhabbet",
+    "title": {
+      "latin": "Berbat Bolgan Muhabbet",
+      "ug": "بەربات بولغان مۇھاببەت"
+    },
+    "origin": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "tempo": 90,
+    "simplePages": [
+      "songs/berbat_bolgan_muhabbet_basit_1789897800405_1.png"
+    ],
+    "notationPages": [
+      "songs/berbat_bolgan_muhabbet_normal_1789897800411_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    }
   }
 ]
