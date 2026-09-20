@@ -464,5 +464,35 @@
       "en": "",
       "ug": ""
     }
+  },
+  {
+    "category": "piece",
+    "id": "ketmigin-yarim",
+    "title": {
+      "latin": "Ketmigin Yarim",
+      "ug": "كەتمىگىن يارىم"
+    },
+    "origin": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "tempo": 90,
+    "simplePages": [
+      "songs/ketmigin_yarim_basit_1789898381790_1.png"
+    ],
+    "notationPages": [
+      "songs/ketmigin_yarim_normal_1789898381795_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    }
   }
 ]
