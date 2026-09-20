@@ -434,5 +434,35 @@
       "en": "",
       "ug": ""
     }
+  },
+  {
+    "category": "piece",
+    "id": "texnalik",
+    "title": {
+      "latin": "Texnalik",
+      "ug": "تاشنالىق"
+    },
+    "origin": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "tempo": 90,
+    "simplePages": [
+      "songs/texnalik_basit_1789898217645_1.png"
+    ],
+    "notationPages": [
+      "songs/texnalik_normal_1789898217650_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    }
   }
 ]
