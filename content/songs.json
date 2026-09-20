@@ -494,5 +494,35 @@
       "en": "",
       "ug": ""
     }
+  },
+  {
+    "category": "piece",
+    "id": "yollugum",
+    "title": {
+      "latin": "Yollugum",
+      "ug": "يوللۇغۇم"
+    },
+    "origin": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "tempo": 90,
+    "simplePages": [
+      "songs/yollugum_basit_1789898532486_1.png"
+    ],
+    "notationPages": [
+      "songs/yollugum_normal_1789898532490_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    }
   }
 ]
