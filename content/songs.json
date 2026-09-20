@@ -31,7 +31,7 @@
     "category": "piece",
     "id": "altun-tupraq",
     "title": {
-      "latin": "Altun Tuprak",
+      "latin": "Altun Tupraq",
       "ug": "التۇن تۇپراق"
     },
     "origin": {
@@ -41,10 +41,10 @@
     },
     "tempo": 120,
     "simplePages": [
-      "songs/altun_tupraq_basit_1789896921734_1.png"
+      "songs/altun_tupraq_basit_1789896956622_1.png"
     ],
     "notationPages": [
-      "songs/altun_tupraq_normal_1789896921742_1.png"
+      "songs/altun_tupraq_normal_1789896956626_1.png"
     ],
     "sourceNotes": {
       "tr": "",
