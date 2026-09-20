@@ -344,5 +344,35 @@
       "en": "",
       "ug": ""
     }
+  },
+  {
+    "category": "piece",
+    "id": "yar-kilemsen-baraymu",
+    "title": {
+      "latin": "Yar kilemsen baraymu",
+      "ug": "يار كېلەمسەن بارايمۇ"
+    },
+    "origin": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "tempo": 90,
+    "simplePages": [
+      "songs/yar_kilemsen_baraymu_basit_1789897578175_1.png"
+    ],
+    "notationPages": [
+      "songs/yar_kilemsen_baraymu_normal_1789897578183_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    }
   }
 ]
