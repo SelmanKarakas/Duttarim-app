@@ -404,5 +404,35 @@
       "en": "",
       "ug": ""
     }
+  },
+  {
+    "category": "piece",
+    "id": "didar-geniymet",
+    "title": {
+      "latin": "Didar Geniymet",
+      "ug": "دىدار غەنىيمەت"
+    },
+    "origin": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "tempo": 90,
+    "simplePages": [
+      "songs/didar_geniymet_basit_1789898004974_1.png"
+    ],
+    "notationPages": [
+      "songs/didar_geniymet_normal_1789898004981_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    }
   }
 ]
