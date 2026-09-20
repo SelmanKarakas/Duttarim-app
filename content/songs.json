@@ -284,5 +284,35 @@
       "en": "",
       "ug": ""
     }
+  },
+  {
+    "category": "piece",
+    "id": "isillirim-ata-anam",
+    "title": {
+      "latin": "Isillirim ata anam",
+      "ug": "ئېسىللىرىم ئاتا-ئانام"
+    },
+    "origin": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "tempo": 90,
+    "simplePages": [
+      "songs/isillirim_ata_anam_basit_1789897174586_1.png"
+    ],
+    "notationPages": [
+      "songs/isillirim_ata_anam_normal_1789897174591_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    }
   }
 ]
