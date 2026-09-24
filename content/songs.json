@@ -582,5 +582,33 @@
       "en": "1) The left-hand fingering rules must be strictly followed; whichever finger number is written above the note, that finger must be used to press the fret for that pitch. The fingers must be positioned neatly when pressing the frets.  \n\n 2) When practicing, it is required to produce a pleasant sound from the dutar and to practice diligently. You should first practice at a slow tempo and then gradually increase the speed. Doing so will improve the agility and endurance of your fingers.  \n\n 3) Because this is a scale exercise, it is necessary to memorize the fret positions and notes during practice, and to practice more frequently.",
       "ug": "بۇ مەشقتە ئوڭ قول بىلەن سول قولنى ماسلاشتۇرۇپ چېلىش تەلەپ قىلىنىدۇ. مەشق قىلىش جەريانىدا \nتۆۋەندىكى نۇقتىلارغا دىققەت قىلىش كېرەك:\n\n1. سول قول بارماق قائىدىسىگە تولۇق ئەمەل قىلىش، نوتا ئۈستىگە قايسى بارماق نومۇرى يېزىلغان بولسا شۇ بارماق بىلەن شۇ ئاھاڭنىڭ پەدىسىنى بېسىپ چېلىش لازىم. پەدە باسقاندا بارماقلار رەتلىك بولۇشى كېرەك.\n\n2. مەشق قىلغاندا دۇتار ئاۋازىنى يېقىملىق چىقىرىش، ئەستايىدىل مەشق قىلىش تەلەپ قىلىنىدۇ. ئاۋۋال ئاستا سۈرئەتتە مەشق قىلىپ، كېيىن تەدرىجىي تېزلىتىپ مەشق قىلىش كېرەك. شۇ ئارقىلىق قول بارماقلىرىنىڭ چاققانلىقىنى، چىدامچانلىقىنى ئاشۇرۇش لازىم.\n\n3. بۇ مەشق ئاھاڭ باسقۇچ مەشقى بولغاچقا، مەشق جەريانىدا پەدە ئورنىنى ۋە نوتىنى ئەستە ساقلاش، كۆپرەك مەشق قىلىپ بېرىش كېرەك."
     }
+  },
+  {
+    "category": "exercise",
+    "id": "meshiq",
+    "title": {
+      "latin": "Meshiq",
+      "ug": ""
+    },
+    "origin": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "tempo": 90,
+    "simplePages": [],
+    "notationPages": [
+      "songs/meshiq_normal_1790251391129_1.jpg"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    }
   }
 ]
