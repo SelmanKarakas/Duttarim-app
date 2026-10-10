@@ -186,9 +186,7 @@
       "ug": "دۇتار ئەسىرى"
     },
     "tempo": 120,
-    "simplePages": [
-      "songs/ketmeydu_basit_1791643143365_1.jpg"
-    ],
+    "simplePages": [],
     "notationPages": [
       "songs/ketmeydu_normal_1789242423046_1.png"
     ],
@@ -216,7 +214,9 @@
       "ug": "دۇتار ئەسىرى"
     },
     "tempo": 90,
-    "simplePages": [],
+    "simplePages": [
+      "songs/aldida_basit_1791643168899_1.jpg"
+    ],
     "notationPages": [
       "songs/aldida_normal_1789242755041_1.png"
     ],
