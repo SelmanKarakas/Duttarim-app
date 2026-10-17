@@ -117,6 +117,8 @@
   },
   {
     "category": "piece",
+    "difficulty": "intermediate",
+    "tuning": "normal",
     "id": "oz-yaring",
     "title": {
       "latin": "Oz yaring",
