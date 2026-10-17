@@ -117,8 +117,6 @@
   },
   {
     "category": "piece",
-    "difficulty": "intermediate",
-    "tuning": "normal",
     "id": "oz-yaring",
     "title": {
       "latin": "Oz yaring",
@@ -327,6 +325,8 @@
   },
   {
     "category": "piece",
+    "difficulty": "advanced",
+    "tuning": "normal",
     "id": "yar-kilemsen-baraymu",
     "title": {
       "latin": "Yar kilemsen baraymu",
