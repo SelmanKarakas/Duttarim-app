@@ -591,6 +591,8 @@
   },
   {
     "category": "piece",
+    "difficulty": "beginner",
+    "tuning": "normal",
     "id": "dadam",
     "title": {
       "latin": "Dadam",
