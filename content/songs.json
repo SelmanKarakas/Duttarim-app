@@ -59,6 +59,8 @@
   },
   {
     "category": "piece",
+    "difficulty": "intermediate",
+    "tuning": "normal",
     "id": "taxway",
     "title": {
       "latin": "Taxway",
@@ -265,8 +267,6 @@
   },
   {
     "category": "piece",
-    "difficulty": "intermediate",
-    "tuning": "normal",
     "id": "isillirim-ata-anam",
     "title": {
       "latin": "Isillirim ata anam",
