@@ -447,6 +447,8 @@
   },
   {
     "category": "piece",
+    "difficulty": "beginner",
+    "tuning": "normal",
     "id": "ketmigin-yarim",
     "title": {
       "latin": "Ketmigin Yarim",
@@ -477,8 +479,6 @@
   },
   {
     "category": "piece",
-    "difficulty": "beginner",
-    "tuning": "normal",
     "id": "yollugum",
     "title": {
       "latin": "Yollugum",
