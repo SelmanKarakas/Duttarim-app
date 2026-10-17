@@ -539,6 +539,8 @@
   },
   {
     "category": "exercise",
+    "difficulty": "beginner",
+    "tuning": "normal",
     "id": "ong-sol-qol-maslashturush-meshiqi",
     "title": {
       "latin": "Ong-Sol Qol Maslashturush 1",
@@ -567,8 +569,6 @@
   },
   {
     "category": "exercise",
-    "difficulty": "beginner",
-    "tuning": "normal",
     "id": "meshiq",
     "title": {
       "latin": "Ong-Sol Qol Maslashturush 2",
