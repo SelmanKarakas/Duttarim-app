@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "admin": "node tools/song-admin/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node tools/validate-project.cjs",
+    "test:ui": "node tools/qa-regression.cjs",
+    "test:ui:build2": "node tools/build2-ui-test.cjs"
   },
   "keywords": [],
   "author": "",
@@ -16,5 +18,8 @@
     "@capacitor/app": "^8.1.1",
     "@capacitor/cli": "^8.5.0",
     "@capacitor/core": "^8.5.0"
+  },
+  "devDependencies": {
+    "playwright": "^1.64.1"
   }
 }

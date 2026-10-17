@@ -5,6 +5,7 @@ build/
 **/build/
 local.properties
 android/local.properties
+android/app/release/
 
 # Node
 node_modules/
