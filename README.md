@@ -4,9 +4,9 @@ Duttarim is a Capacitor Android app for tuning a dutar and viewing sheet music. 
 
 ## Working on the app
 
-- Open this repository's `android/` directory in Android Studio. Edit web source in `www/`, then run `npx cap sync android` before building the Android app. Generated Android web assets are ignored by Git.
+- Open this repository's `android/` directory in Android Studio. Edit web source in `www/`; Android Studio's Build/Run copies those files into the app automatically. Run `npx cap sync android` only after changing Capacitor plugins or `capacitor.config.json`. Generated Android web assets are ignored by Git.
 - Install JavaScript dependencies with `npm ci`. Run `npm test` for syntax and catalog/image checks. The browser regression suite is `npm run test:ui` and requires Playwright plus Microsoft Edge; it uses microphone mocks. The earlier layout suite is `npm run test:ui:build2`.
-- Run Android unit tests from `android/` with `gradlew.bat testDebugUnitTest`. Check microphone accuracy, speaker bleed, permissions, and rapid start/stop on a physical device before release.
+- Use JDK 21 for Gradle. Run Android unit tests from `android/` with `gradlew.bat testDebugUnitTest`. Check microphone accuracy, speaker bleed, permissions, and rapid start/stop on a physical device before release.
 - Start the local score editor with `npm run admin`. The in-app editor publishes through `worker/`; see [worker/README.md](worker/README.md) for its required secrets. Never put publishing tokens or signing keys in the app or repository.
 
 ## Branches and release flow

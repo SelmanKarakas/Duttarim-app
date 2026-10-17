@@ -24,6 +24,16 @@ android {
     }
 }
 
+// Keep the packaged WebView files current when Android Studio builds or runs the app.
+// Capacitor sync is still needed after changing plugins or capacitor.config.json.
+def syncWebAssets = tasks.register('syncWebAssets', Sync) {
+    from(file("${rootDir}/../www"))
+    into(file("${projectDir}/src/main/assets/public"))
+}
+tasks.named('preBuild') {
+    dependsOn(syncWebAssets)
+}
+
 repositories {
     flatDir{
         dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
