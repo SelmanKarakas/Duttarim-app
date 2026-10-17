@@ -89,8 +89,6 @@
   },
   {
     "category": "piece",
-    "difficulty": "beginner",
-    "tuning": "normal",
     "id": "kiqik-yultuz",
     "title": {
       "latin": "Kiqik Yultuz",
@@ -207,6 +205,8 @@
   },
   {
     "category": "piece",
+    "difficulty": "advanced",
+    "tuning": "normal",
     "id": "uchrashqanda",
     "title": {
       "latin": "Uchrashqanda",
