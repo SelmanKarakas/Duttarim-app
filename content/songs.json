@@ -477,6 +477,8 @@
   },
   {
     "category": "piece",
+    "difficulty": "beginner",
+    "tuning": "normal",
     "id": "yollugum",
     "title": {
       "latin": "Yollugum",
@@ -539,8 +541,6 @@
   },
   {
     "category": "exercise",
-    "difficulty": "beginner",
-    "tuning": "normal",
     "id": "ong-sol-qol-maslashturush-meshiqi",
     "title": {
       "latin": "Ong-Sol Qol Maslashturush 1",
