@@ -89,6 +89,8 @@
   },
   {
     "category": "piece",
+    "difficulty": "beginner",
+    "tuning": "normal",
     "id": "kiqik-yultuz",
     "title": {
       "latin": "Kiqik Yultuz",
@@ -447,8 +449,6 @@
   },
   {
     "category": "piece",
-    "difficulty": "intermediate",
-    "tuning": "normal",
     "id": "ketmigin-yarim",
     "title": {
       "latin": "Ketmigin Yarim",
