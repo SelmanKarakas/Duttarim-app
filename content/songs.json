@@ -1,45 +1,19 @@
 [
   {
+    "category": "piece",
     "id": "talka-tagliri",
     "title": {
       "latin": "Talka Tagliri",
       "ug": "تالقا تاغلىرى"
     },
     "origin": {
-      "tr": "Duttar Eseri",
-      "en": "Duttar Piece",
+      "tr": "Dutar Eseri",
+      "en": "Dutar Piece",
       "ug": "دۇتار ئەسىرى"
     },
-    "tempo": 90,
+    "tempo": 92,
     "simplePages": [
       "songs/talka_tagliri_basit_1788115206964_1.png"
-    ],
-    "notationPages": [],
-    "sourceNotes": {
-      "tr": "",
-      "en": "",
-      "ug": ""
-    },
-    "arrangementNotes": {
-      "tr": "Orijinal ve medya kaynaklarından elle aktarılmıştır. Küçük hatalar olabilir. Herhangi bir hata fark ederseniz geri bildirim göndermekten çekinmeyin.",
-      "en": "Simplified and standard notation views are provided.",
-      "ug": "ئاددىيلاشتۇرۇلغان ۋە نورمال نوتا كۆرۈنۈشى تەمىنلەنگەن."
-    }
-  },
-  {
-    "id": "altun-tupraq",
-    "title": {
-      "latin": "Altun Tupraq",
-      "ug": "التۇن تۇپراق"
-    },
-    "origin": {
-      "tr": "Duttar Eseri",
-      "en": "Duttar Piece",
-      "ug": "دۇتار ئەسىرى"
-    },
-    "tempo": 120,
-    "simplePages": [
-      "songs/altun_tupraq_basit_1787829624901_1.png"
     ],
     "notationPages": [],
     "sourceNotes": {
@@ -54,6 +28,37 @@
     }
   },
   {
+    "category": "piece",
+    "id": "altun-tupraq",
+    "title": {
+      "latin": "Altun Tuprak",
+      "ug": "التۇن تۇپراق"
+    },
+    "origin": {
+      "tr": "Dutar Eseri",
+      "en": "Dutar Piece",
+      "ug": "دۇتار ئەسىرى"
+    },
+    "tempo": 120,
+    "simplePages": [
+      "songs/altun_tupraq_basit_1789896956622_1.png"
+    ],
+    "notationPages": [
+      "songs/altun_tupraq_normal_1789896956626_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "Orijinal ve medya kaynaklarından elle aktarılmıştır. Küçük hatalar olabilir. Herhangi bir hata fark ederseniz geri bildirim göndermekten çekinmeyin.",
+      "en": "Transcribed manually from original and media sources. Minor errors may occur. If you notice anything, feel free to send us feedback.",
+      "ug": "ئەسلى ۋە مېدىيا مەنبەلىرىدىن كۆچۈرۈپ رەتلەنگەن. كىچىك خاتالىقلار بولۇشى مۇمكىن. ئەگەر بىرەر خاتالىق بايقىسىڭىز، بىزگە پىكىر-تەكلىپ ئەۋەتىشىڭىزنى قارشى ئالىمىز."
+    }
+  },
+  {
+    "category": "piece",
     "id": "taxway",
     "title": {
       "latin": "Taxway",
@@ -69,6 +74,566 @@
       "songs/taxway_basit_1787857986227_2.webp",
       "songs/taxway_basit_1787857986206_1.webp",
       "songs/taxway_basit_1787857986230_3.webp"
+    ],
+    "notationPages": [],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "Orijinal ve medya kaynaklarından elle aktarılmıştır. Küçük hatalar olabilir. Herhangi bir hata fark ederseniz geri bildirim göndermekten çekinmeyin.",
+      "en": "Transcribed manually from original and media sources. Minor errors may occur. If you notice anything, feel free to send us feedback.",
+      "ug": "ئەسلى ۋە مېدىيا مەنبەلىرىدىن كۆچۈرۈپ رەتلەنگەن. كىچىك خاتالىقلار بولۇشى مۇمكىن. ئەگەر بىرەر خاتالىق بايقىسىڭىز، بىزگە پىكىر-تەكلىپ ئەۋەتىشىڭىزنى قارشى ئالىمىز."
+    }
+  },
+  {
+    "category": "exercise",
+    "id": "kiqik-yultuz",
+    "title": {
+      "latin": "Kiqik Yultuz",
+      "ug": "كىچىك يۇلتۇزلار"
+    },
+    "origin": {
+      "tr": "Alıştırma",
+      "en": "Exercise",
+      "ug": "مەشىق"
+    },
+    "tempo": 90,
+    "simplePages": [
+      "songs/kiqik_yultuz_basit_1788958943243_1.jpg"
+    ],
+    "notationPages": [],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "Orijinal ve medya kaynaklarından elle aktarılmıştır. Küçük hatalar olabilir. Herhangi bir hata fark ederseniz geri bildirim göndermekten çekinmeyin.",
+      "en": "Transcribed manually from original and media sources. Minor errors may occur. If you notice anything, feel free to send us feedback.",
+      "ug": "ئەسلى ۋە مېدىيا مەنبەلىرىدىن كۆچۈرۈپ رەتلەنگەن. كىچىك خاتالىقلار بولۇشى مۇمكىن. ئەگەر بىرەر خاتالىق بايقىسىڭىز، بىزگە پىكىر-تەكلىپ ئەۋەتىشىڭىزنى قارشى ئالىمىز."
+    }
+  },
+  {
+    "category": "piece",
+    "id": "oz-yaring",
+    "title": {
+      "latin": "Oz yaring",
+      "ug": "ئۆز يېرىڭ"
+    },
+    "origin": {
+      "tr": "Dutar Eseri",
+      "en": "Dutar Piece",
+      "ug": "دۇتار ئەسىرى"
+    },
+    "tempo": 90,
+    "simplePages": [
+      "songs/oz_yaring_basit_1789141593131_1.jpg"
+    ],
+    "notationPages": [],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "Orijinal ve medya kaynaklarından elle aktarılmıştır. Küçük hatalar olabilir. Herhangi bir hata fark ederseniz geri bildirim göndermekten çekinmeyin.",
+      "en": "Transcribed manually from original and media sources. Minor errors may occur. If you notice anything, feel free to send us feedback.",
+      "ug": "ئەسلى ۋە مېدىيا مەنبەلىرىدىن كۆچۈرۈپ رەتلەنگەن. كىچىك خاتالىقلار بولۇشى مۇمكىن. ئەگەر بىرەر خاتالىق بايقىسىڭىز، بىزگە پىكىر-تەكلىپ ئەۋەتىشىڭىزنى قارشى ئالىمىز."
+    }
+  },
+  {
+    "category": "piece",
+    "id": "vijdan-soriqi",
+    "title": {
+      "latin": "Vijdan Soriqi",
+      "ug": "ۋىجدان سورىقى"
+    },
+    "origin": {
+      "tr": "Dutar Eseri",
+      "en": "Dutar Piece",
+      "ug": "دۇتار ئەسىرى"
+    },
+    "tempo": 100,
+    "simplePages": [
+      "songs/vijdan_soriqi_basit_1791642865561_1.jpg"
+    ],
+    "notationPages": [
+      "songs/vijdan_soriqi_normal_1789241849413_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "Orijinal ve medya kaynaklarından elle aktarılmıştır. Küçük hatalar olabilir. Herhangi bir hata fark ederseniz geri bildirim göndermekten çekinmeyin.",
+      "en": "Transcribed manually from original and media sources. Minor errors may occur. If you notice anything, feel free to send us feedback.",
+      "ug": "ئەسلى ۋە مېدىيا مەنبەلىرىدىن كۆچۈرۈپ رەتلەنگەن. كىچىك خاتالىقلار بولۇشى مۇمكىن. ئەگەر بىرەر خاتالىق بايقىسىڭىز، بىزگە پىكىر-تەكلىپ ئەۋەتىشىڭىزنى قارشى ئالىمىز."
+    }
+  },
+  {
+    "category": "piece",
+    "id": "ketmeydu",
+    "title": {
+      "latin": "Ketmeydu",
+      "ug": "كەتمەيدۇ"
+    },
+    "origin": {
+      "tr": "Dutar Eseri",
+      "en": "Dutar Piece",
+      "ug": "دۇتار ئەسىرى"
+    },
+    "tempo": 120,
+    "simplePages": [
+      "songs/ketmeydu_basit_1791643356852_1.jpg"
+    ],
+    "notationPages": [
+      "songs/ketmeydu_normal_1789242423046_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "Orijinal ve medya kaynaklarından elle aktarılmıştır. Küçük hatalar olabilir. Herhangi bir hata fark ederseniz geri bildirim göndermekten çekinmeyin.",
+      "en": "Transcribed manually from original and media sources. Minor errors may occur. If you notice anything, feel free to send us feedback.",
+      "ug": "ئەسلى ۋە مېدىيا مەنبەلىرىدىن كۆچۈرۈپ رەتلەنگەن. كىچىك خاتالىقلار بولۇشى مۇمكىن. ئەگەر بىرەر خاتالىق بايقىسىڭىز، بىزگە پىكىر-تەكلىپ ئەۋەتىشىڭىزنى قارشى ئالىمىز."
+    }
+  },
+  {
+    "category": "piece",
+    "id": "aldida",
+    "title": {
+      "latin": "Aldida",
+      "ug": "ئالدىدا"
+    },
+    "origin": {
+      "tr": "Dutar Eseri",
+      "en": "Dutar Piece",
+      "ug": "دۇتار ئەسىرى"
+    },
+    "tempo": 90,
+    "simplePages": [
+      "songs/aldida_basit_1791643168899_1.jpg"
+    ],
+    "notationPages": [
+      "songs/aldida_normal_1789242755041_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "Orijinal ve medya kaynaklarından elle aktarılmıştır. Küçük hatalar olabilir. Herhangi bir hata fark ederseniz geri bildirim göndermekten çekinmeyin.",
+      "en": "Transcribed manually from original and media sources. Minor errors may occur. If you notice anything, feel free to send us feedback.",
+      "ug": "ئەسلى ۋە مېدىيا مەنبەلىرىدىن كۆچۈرۈپ رەتلەنگەن. كىچىك خاتالىقلار بولۇشى مۇمكىن. ئەگەر بىرەر خاتالىق بايقىسىڭىز، بىزگە پىكىر-تەكلىپ ئەۋەتىشىڭىزنى قارشى ئالىمىز."
+    }
+  },
+  {
+    "category": "piece",
+    "id": "uchrashqanda",
+    "title": {
+      "latin": "Uchrashqanda",
+      "ug": "ئۇچراشقاندا"
+    },
+    "origin": {
+      "tr": "Dutar Eseri",
+      "en": "Dutar Piece",
+      "ug": "دۇتار ئەسىرى"
+    },
+    "tempo": 90,
+    "simplePages": [
+      "songs/uchrashqanda_basit_1791641483951_1.jpg"
+    ],
+    "notationPages": [
+      "songs/uchrashqanda_normal_1789242866261_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "Orijinal ve medya kaynaklarından elle aktarılmıştır. Küçük hatalar olabilir. Herhangi bir hata fark ederseniz geri bildirim göndermekten çekinmeyin.",
+      "en": "Transcribed manually from original and media sources. Minor errors may occur. If you notice anything, feel free to send us feedback.",
+      "ug": "ئەسلى ۋە مېدىيا مەنبەلىرىدىن كۆچۈرۈپ رەتلەنگەن. كىچىك خاتالىقلار بولۇشى مۇمكىن. ئەگەر بىرەر خاتالىق بايقىسىڭىز، بىزگە پىكىر-تەكلىپ ئەۋەتىشىڭىزنى قارشى ئالىمىز."
+    }
+  },
+  {
+    "category": "piece",
+    "id": "tirek-bostan",
+    "title": {
+      "latin": "Tirek bostan",
+      "ug": "تېرەك بوستان"
+    },
+    "origin": {
+      "tr": "Dutar Eseri",
+      "en": "Dutar Piece",
+      "ug": "دۇتار ئەسىرى"
+    },
+    "tempo": 90,
+    "simplePages": [
+      "songs/tirek_bostan_basit_1789894269266_1.png"
+    ],
+    "notationPages": [
+      "songs/tirek_bostan_normal_1789894269276_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "Orijinal ve medya kaynaklarından elle aktarılmıştır. Küçük hatalar olabilir. Herhangi bir hata fark ederseniz geri bildirim göndermekten çekinmeyin.",
+      "en": "Transcribed manually from original and media sources. Minor errors may occur. If you notice anything, feel free to send us feedback.",
+      "ug": "ئەسلى ۋە مېدىيا مەنبەلىرىدىن كۆچۈرۈپ رەتلەنگەن. كىچىك خاتالىقلار بولۇشى مۇمكىن. ئەگەر بىرەر خاتالىق بايقىسىڭىز، بىزگە پىكىر-تەكلىپ ئەۋەتىشىڭىزنى قارشى ئالىمىز."
+    }
+  },
+  {
+    "category": "piece",
+    "id": "isillirim-ata-anam",
+    "title": {
+      "latin": "Isillirim ata anam",
+      "ug": "ئېسىللىرىم ئاتا-ئانام"
+    },
+    "origin": {
+      "tr": "Dutar Eseri",
+      "en": "Dutar Piece",
+      "ug": "دۇتار ئەسىرى"
+    },
+    "tempo": 90,
+    "simplePages": [
+      "songs/isillirim_ata_anam_basit_1789897174586_1.png"
+    ],
+    "notationPages": [
+      "songs/isillirim_ata_anam_normal_1789897174591_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "Orijinal ve medya kaynaklarından elle aktarılmıştır. Küçük hatalar olabilir. Herhangi bir hata fark ederseniz geri bildirim göndermekten çekinmeyin.",
+      "en": "Transcribed manually from original and media sources. Minor errors may occur. If you notice anything, feel free to send us feedback.",
+      "ug": "ئەسلى ۋە مېدىيا مەنبەلىرىدىن كۆچۈرۈپ رەتلەنگەن. كىچىك خاتالىقلار بولۇشى مۇمكىن. ئەگەر بىرەر خاتالىق بايقىسىڭىز، بىزگە پىكىر-تەكلىپ ئەۋەتىشىڭىزنى قارشى ئالىمىز."
+    }
+  },
+  {
+    "category": "piece",
+    "id": "ana-mihri",
+    "title": {
+      "latin": "Ana mihri",
+      "ug": "ئانا مېھرى"
+    },
+    "origin": {
+      "tr": "Dutar Eseri",
+      "en": "Dutar Piece",
+      "ug": "دۇتار ئەسىرى"
+    },
+    "tempo": 90,
+    "simplePages": [
+      "songs/ana_mihri_basit_1789897320034_1.png"
+    ],
+    "notationPages": [
+      "songs/ana_mihri_normal_1789897320040_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "Orijinal ve medya kaynaklarından elle aktarılmıştır. Küçük hatalar olabilir. Herhangi bir hata fark ederseniz geri bildirim göndermekten çekinmeyin.",
+      "en": "Transcribed manually from original and media sources. Minor errors may occur. If you notice anything, feel free to send us feedback.",
+      "ug": "ئەسلى ۋە مېدىيا مەنبەلىرىدىن كۆچۈرۈپ رەتلەنگەن. كىچىك خاتالىقلار بولۇشى مۇمكىن. ئەگەر بىرەر خاتالىق بايقىسىڭىز، بىزگە پىكىر-تەكلىپ ئەۋەتىشىڭىزنى قارشى ئالىمىز."
+    }
+  },
+  {
+    "category": "piece",
+    "id": "yar-kilemsen-baraymu",
+    "title": {
+      "latin": "Yar kilemsen baraymu",
+      "ug": "يار كېلەمسەن بارايمۇ"
+    },
+    "origin": {
+      "tr": "Dutar Eseri",
+      "en": "Dutar Piece",
+      "ug": "دۇتار ئەسىرى"
+    },
+    "tempo": 90,
+    "simplePages": [
+      "songs/yar_kilemsen_baraymu_basit_1789897578175_1.png"
+    ],
+    "notationPages": [
+      "songs/yar_kilemsen_baraymu_normal_1789897578183_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "Orijinal ve medya kaynaklarından elle aktarılmıştır. Küçük hatalar olabilir. Herhangi bir hata fark ederseniz geri bildirim göndermekten çekinmeyin.",
+      "en": "Transcribed manually from original and media sources. Minor errors may occur. If you notice anything, feel free to send us feedback.",
+      "ug": "ئەسلى ۋە مېدىيا مەنبەلىرىدىن كۆچۈرۈپ رەتلەنگەن. كىچىك خاتالىقلار بولۇشى مۇمكىن. ئەگەر بىرەر خاتالىق بايقىسىڭىز، بىزگە پىكىر-تەكلىپ ئەۋەتىشىڭىزنى قارشى ئالىمىز."
+    }
+  },
+  {
+    "category": "piece",
+    "id": "berbat-bolgan-muhabbet",
+    "title": {
+      "latin": "Berbat Bolgan Muhabbet",
+      "ug": "بەربات بولغان مۇھاببەت"
+    },
+    "origin": {
+      "tr": "Dutar Eseri",
+      "en": "Dutar Piece",
+      "ug": "دۇتار ئەسىرى"
+    },
+    "tempo": 90,
+    "simplePages": [
+      "songs/berbat_bolgan_muhabbet_basit_1789897800405_1.png"
+    ],
+    "notationPages": [
+      "songs/berbat_bolgan_muhabbet_normal_1789897800411_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "Orijinal ve medya kaynaklarından elle aktarılmıştır. Küçük hatalar olabilir. Herhangi bir hata fark ederseniz geri bildirim göndermekten çekinmeyin.",
+      "en": "Transcribed manually from original and media sources. Minor errors may occur. If you notice anything, feel free to send us feedback.",
+      "ug": "ئەسلى ۋە مېدىيا مەنبەلىرىدىن كۆچۈرۈپ رەتلەنگەن. كىچىك خاتالىقلار بولۇشى مۇمكىن. ئەگەر بىرەر خاتالىق بايقىسىڭىز، بىزگە پىكىر-تەكلىپ ئەۋەتىشىڭىزنى قارشى ئالىمىز."
+    }
+  },
+  {
+    "category": "piece",
+    "id": "didar-geniymet",
+    "title": {
+      "latin": "Didar Geniymet",
+      "ug": "دىدار غەنىيمەت"
+    },
+    "origin": {
+      "tr": "Dutar Eseri",
+      "en": "Dutar Piece",
+      "ug": "دۇتار ئەسىرى"
+    },
+    "tempo": 90,
+    "simplePages": [
+      "songs/didar_geniymet_basit_1789898004974_1.png"
+    ],
+    "notationPages": [
+      "songs/didar_geniymet_normal_1789898004981_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "Orijinal ve medya kaynaklarından elle aktarılmıştır. Küçük hatalar olabilir. Herhangi bir hata fark ederseniz geri bildirim göndermekten çekinmeyin.",
+      "en": "Transcribed manually from original and media sources. Minor errors may occur. If you notice anything, feel free to send us feedback.",
+      "ug": "ئەسلى ۋە مېدىيا مەنبەلىرىدىن كۆچۈرۈپ رەتلەنگەن. كىچىك خاتالىقلار بولۇشى مۇمكىن. ئەگەر بىرەر خاتالىق بايقىسىڭىز، بىزگە پىكىر-تەكلىپ ئەۋەتىشىڭىزنى قارشى ئالىمىز."
+    }
+  },
+  {
+    "category": "piece",
+    "id": "bir-kuni",
+    "title": {
+      "latin": "Bir kuni",
+      "ug": "بىر كۈنى"
+    },
+    "origin": {
+      "tr": "Dutar Eseri",
+      "en": "Dutar Piece",
+      "ug": "دۇتار ئەسىرى"
+    },
+    "tempo": 90,
+    "simplePages": [
+      "songs/bir_kuni_basit_1789898284081_1.png"
+    ],
+    "notationPages": [
+      "songs/bir_kuni_normal_1789898284086_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "Orijinal ve medya kaynaklarından elle aktarılmıştır. Küçük hatalar olabilir. Herhangi bir hata fark ederseniz geri bildirim göndermekten çekinmeyin.",
+      "en": "Transcribed manually from original and media sources. Minor errors may occur. If you notice anything, feel free to send us feedback.",
+      "ug": "ئەسلى ۋە مېدىيا مەنبەلىرىدىن كۆچۈرۈپ رەتلەنگەن. كىچىك خاتالىقلار بولۇشى مۇمكىن. ئەگەر بىرەر خاتالىق بايقىسىڭىز، بىزگە پىكىر-تەكلىپ ئەۋەتىشىڭىزنى قارشى ئالىمىز."
+    }
+  },
+  {
+    "category": "piece",
+    "id": "ketmigin-yarim",
+    "title": {
+      "latin": "Ketmigin Yarim",
+      "ug": "كەتمىگىن يارىم"
+    },
+    "origin": {
+      "tr": "Dutar Eseri",
+      "en": "Dutar Piece",
+      "ug": "دۇتار ئەسىرى"
+    },
+    "tempo": 90,
+    "simplePages": [
+      "songs/ketmigin_yarim_basit_1789898411317_1.png"
+    ],
+    "notationPages": [
+      "songs/ketmigin_yarim_normal_1789898411321_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "Orijinal ve medya kaynaklarından elle aktarılmıştır. Küçük hatalar olabilir. Herhangi bir hata fark ederseniz geri bildirim göndermekten çekinmeyin.",
+      "en": "Transcribed manually from original and media sources. Minor errors may occur. If you notice anything, feel free to send us feedback.",
+      "ug": "ئەسلى ۋە مېدىيا مەنبەلىرىدىن كۆچۈرۈپ رەتلەنگەن. كىچىك خاتالىقلار بولۇشى مۇمكىن. ئەگەر بىرەر خاتالىق بايقىسىڭىز، بىزگە پىكىر-تەكلىپ ئەۋەتىشىڭىزنى قارشى ئالىمىز."
+    }
+  },
+  {
+    "category": "piece",
+    "id": "yollugum",
+    "title": {
+      "latin": "Yollugum",
+      "ug": "يوللۇغۇم"
+    },
+    "origin": {
+      "tr": "Dutar Eseri",
+      "en": "Dutar Piece",
+      "ug": "دۇتار ئەسىرى"
+    },
+    "tempo": 90,
+    "simplePages": [
+      "songs/yollugum_basit_1789898532486_1.png"
+    ],
+    "notationPages": [
+      "songs/yollugum_normal_1789898532490_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "Orijinal ve medya kaynaklarından elle aktarılmıştır. Küçük hatalar olabilir. Herhangi bir hata fark ederseniz geri bildirim göndermekten çekinmeyin.",
+      "en": "Transcribed manually from original and media sources. Minor errors may occur. If you notice anything, feel free to send us feedback.",
+      "ug": "ئەسلى ۋە مېدىيا مەنبەلىرىدىن كۆچۈرۈپ رەتلەنگەن. كىچىك خاتالىقلار بولۇشى مۇمكىن. ئەگەر بىرەر خاتالىق بايقىسىڭىز، بىزگە پىكىر-تەكلىپ ئەۋەتىشىڭىزنى قارشى ئالىمىز."
+    }
+  },
+  {
+    "category": "piece",
+    "id": "koy-piyalige-qayni",
+    "title": {
+      "latin": "Koy Piyalige Qayni",
+      "ug": "قوي پىيالىگە چاينى"
+    },
+    "origin": {
+      "tr": "Dutar Eseri",
+      "en": "Dutar Piece",
+      "ug": "دۇتار ئەسىرى"
+    },
+    "tempo": 90,
+    "simplePages": [
+      "songs/koy_piyalige_qayni_basit_1789898637544_1.png"
+    ],
+    "notationPages": [
+      "songs/koy_piyalige_qayni_normal_1789898637548_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "Orijinal ve medya kaynaklarından elle aktarılmıştır. Küçük hatalar olabilir. Herhangi bir hata fark ederseniz geri bildirim göndermekten çekinmeyin.",
+      "en": "Transcribed manually from original and media sources. Minor errors may occur. If you notice anything, feel free to send us feedback.",
+      "ug": "ئەسلى ۋە مېدىيا مەنبەلىرىدىن كۆچۈرۈپ رەتلەنگەن. كىچىك خاتالىقلار بولۇشى مۇمكىن. ئەگەر بىرەر خاتالىق بايقىسىڭىز، بىزگە پىكىر-تەكلىپ ئەۋەتىشىڭىزنى قارشى ئالىمىز."
+    }
+  },
+  {
+    "category": "exercise",
+    "id": "ong-sol-qol-maslashturush-meshiqi",
+    "title": {
+      "latin": "Ong-Sol Qol Maslashturush 1",
+      "ug": "ئوڭ - سول قول ماسلاشتۇرۇش مەشقى"
+    },
+    "origin": {
+      "tr": "El Alıştırma",
+      "en": "Hand Exercise",
+      "ug": "قول كۆندۈرۈش"
+    },
+    "tempo": 90,
+    "simplePages": [],
+    "notationPages": [
+      "songs/ong_sol_qol_maslashturush_meshiqi_normal_1790250760808_1.jpg"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "1) Sol el parmak kurallarına tam olarak uyulmalı, notanın üzerinde hangi parmak numarası yazılmışsa o parmakla o sesin perdesine basarak çalınmalıdır. Perdeye basarken parmaklar düzenli olmalıdır.  \n\n 2) Alıştırma yaparken dutar sesinin kulağa hoş gelmesi ve ciddi bir şekilde çalışılması istenir. Önce yavaş bir tempoda çalışmalı, ardından giderek hızlandırmalıdır. Bu sayede el parmaklarının çevikliği ve dayanıklılığı artırılmalıdır.  \n\n 3) Bu alıştırma bir ses dizisi alıştırması olduğundan, çalışma sırasında perde yerleri ve notalar akılda tutulmalı, daha fazla pratik yapılmalıdır.",
+      "en": "1) The left-hand fingering rules must be strictly followed; whichever finger number is written above the note, that finger must be used to press the fret for that pitch. The fingers must be positioned neatly when pressing the frets.  \n\n 2) When practicing, it is required to produce a pleasant sound from the dutar and to practice diligently. You should first practice at a slow tempo and then gradually increase the speed. Doing so will improve the agility and endurance of your fingers.  \n\n 3) Because this is a scale exercise, it is necessary to memorize the fret positions and notes during practice, and to practice more frequently.",
+      "ug": "بۇ مەشقتە ئوڭ قول بىلەن سول قولنى ماسلاشتۇرۇپ چېلىش تەلەپ قىلىنىدۇ. مەشق قىلىش جەريانىدا \nتۆۋەندىكى نۇقتىلارغا دىققەت قىلىش كېرەك:\n\n1. سول قول بارماق قائىدىسىگە تولۇق ئەمەل قىلىش، نوتا ئۈستىگە قايسى بارماق نومۇرى يېزىلغان بولسا شۇ بارماق بىلەن شۇ ئاھاڭنىڭ پەدىسىنى بېسىپ چېلىش لازىم. پەدە باسقاندا بارماقلار رەتلىك بولۇشى كېرەك.\n\n2. مەشق قىلغاندا دۇتار ئاۋازىنى يېقىملىق چىقىرىش، ئەستايىدىل مەشق قىلىش تەلەپ قىلىنىدۇ. ئاۋۋال ئاستا سۈرئەتتە مەشق قىلىپ، كېيىن تەدرىجىي تېزلىتىپ مەشق قىلىش كېرەك. شۇ ئارقىلىق قول بارماقلىرىنىڭ چاققانلىقىنى، چىدامچانلىقىنى ئاشۇرۇش لازىم.\n\n3. بۇ مەشق ئاھاڭ باسقۇچ مەشقى بولغاچقا، مەشق جەريانىدا پەدە ئورنىنى ۋە نوتىنى ئەستە ساقلاش، كۆپرەك مەشق قىلىپ بېرىش كېرەك."
+    }
+  },
+  {
+    "category": "exercise",
+    "id": "meshiq",
+    "title": {
+      "latin": "Ong-Sol Qol Maslashturush 2",
+      "ug": "ئوڭ - سول قول ماسلاشتۇرۇش مەشقى"
+    },
+    "origin": {
+      "tr": "El Alıştırma",
+      "en": "Hand Exercise",
+      "ug": "قول كۆندۈرۈش"
+    },
+    "tempo": 90,
+    "simplePages": [],
+    "notationPages": [
+      "songs/meshiq_normal_1790251391129_1.jpg"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "1) Sol el parmak kurallarına tam olarak uyulmalı, notanın üzerinde hangi parmak numarası yazılmışsa o parmakla o sesin perdesine basarak çalınmalıdır. Perdeye basarken parmaklar düzenli olmalıdır.  \n\n 2) Alıştırma yaparken dutar sesinin kulağa hoş gelmesi ve ciddi bir şekilde çalışılması istenir. Önce yavaş bir tempoda çalışmalı, ardından giderek hızlandırmalıdır. Bu sayede el parmaklarının çevikliği ve dayanıklılığı artırılmalıdır.  \n\n 3) Bu alıştırma bir ses dizisi alıştırması olduğundan, çalışma sırasında perde yerleri ve notalar akılda tutulmalı, daha fazla pratik yapılmalıdır.",
+      "en": "1) The left-hand fingering rules must be strictly followed; whichever finger number is written above the note, that finger must be used to press the fret for that pitch. The fingers must be positioned neatly when pressing the frets.  \n\n 2) When practicing, it is required to produce a pleasant sound from the dutar and to practice diligently. You should first practice at a slow tempo and then gradually increase the speed. Doing so will improve the agility and endurance of your fingers.  \n\n 3) Because this is a scale exercise, it is necessary to memorize the fret positions and notes during practice, and to practice more frequently.",
+      "ug": "بۇ مەشقتە ئوڭ قول بىلەن سول قولنى ماسلاشتۇرۇپ چېلىش تەلەپ قىلىنىدۇ. مەشق قىلىش جەريانىدا \nتۆۋەندىكى نۇقتىلارغا دىققەت قىلىش كېرەك:\n\n1. سول قول بارماق قائىدىسىگە تولۇق ئەمەل قىلىش، نوتا ئۈستىگە قايسى بارماق نومۇرى يېزىلغان بولسا شۇ بارماق بىلەن شۇ ئاھاڭنىڭ پەدىسىنى بېسىپ چېلىش لازىم. پەدە باسقاندا بارماقلار رەتلىك بولۇشى كېرەك.\n\n2. مەشق قىلغاندا دۇتار ئاۋازىنى يېقىملىق چىقىرىش، ئەستايىدىل مەشق قىلىش تەلەپ قىلىنىدۇ. ئاۋۋال ئاستا سۈرئەتتە مەشق قىلىپ، كېيىن تەدرىجىي تېزلىتىپ مەشق قىلىش كېرەك. شۇ ئارقىلىق قول بارماقلىرىنىڭ چاققانلىقىنى، چىدامچانلىقىنى ئاشۇرۇش لازىم.\n\n3. بۇ مەشق ئاھاڭ باسقۇچ مەشقى بولغاچقا، مەشق جەريانىدا پەدە ئورنىنى ۋە نوتىنى ئەستە ساقلاش، كۆپرەك مەشق قىلىپ بېرىش كېرەك."
+    }
+  },
+  {
+    "category": "piece",
+    "id": "dadam",
+    "title": {
+      "latin": "Dadam",
+      "ug": "دادم"
+    },
+    "origin": {
+      "tr": "Dutar Eseri",
+      "en": "Dutar Piece",
+      "ug": "دۇتار ئەسىرى"
+    },
+    "tempo": 90,
+    "simplePages": [
+      "songs/dadam_basit_1791050600990_1.jpg"
     ],
     "notationPages": [],
     "sourceNotes": {
