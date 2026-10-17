@@ -19,8 +19,8 @@ var $$=function(s){
 var translations={
 
 tr:{
-  normal:"NORMAL AKORT",
-  big:"BÜYÜK AKORT",
+  normal:"Küçük düzen",
+  big:"Büyük düzen",
   flat:"PES",
   sharp:"TİZ",
   ready:"HAZIR",
@@ -118,8 +118,8 @@ aboutMain:
 },
 
 en:{
-  normal:"STANDARD TUNING",
-  big:"HIGH TUNING",
+  normal:"Small Tuning",
+  big:"Big Tuning",
   flat:"FLAT",
   sharp:"SHARP",
   ready:"READY",
@@ -221,7 +221,7 @@ aboutDisclaimer:
 },
 
 ug:{
-  normal:"نورمال تۈزەش",
+  normal:"كىچىك تۈزەش",
   big:"چوڭ تۈزەش",
   flat:"پەس",
   sharp:"ئېگىز",
@@ -1718,7 +1718,17 @@ function songThumbnail(song){
 function renderSongs(){
   var filters=$('#libraryFilters');
   if(filters){
-    filters.querySelectorAll('[data-category]').forEach(function(button){button.textContent=t(button.dataset.category==='all'?'allContent':button.dataset.category);button.setAttribute('aria-pressed',String(libraryCategory===button.dataset.category));});
+    filters.querySelectorAll('[data-category]').forEach(function(button){
+      button.textContent=t(button.dataset.category==='all'?'allContent':button.dataset.category);
+      if(button.dataset.category==='favorites'){
+        var heart=document.createElement('span');
+        heart.className='library-heart';
+        heart.setAttribute('aria-hidden','true');
+        heart.textContent='♥';
+        button.prepend(heart);
+      }
+      button.setAttribute('aria-pressed',String(libraryCategory===button.dataset.category));
+    });
   }
 
   var list =

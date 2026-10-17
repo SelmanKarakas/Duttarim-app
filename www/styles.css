@@ -3711,6 +3711,8 @@ body.score-fullscreen{
 .song-card-icon{width:48px;height:48px;min-width:48px;background:var(--mint);border-radius:14px;display:flex;align-items:center;justify-content:center}
 .song-card-icon svg{width:27px;height:27px;fill:none;stroke:var(--navy);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .library-filters button{padding:11px 3px;text-align:center;min-width:0;font-size:12px;font-weight:800}
+.library-filters button[data-category=favorites]{display:flex;align-items:center;justify-content:center;gap:4px}
+.library-heart{font-size:15px;line-height:1}
 .library-filters button[aria-pressed=true]{background:var(--turq);border-color:var(--turq);color:#fff}
 #songsPanel .library-filters button{color:var(--navy);background:#fff;border-color:var(--line)}
 #songsPanel .library-filters button[aria-pressed=true]{color:#fff;background:var(--turq);border-color:var(--turq)}
