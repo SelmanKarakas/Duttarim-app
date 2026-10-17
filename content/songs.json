@@ -325,8 +325,6 @@
   },
   {
     "category": "piece",
-    "difficulty": "advanced",
-    "tuning": "normal",
     "id": "yar-kilemsen-baraymu",
     "title": {
       "latin": "Yar kilemsen baraymu",
@@ -477,6 +475,8 @@
   },
   {
     "category": "piece",
+    "difficulty": "intermediate",
+    "tuning": "normal",
     "id": "yollugum",
     "title": {
       "latin": "Yollugum",
