@@ -145,36 +145,6 @@
   },
   {
     "category": "piece",
-    "id": "vijdan-soriqi",
-    "title": {
-      "latin": "Vijdan Soriqi",
-      "ug": "ۋىجدان سورىقى"
-    },
-    "origin": {
-      "tr": "Dutar Eseri",
-      "en": "Dutar Piece",
-      "ug": "دۇتار ئەسىرى"
-    },
-    "tempo": 100,
-    "simplePages": [
-      "songs/vijdan_soriqi_basit_1791642865561_1.jpg"
-    ],
-    "notationPages": [
-      "songs/vijdan_soriqi_normal_1789241849413_1.png"
-    ],
-    "sourceNotes": {
-      "tr": "",
-      "en": "",
-      "ug": ""
-    },
-    "arrangementNotes": {
-      "tr": "Orijinal ve medya kaynaklarından elle aktarılmıştır. Küçük hatalar olabilir. Herhangi bir hata fark ederseniz geri bildirim göndermekten çekinmeyin.",
-      "en": "Transcribed manually from original and media sources. Minor errors may occur. If you notice anything, feel free to send us feedback.",
-      "ug": "ئەسلى ۋە مېدىيا مەنبەلىرىدىن كۆچۈرۈپ رەتلەنگەن. كىچىك خاتالىقلار بولۇشى مۇمكىن. ئەگەر بىرەر خاتالىق بايقىسىڭىز، بىزگە پىكىر-تەكلىپ ئەۋەتىشىڭىزنى قارشى ئالىمىز."
-    }
-  },
-  {
-    "category": "piece",
     "id": "ketmeydu",
     "title": {
       "latin": "Ketmeydu",
