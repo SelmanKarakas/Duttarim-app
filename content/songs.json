@@ -29,8 +29,6 @@
   },
   {
     "category": "piece",
-    "difficulty": "beginner",
-    "tuning": "normal",
     "id": "altun-tupraq",
     "title": {
       "latin": "Altun Tuprak",
@@ -93,6 +91,8 @@
   },
   {
     "category": "piece",
+    "difficulty": "beginner",
+    "tuning": "normal",
     "id": "kiqik-yultuz",
     "title": {
       "latin": "Kiqik Yultuz",
