@@ -2280,6 +2280,14 @@ function switchSongView(view){
 
 
 /* FULLSCREEN */
+function updateScoreFullscreenButton(){
+  var full=document.body.classList.contains('score-fullscreen');
+  var button=$('#scoreFullscreen');
+  var exitLabels={tr:'Notayı küçült',en:'Exit fullscreen',ug:'نوتىنى كىچىكلىتىش'};
+  button.setAttribute('aria-label',full?(exitLabels[lang]||exitLabels.en):t('fullscreenScore'));
+  button.setAttribute('aria-pressed',String(full));
+  button.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="'+(full?'M4 9h5V4M15 4v5h5M20 15h-5v5M9 20v-5H4':'M9 4H4v5M15 4h5v5M20 15v5h-5M9 20H4v-5')+'"/></svg>';
+}
 function toggleScoreFullscreen(){
 
   var detail =
@@ -2299,6 +2307,7 @@ function toggleScoreFullscreen(){
     "score-fullscreen-active"
   );
   setNoteDetailOrientation(detail.classList.contains("score-fullscreen-active"));
+  updateScoreFullscreenButton();
 }
 /* =========================================
    FRET DATA
@@ -2508,7 +2517,7 @@ Object.assign(translations.ug,{"difficulty":"دەرىجە","beginner":"باشل�
 function renderAppearance(){
   $('#themePreference').value=window.DuttarTheme.preference;
   var button=$('#touchFeedbackToggle');button.textContent=t(touchFeedbackEnabled?'on':'off');button.setAttribute('aria-pressed',String(touchFeedbackEnabled));button.disabled=typeof navigator.vibrate!=='function';
-  [['scoreZoomIn','zoomIn'],['scoreZoomOut','zoomOut'],['scoreZoomLabel','resetZoom'],['scoreFullscreen','fullscreenScore']].forEach(function(pair){var el=document.getElementById(pair[0]);if(el)el.setAttribute('aria-label',t(pair[1]));});
+  [['scoreZoomIn','zoomIn'],['scoreZoomOut','zoomOut'],['scoreZoomLabel','resetZoom']].forEach(function(pair){var el=document.getElementById(pair[0]);if(el)el.setAttribute('aria-label',t(pair[1]));});
 }
 function applyLanguage(v){
 
@@ -4252,7 +4261,11 @@ async function playReference(i){
   referenceActive=true;
   cancelTuneAttempt();
   pitchHistory=[];
-  if(nativeTuner){
+  if(isIOSApp && nativeTuner && nativeTuner.prepareReferencePlayback){
+    try{await nativeTuner.prepareReferencePlayback();}
+    catch(error){stopReferenceTone();console.error(error);return;}
+  }
+  if(nativeTuner && listening){
     try{ await nativeTuner.setAnalysisMuted({muted:true}); }
     catch(error){ referenceActive=false; return; }
   }
@@ -5616,58 +5629,40 @@ $("#calibrateBtn").onclick=
    ONBOARDING
    ========================================= */
 
-$$(".language-options button")
-  .forEach(
-    function(button){
-
-      button.onclick=
-        function(){
-
-          applyLanguage(
-            button.dataset.lang
-          );
-
-
-          $("#languageStep")
-            .classList
-            .add(
-              "hidden"
-            );
-
-
-          $("#permissionStep")
-            .classList
-            .remove(
-              "hidden"
-            );
-        };
-    }
-  );
-
-
-$("#allowMic").onclick=async function(){
+var isIOSApp=Boolean(window.Capacitor && window.Capacitor.getPlatform && window.Capacitor.getPlatform()==='ios');
+function finishOnboarding(){
   localStorage.setItem('onboardingDone','1');
   $('#onboarding').classList.add('hidden');
-  await startTuner();
-};
-$("#denyMic").onclick=function(){
-  localStorage.setItem('onboardingDone','1');
-  $('#onboarding').classList.add('hidden');
-  setTunerStatus('micRequired');
-};
-
-if(
-  !localStorage.getItem(
-    "onboardingDone"
-  )
-){
-
-  $("#onboarding")
-    .classList
-    .remove(
-      "hidden"
-    );
 }
+$$('.language-options button').forEach(function(button){
+  button.onclick=function(){
+    applyLanguage(button.dataset.lang);
+    if(isIOSApp){finishOnboarding();return;}
+    $('#languageStep').classList.add('hidden');
+    $('#permissionStep').classList.remove('hidden');
+  };
+});
+$('#allowMic').onclick=async function(){finishOnboarding();await startTuner();};
+$('#denyMic').onclick=function(){finishOnboarding();setTunerStatus('micRequired');};
+async function beginOnboarding(){
+  if(localStorage.getItem('onboardingDone'))return;
+  if(isIOSApp){
+    // Do not show the language choices until the native permission dialog closes.
+    $('#languageStep').classList.add('hidden');
+    $('#permissionStep').classList.add('hidden');
+    try{
+      if(nativeTuner){
+        var permission=await nativeTuner.checkPermissions();
+        if(permission.microphone==='prompt'||permission.microphone==='prompt-with-rationale'){
+          await nativeTuner.requestPermissions({permissions:['microphone']});
+        }
+      }
+    }catch(error){console.error('Microphone permission unavailable',error);}
+  }
+  $('#languageStep').classList.remove('hidden');
+  $('#onboarding').classList.remove('hidden');
+}
+beginOnboarding();
 
 
 /* =========================================
@@ -5797,4 +5792,10 @@ $('#libraryLevels').addEventListener('click',function(event){var button=event.ta
 $('#themePreference').onchange=function(event){window.DuttarTheme.apply(event.target.value);};
 $('#touchFeedbackToggle').onclick=function(){touchFeedbackEnabled=!touchFeedbackEnabled;localStorage.setItem('touchFeedback',touchFeedbackEnabled?'1':'0');renderAppearance();};
 document.addEventListener('click',function(event){var button=event.target.closest('button,[role="button"]');if(!button||button.disabled)return;button.classList.remove('tap-confirmed');void button.offsetWidth;button.classList.add('tap-confirmed');setTimeout(function(){button.classList.remove('tap-confirmed');},220);if(touchFeedbackEnabled&&navigator.vibrate&&!listening)navigator.vibrate(8);},true);
+
+new MutationObserver(updateScoreFullscreenButton).observe(document.body,{attributes:true,attributeFilter:['class']});
+new MutationObserver(function(){updateScoreFullscreenButton();$$('.preview-tone').forEach(function(b){b.setAttribute('aria-label',t('preview'));});}).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+updateScoreFullscreenButton();
+$$('.preview-tone').forEach(function(b){b.setAttribute('aria-label',t('preview'));});
+document.addEventListener('dblclick',function(event){if(!event.target.closest('input,textarea,[contenteditable=true]'))event.preventDefault();});
 })();

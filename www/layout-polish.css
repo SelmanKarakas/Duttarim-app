@@ -1,0 +1,34 @@
+/* Viewport includes the top inset once; navigation owns the bottom inset. */
+html,body{touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+*,*::before,*::after{-webkit-user-select:none;user-select:none}
+input,textarea,[contenteditable=true]{-webkit-user-select:text;user-select:text}
+img{-webkit-user-drag:none}
+.app:has(#tunerPanel.active),.app:has(#fretsPanel.active),.app:has(#songsPanel.active),.app:has(#settingsPanel.active){height:calc(100dvh - env(safe-area-inset-top));padding-bottom:calc(72px + env(safe-area-inset-bottom));box-sizing:border-box}
+#songsPanel.active,#settingsPanel.active{overflow-y:auto;padding-bottom:12px;scroll-padding-bottom:12px}
+#fretsPanel.active{overflow-y:auto;overflow-x:hidden}
+#fretsPanel .fret-map{min-height:420px;flex-shrink:0}
+.about-links .privacy-link{font-size:15px;text-underline-offset:7px;line-height:1.65}
+/* Labels and guide lines remain below the transparent instrument artwork. */
+#fretsPanel .fret-labels{z-index:1}
+#fretsPanel .fret-duttar{z-index:2;pointer-events:none}
+#fretsPanel .fret-label.dual-fret{height:clamp(22px,5.8vw,26px)}
+.song-view-tabs{padding:3px;margin-bottom:8px}
+.song-view-btn{min-height:36px;padding:7px 5px;font-size:12px}
+.score-tools{gap:10px;margin-bottom:8px}
+.score-tool-btn,.score-action-btn,.score-page-btn{position:relative;min-height:32px;height:32px;min-width:32px;padding:0 7px;font-size:20px}
+.score-tool-btn,.score-action-btn{width:32px;padding:0}
+.score-tools button::after,.score-page-btn::after{content:'';position:absolute;inset:-6px -3px}
+#scoreFullscreen svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#scoreZoomLabel{font-size:12px;min-width:44px}
+.score-toolbar{padding:6px 8px}
+#tunerPanel .pitch-row,#tunerPanel .status{position:relative;top:-5px}
+#tunerPanel .instrument-wrap{transform:translateY(-6px)}
+#tunerPanel .string-card.active{background:#eff6f4;border-color:#9cc9bf;box-shadow:none}
+.setting-row select,.setting-row .pill{background:#f1f6f5}
+.setting-toggle[aria-pressed=true],#touchFeedbackToggle[aria-pressed=true]{background:#eaf3ef;border-color:#9cc9bf}
+:root[data-theme=dark] #tunerPanel .string-card.active{background:#192b30;border-color:#578f89}
+:root[data-theme=dark] .setting-row select,:root[data-theme=dark] .setting-row .pill{background:#1c2933}
+:root[data-theme=dark] .setting-toggle[aria-pressed=true],:root[data-theme=dark] #touchFeedbackToggle[aria-pressed=true]{background:#203234;border-color:#578f89}
+.preview-tone{width:44px;min-width:44px;height:44px;padding:0;display:inline-flex;align-items:center;justify-content:center}
+.preview-tone svg{width:21px;height:21px}
+@media(max-height:650px){#tunerPanel .pitch-row,#tunerPanel .status{top:-2px}#tunerPanel .instrument-wrap{transform:translateY(-3px)}}
