@@ -7,7 +7,12 @@ img{-webkit-user-drag:none}
 #songsPanel.active,#settingsPanel.active{overflow-y:auto;padding-bottom:12px;scroll-padding-bottom:12px}
 #fretsPanel.active{overflow-y:auto;overflow-x:hidden}
 #fretsPanel .fret-map{min-height:420px;flex-shrink:0}
-.about-links .privacy-link{font-size:15px;text-underline-offset:7px;line-height:1.65}
+/* About: section label, product name, explanation, then actions. */
+.about .info-head{font-size:14px;font-weight:700;margin-bottom:12px}
+.about > strong{display:block;color:var(--navy);font-family:Georgia,"Times New Roman",serif;font-size:20px;font-weight:700;line-height:1.25;letter-spacing:-.01em}
+.about > p{margin:7px 0 0;color:var(--muted);font-size:14px;line-height:1.6;font-weight:400}
+.about-links{gap:4px;margin-top:14px}
+.about-links .privacy-link{font-size:15px;font-weight:600;line-height:1.45;text-underline-offset:7px}
 /* Labels and guide lines remain below the transparent instrument artwork. */
 #fretsPanel .fret-labels{z-index:1}
 #fretsPanel .fret-duttar{z-index:2;pointer-events:none}

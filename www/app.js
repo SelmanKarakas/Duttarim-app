@@ -546,6 +546,9 @@ var KNOWN_SONG_IDS_KEY =
 var NEW_SONG_IDS_KEY =
   "duttarimNewSongIdsV1";
 
+var INITIAL_REMOTE_CATALOG_PENDING_KEY =
+  "duttarimInitialRemoteCatalogPendingV1";
+
 var remoteRefreshPromise = null;
 
 
@@ -890,6 +893,15 @@ async function refreshSongsFromRemote(){
             }
           );
 
+        var isInitialRemoteCatalog =
+          localStorage.getItem(
+            INITIAL_REMOTE_CATALOG_PENDING_KEY
+          ) === "1";
+
+        if(isInitialRemoteCatalog){
+          newSongs = [];
+        }
+
         newSongs.forEach(
           function(song){
 
@@ -912,6 +924,12 @@ async function refreshSongsFromRemote(){
             }
           )
         );
+
+        if(isInitialRemoteCatalog){
+          localStorage.removeItem(
+            INITIAL_REMOTE_CATALOG_PENDING_KEY
+          );
+        }
 
         saveSongsCache(remoteSongs);
 
@@ -962,6 +980,13 @@ async function initialiseSongs(){
     readStoredArray(
       KNOWN_SONG_IDS_KEY
     );
+
+  if(!knownIds.length){
+    localStorage.setItem(
+      INITIAL_REMOTE_CATALOG_PENDING_KEY,
+      "1"
+    );
+  }
 
   if(!knownIds.length && localSongs.length){
 
