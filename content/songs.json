@@ -599,7 +599,6 @@
   },
   {
     "category": "piece",
-    "difficulty": "beginner",
     "tuning": "normal",
     "id": "dadam",
     "title": {
@@ -625,6 +624,14 @@
       "tr": "",
       "en": "",
       "ug": ""
-    }
+    },
+    "versionGroup": {
+      "id": "dadam-eser",
+      "title": {
+        "latin": "Dadam",
+        "ug": ""
+      }
+    },
+    "versionLevel": 1
   }
 ]
