@@ -7,7 +7,9 @@
     "admin": "node tools/song-admin/server.js",
     "test": "node tools/validate-project.cjs",
     "test:ui": "node tools/qa-regression.cjs",
-    "test:ui:build2": "node tools/build2-ui-test.cjs"
+    "test:ui:build2": "node tools/build2-ui-test.cjs",
+    "test:versions": "node tools/test-versions.cjs",
+    "test:ui:versions": "node tools/test-versions-ui.cjs"
   },
   "keywords": [],
   "author": "",

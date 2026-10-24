@@ -15,7 +15,14 @@ Duttarim is a Capacitor Android app for tuning a dutar and viewing sheet music. 
 
 Android `versionCode` is the store upgrade counter; `versionName` is the user-facing version. The package version in `package.json` is separate. Verify all three deliberately when preparing a release.
 
-## Known follow-up work
+## Appearance and library metadata
+
+- Settings offers System, Light and Dark themes, saved locally, plus optional touch vibration. Score images retain white paper for readability.
+- Both score editors require `difficulty` (`beginner`, `intermediate`, `advanced`) and `tuning` (`normal` for Small Tuning, `big` for Big Tuning). Editor choices are Turkish; library labels follow the user's Turkish, English or Uyghur language.
+- Existing songs without metadata remain unspecified until reviewed by an editor. Do not infer difficulty or tuning from the title. The local editor can now edit metadata while retaining existing image pages and origin/source information.
+- All uses the catalog order. Pieces and Exercises group by level, with unspecified entries last.
+
+## Remaining verification
 
 - Offline catalog entries can point to remote score images that are not stored permanently on the device.
 - The native audio recorder still needs device stress testing around repeated start/stop and background transitions.

@@ -339,6 +339,7 @@ var noteStyle=
   localStorage.getItem("noteStyle")||
   "solfege";
 
+var touchFeedbackEnabled=localStorage.getItem("touchFeedback")==="1";
 var mode="normal";
 var activeString=0;
 var currentPanel="tuner";
@@ -428,6 +429,7 @@ var tunerStatus="ready";
 var navigationHistory=[];
 var restoringNavigation=false;
 var libraryCategory="all";
+var libraryLevel="all";
 
 var toneOscillators=[];
 var toneTimer=0;
@@ -607,6 +609,7 @@ function normaliseCatalog(data,baseUrl){
     throw new Error("Invalid songs catalog");
   }
 
+  ScoreVersions.validate(data);
   var ids = Object.create(null);
 
   return data.map(
@@ -992,6 +995,7 @@ function adminSlug(value){
   return value.toLocaleLowerCase("tr-TR").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ı/g,"i").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
 }
 
+var adminVersionEditor=createVersionEditor(document.getElementById('adminVersionEditor'),document.getElementById('adminDifficulty'),function(){return songsData;});
 var adminEditingSongId = null;
 var adminDraftSimplePages = [];
 var adminDraftNotationPages = [];
@@ -1068,6 +1072,7 @@ function renderAdminSongs(){
     var protectedSong = song.id === "talka-tagliri";
     return '<div class="admin-song-row"><strong>' + adminEscapeHtml(songTitle(song)) + '</strong>' +
       '<button class="admin-mini-btn" type="button" data-admin-edit="' + adminEscapeHtml(song.id) + '">Düzenle</button>' +
+      (ScoreVersions.isVersion(song)?'<button class="admin-mini-btn" type="button" data-admin-version="'+adminEscapeHtml(song.id)+'">Versiyon ekle</button>':'')+
       '<button class="admin-mini-btn danger" type="button" data-admin-remove="' + adminEscapeHtml(song.id) + '" ' + (protectedSong ? 'disabled title="Çevrimdışı temel nota kaldırılamaz"' : '') + '>Kaldır</button></div>';
   }).join("");
 }
@@ -1104,6 +1109,7 @@ function resetAdminEditor(){
 
 
   adminEditingSongId = null;
+  adminVersionEditor.set(null);
 
   adminDraftSimplePages = [];
 
@@ -1163,7 +1169,10 @@ function editAdminSong(songId){
     return;
   }
 
+  adminVersionEditor.set(song);
   $('#adminCategory').value= song.category==='exercise'||song.category==='exercises'?'exercise':'piece';
+  $('#adminDifficulty').value=songDifficulty(song)==='unspecified'?'':songDifficulty(song);
+  $('#adminTuning').value=songTuning(song)==='unspecified'?'':songTuning(song);
   adminEditingSongId =
     song.id;
 
@@ -1450,8 +1459,10 @@ async function publishAdminSong(event){
     return;
   }
 
+  if(!document.getElementById("adminSongForm").reportValidity()) return;
   var title = document.getElementById("adminLatinTitle").value.trim();
-  var id = adminEditingSongId || adminSlug(title);
+  var versionFields;try{versionFields=adminVersionEditor.read();}catch(error){status.textContent=error.message;status.classList.add('error');return;}
+  var id = adminEditingSongId || (versionFields.versionGroup?versionFields.versionGroup.id+'-level-'+versionFields.versionLevel:adminSlug(title));
   if(
     !id ||
     (
@@ -1496,6 +1507,8 @@ async function publishAdminSong(event){
     var cleanCatalog = songsData.map(adminCleanSong);
     var updatedSong = {
       category:$("#adminCategory").value,
+      difficulty:$("#adminDifficulty").value,
+      tuning:$("#adminTuning").value,
 
       id:id,
 
@@ -1615,11 +1628,14 @@ async function publishAdminSong(event){
             .trim()
       }
     };
+    Object.assign(updatedSong,versionFields);
+    if(versionFields.versionGroup)delete updatedSong.difficulty;
     if(adminEditingSongId){
       cleanCatalog = cleanCatalog.map(function(song){ return song.id === id ? updatedSong : song; });
     }else{
       cleanCatalog.push(updatedSong);
     }
+    ScoreVersions.validate(cleanCatalog);
     status.textContent = "Yayınlanıyor…";
     await adminPublishRequest(cleanCatalog,uploads,(adminEditingSongId ? "Update " : "Add ") + title + " from Duttarim app");
     songsData = applyNewSongFlags(cleanCatalog);
@@ -1707,223 +1723,99 @@ var activeSongView = "simple";
 
 /* SONG LIST */
 
+
+var expandedVersionGroups=new Set();
+function versionShortLabel(n){return lang==='tr'?n+'.sv':lang==='ug'?n+'-د':n+'.lvl';}
+function versionText(key,n){var labels={tr:{versions:'Versiyonlar',empty:'Henüz versiyonlu eser yok',help:'Bir eserin farklı seviyelerdeki çalınımları burada bir araya gelir.',count:n+' çalınım · Seviyeyi seç',level:n+'. seviye'},en:{versions:'Versions',empty:'No multi-version pieces yet',help:'Different levels of the same piece appear together here.',count:n+' versions · Choose a level',level:'Level '+n},ug:{versions:'نۇسخىلار',empty:'تېخى كۆپ نۇسخىلىق ئەسەر يوق',help:'بىر ئەسەرنىڭ ئوخشىمىغان دەرىجىدىكى چېلىنىشلىرى بۇ يەردە كۆرسىتىلىدۇ.',count:n+' خىل چېلىنىش · دەرىجىنى تاللاڭ',level:n+'-دەرىجە'}};return (labels[lang]||labels.tr)[key];}
+function versionStackMarkup(group){var id='versions-'+group[0].versionGroup.id;var title=songTitle({title:group[0].versionGroup.title});return '<details class="score-stack" data-version-group="'+adminEscapeHtml(group[0].versionGroup.id)+'" '+(expandedVersionGroups.has(group[0].versionGroup.id)?'open':'')+'><summary aria-controls="'+adminEscapeHtml(id)+'"><span class="stack-icon">'+libraryIcon('versions')+'</span><span class="stack-copy"><strong>'+adminEscapeHtml(title)+'</strong><small>'+versionText('count',group.length)+'</small></span><span class="stack-chevron" aria-hidden="true">⌄</span></summary><div class="stack-children" id="'+adminEscapeHtml(id)+'">'+group.slice().sort(function(a,b){return a.versionLevel-b.versionLevel;}).map(songCardMarkup).join('')+'</div></details>';}
+function bindVersionStackAnimation(details){
+  var summary=details.querySelector('summary');
+  var animation=null;
+  var desiredOpen=details.open;
+  function remember(){if(desiredOpen)expandedVersionGroups.add(details.dataset.versionGroup);else expandedVersionGroups.delete(details.dataset.versionGroup);}
+  details.addEventListener('toggle',function(){if(!animation){desiredOpen=details.open;remember();}});
+  summary.addEventListener('click',function(event){
+    event.preventDefault();
+    var start=details.getBoundingClientRect().height;
+    desiredOpen=!desiredOpen;
+    remember();
+    if(animation){animation.cancel();animation=null;}
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches||!details.animate){
+      details.open=desiredOpen;details.style.overflow='';return;
+    }
+    details.open=true;
+    var end=desiredOpen?details.getBoundingClientRect().height:summary.getBoundingClientRect().height;
+    details.style.overflow='hidden';
+    var run=details.animate([{height:start+'px'},{height:end+'px'}],{duration:220,easing:'cubic-bezier(.2,.7,.2,1)'});
+    animation=run;
+    run.onfinish=function(){
+      if(animation!==run)return;
+      details.open=desiredOpen;
+      animation=null;
+      details.style.overflow='';
+      run.cancel();
+    };
+  });
+}
+function versionListMarkup(songs){var groups=new Map();songs.filter(ScoreVersions.isVersion).forEach(function(s){var id=s.versionGroup.id;if(!groups.has(id))groups.set(id,[]);groups.get(id).push(s);});var seen=new Set();return songs.map(function(s){if(!ScoreVersions.isVersion(s))return songCardMarkup(s);if(seen.has(s.versionGroup.id))return '';seen.add(s.versionGroup.id);return versionStackMarkup(groups.get(s.versionGroup.id));}).join('');}
+var difficultyOrder=['beginner','intermediate','advanced','unspecified'];
+function songDifficulty(song){return ['beginner','intermediate','advanced'].indexOf(song.difficulty)!==-1?song.difficulty:'unspecified';}
+function songTuning(song){return ['normal','big'].indexOf(song.tuning)!==-1?song.tuning:'unspecified';}
+function songMetadata(song){
+  var parts=[songOrigin(song)];
+  if(ScoreVersions.isVersion(song))parts.push(versionText('level',song.versionLevel));
+  else if(songDifficulty(song)!=='unspecified')parts.push(t(songDifficulty(song)));
+  if(songTuning(song)!=='unspecified')parts.push(t(songTuning(song)));
+  return parts.filter(Boolean).join(' · ');
+}
+function libraryIcon(name){
+  var paths={versions:'<rect x="4" y="3" width="16" height="12" rx="2"/><path d="M5 18h14M7 21h10"/>',all:'<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>',pieces:'<path d="M9 18V5l10-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="16" cy="16" r="3"/>',exercises:'<path d="M7 21h10L13 3h-2L7 21Z"/><path d="m12 15 6-8M10 18h4"/>',favorites:'<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/>',shuffle:'<path d="m17 3 4 4-4 4M3 17h3c5 0 5-10 10-10h5M17 13l4 4-4 4M3 7h3c2 0 3 2 4 4M14 16l2 1h5"/>'};
+  return '<svg viewBox="0 0 24 24" aria-hidden="true">'+paths[name]+'</svg>';
+}
 function songThumbnail(song){
   var exercise=song.category==='exercise'||song.category==='exercises';
   var shape=exercise
     ? '<path d="M8 20h8L13 4h-2L8 20Z"/><path d="m12 14 6-7M10 17h4"/>'
     : '<path d="M9 17V5l10-2v12M9 8l10-2"/><ellipse cx="6" cy="17" rx="3" ry="2"/><ellipse cx="16" cy="15" rx="3" ry="2"/>';
-  return '<div class="song-card-icon" role="img" aria-label="'+t(exercise?'exercises':'pieces')+'"><svg viewBox="0 0 24 24" aria-hidden="true">'+shape+'</svg></div>';
+  return '<div class="song-card-icon" data-level="'+songDifficulty(song)+'" role="img" aria-label="'+t(exercise?'exercises':'pieces')+'"><svg viewBox="0 0 24 24" aria-hidden="true">'+shape+'</svg></div>';
 }
-
+function songCardMarkup(song){
+  var simple=(song.simplePages||[]).length,notation=(song.notationPages||[]).length;
+  var types=[];if(simple)types.push(t('simplified'));if(notation)types.push(t('normalNotation'));
+  var favorite=isFavorite(song.id);
+  var version=ScoreVersions.isVersion(song);
+  return '<div class="song-card-wrap" '+(version?'data-band="'+ScoreVersions.band(song.versionLevel)+'" ':'')+'data-level="'+songDifficulty(song)+'"><button class="song-card" data-song-id="'+adminEscapeHtml(song.id)+'" type="button">'+songThumbnail(song)+'<div class="song-card-copy"><div class="song-title-row"><strong class="song-card-title">'+adminEscapeHtml(songTitle(song))+'</strong>'+(song.isNew?'<span class="song-new">'+t('newSong')+'</span>':'')+'</div><span class="song-card-meta">'+adminEscapeHtml(version?[songOrigin(song),songTuning(song)!=='unspecified'?t(songTuning(song)):''].filter(Boolean).join(' · '):songMetadata(song))+'</span><div class="song-card-tags"><span>'+types.join(' · ')+'</span>'+(song.tempo?'<span>♩ '+adminEscapeHtml(song.tempo)+'</span>':'')+'<span>'+Math.max(simple,notation)+' '+t('pages')+'</span></div></div></button>'+(version?'<span class="version-badge" aria-label="'+adminEscapeHtml(versionText('level',song.versionLevel))+'">'+versionShortLabel(song.versionLevel)+'</span>':'')+'<button class="song-favorite-btn '+(favorite?'active':'')+'" data-favorite-id="'+adminEscapeHtml(song.id)+'" type="button" aria-pressed="'+favorite+'" aria-label="'+adminEscapeHtml(t(favorite?'removeFavorite':'addFavorite')+': '+songTitle(song))+'">'+libraryIcon('favorites')+'</button></div>';
+}
 function renderSongs(){
   var filters=$('#libraryFilters');
   if(filters){
+    filters.setAttribute('aria-label',t('contentType'));
     filters.querySelectorAll('[data-category]').forEach(function(button){
-      button.textContent=t(button.dataset.category==='all'?'allContent':button.dataset.category);
-      if(button.dataset.category==='favorites'){
-        var heart=document.createElement('span');
-        heart.className='library-heart';
-        heart.setAttribute('aria-hidden','true');
-        heart.textContent='♥';
-        button.prepend(heart);
-      }
+      button.innerHTML=libraryIcon(button.dataset.category)+'<span>'+(button.dataset.category==='versions'?versionText('versions'):t(button.dataset.category==='all'?'allContent':button.dataset.category))+'</span>';
       button.setAttribute('aria-pressed',String(libraryCategory===button.dataset.category));
     });
   }
-
-  var list =
-    document.getElementById(
-      "songList"
-    );
-
-  if(!list){
-    return;
+  var levelControls=$('#libraryLevels');
+  var grouped=libraryCategory==='pieces'||libraryCategory==='exercises';
+  if(levelControls){
+    levelControls.hidden=!grouped;
+    levelControls.setAttribute('aria-label',t('difficulty'));
+    levelControls.querySelectorAll('[data-level]').forEach(function(button){button.textContent=t(button.dataset.level==='all'?'allLevels':button.dataset.level);button.setAttribute('aria-pressed',String(libraryLevel===button.dataset.level));});
   }
-
-  list.innerHTML =
-    songsData.filter(function(song){
-      var category=song.category==='exercise'||song.category==='exercises'?'exercises':'pieces';
-      return (libraryCategory==='all'||libraryCategory===category||libraryCategory==='favorites'&&isFavorite(song.id));
-    }).map(
-      function(song){
-
-        var simpleCount =
-          (
-            song.simplePages ||
-            []
-          ).length;
-
-        var notationCount =
-          (
-            song.notationPages ||
-            []
-          ).length;
-
-        var types = [];
-
-        if(simpleCount){
-
-          types.push(
-            t("simplified")
-          );
-        }
-
-        if(notationCount){
-
-          types.push(
-            t("normalNotation")
-          );
-        }
-
-        /*
-         * Kartta sayfa sayısı:
-         * En uzun nota türünün sayfasını göster.
-         */
-        var totalPages =
-          Math.max(
-            simpleCount,
-            notationCount
-          );
-
-        return (
-          '<div class="song-card-wrap">' +
-
-            '<button ' +
-              'class="song-card" ' +
-              'data-song-id="' +
-              adminEscapeHtml(song.id) +
-              '" ' +
-              'type="button">' +
-
-              songThumbnail(song) +
-
-              '<div class="song-card-copy">' +
-
-                '<div class="song-title-row">' +
-
-                  '<strong class="song-card-title">' +
-                    adminEscapeHtml(
-                      songTitle(song)
-                    ) +
-                  '</strong>' +
-
-                  (
-                    song.isNew
-                      ? '<span class="song-new">' +
-                          t("newSong") +
-                        '</span>'
-                      : ''
-                  ) +
-
-                '</div>' +
-
-                '<span class="song-card-meta">' +
-                  adminEscapeHtml(
-                    songOrigin(song)
-                  ) +
-                '</span>' +
-
-                '<div class="song-card-tags">' +
-
-                  '<span>' +
-                    types.join(" · ") +
-                  '</span>' +
-
-                  (
-                    song.tempo
-                      ? '<span>♩ ' +
-                          adminEscapeHtml(song.tempo) +
-                        '</span>'
-                      : ''
-                  ) +
-
-                  (
-                    totalPages
-                      ? '<span>' +
-                          totalPages +
-                          ' ' +
-                          t("pages") +
-                        '</span>'
-                      : ''
-                  ) +
-
-                '</div>' +
-
-              '</div>' +
-
-            '</button>' +
-
-            '<button ' +
-              'class="song-favorite-btn ' +
-              (
-                isFavorite(song.id)
-                  ? 'active'
-                  : ''
-              ) +
-              '" ' +
-              'data-favorite-id="' +
-              adminEscapeHtml(song.id) +
-              '" ' +
-              'type="button" ' +
-              'aria-label="' +
-              t("favorites") +
-              '">' +
-
-              (
-                isFavorite(song.id)
-                  ? '♥'
-                  : '♡'
-              ) +
-
-            '</button>' +
-
-          '</div>'
-        );
-      }
-    )
-    .join("");
-
-
-  if(!list.children.length) list.textContent=t('emptyLibrary');
-  document
-    .querySelectorAll(
-      ".song-card"
-    )
-    .forEach(
-      function(card){
-
-        card.onclick =
-          function(){
-
-            openSong(
-              card.dataset.songId
-            );
-          };
-      }
-    );
-
-
-  document
-    .querySelectorAll(
-      ".song-favorite-btn"
-    )
-    .forEach(
-      function(button){
-
-        button.onclick =
-          function(e){
-
-            e.preventDefault();
-            e.stopPropagation();
-
-            toggleFavorite(
-              button.dataset.favoriteId
-            );
-          };
-      }
-    );
+  var list=$('#songList');if(!list)return;
+  var visible=songsData.filter(function(song){
+    var category=song.category==='exercise'||song.category==='exercises'?'exercises':'pieces';
+    if(ScoreVersions.isVersion(song))return libraryCategory==='all'||libraryCategory==='favorites'&&isFavorite(song.id);
+    return (libraryCategory==='all'||libraryCategory===category||libraryCategory==='favorites'&&isFavorite(song.id))&&(!grouped||libraryLevel==='all'||libraryLevel===songDifficulty(song));
+  });
+  if(grouped){
+    list.innerHTML=difficultyOrder.map(function(level){var group=visible.filter(function(song){return songDifficulty(song)===level;});if(!group.length)return '';return '<section class="library-group" aria-labelledby="group-'+level+'"><h3 id="group-'+level+'" class="library-group-title"><span>'+t(level)+'</span><span class="group-count">'+group.length+'</span></h3>'+group.map(songCardMarkup).join('')+'</section>';}).join('');
+  }else list.innerHTML=versionListMarkup(visible);
+  list.querySelectorAll('.score-stack').forEach(bindVersionStackAnimation);
+  if(!visible.length){list.innerHTML='<div class="library-empty">'+libraryIcon(libraryCategory==='favorites'?'favorites':'pieces')+'<strong>'+(libraryCategory==='versions'?versionText('empty'):t(libraryCategory==='favorites'?'emptyLibrary':'emptyLevel'))+'</strong><p>'+(libraryCategory==='versions'?versionText('help'):t(libraryCategory==='favorites'?'emptyFavoritesHelp':'emptyLevelHelp'))+'</p><button type="button" id="resetLibraryFilters">'+t('showAllPieces')+'</button></div>';$('#resetLibraryFilters').onclick=function(){libraryCategory='all';libraryLevel='all';renderSongs();};}
+  list.querySelectorAll('.song-card').forEach(function(card){card.onclick=function(){openSong(card.dataset.songId);};});
+  list.querySelectorAll('.song-favorite-btn').forEach(function(button){button.onclick=function(event){event.preventDefault();var id=button.dataset.favoriteId;toggleFavorite(id);showSongsToast(t(isFavorite(id)?'favoriteAdded':'favoriteRemoved'));var next=list.querySelector('[data-favorite-id="'+CSS.escape(id)+'"]');if(next)next.focus({preventScroll:true});else if($('#resetLibraryFilters'))$('#resetLibraryFilters').focus();};});
 }
-
 
 /* AVAILABLE VIEWS */
 
@@ -2264,7 +2156,7 @@ function openSong(songId){
       "hidden"
     );
 
-  setNoteDetailOrientation(true);
+  setNoteDetailOrientation(false);
 
 
   document.getElementById(
@@ -2276,7 +2168,7 @@ function openSong(songId){
   document.getElementById(
     "songDetailOrigin"
   ).textContent =
-    songOrigin(song);
+    songMetadata(song);
 
 
   document.getElementById(
@@ -2406,6 +2298,7 @@ function toggleScoreFullscreen(){
   detail.classList.toggle(
     "score-fullscreen-active"
   );
+  setNoteDetailOrientation(detail.classList.contains("score-fullscreen-active"));
 }
 /* =========================================
    FRET DATA
@@ -2608,6 +2501,15 @@ function renderCalibration(){
 }
 
 
+Object.assign(translations.tr,{"difficulty":"Seviye","beginner":"Başlangıç","intermediate":"Orta","advanced":"İleri","unspecified":"Tümü","allLevels":"Tüm seviyeler","shuffle":"Karıştır","orderedByLevel":"Kolaydan zora","savedPieces":"Kaydettiğin parçalar","exploreLibrary":"Keşfet","emptyLevel":"Bu seviyede henüz parça yok","emptyLevelHelp":"Diğer seviyelere göz atabilirsin.","emptyFavoritesHelp":"Parçaların yanındaki kalbe dokunarak buraya ekle.","showAllPieces":"Parçaları keşfet","addFavorite":"Favorilere ekle","removeFavorite":"Favorilerden çıkar","favoriteAdded":"Favorilere eklendi","favoriteRemoved":"Favorilerden çıkarıldı","appearance":"Görünüm","theme":"Tema","themeSystem":"Sistem","themeLight":"Açık","themeDark":"Koyu","themeHelp":"Sistem seçeneği cihazının görünümünü takip eder.","tapFeedback":"Dokunma titreşimi","tapFeedbackHelp":"Desteklenen cihazlarda hafif titreşim.","zoomIn":"Yakınlaştır","zoomOut":"Uzaklaştır","resetZoom":"Yakınlaştırmayı sıfırla","fullscreenScore":"Tam ekran nota"});
+Object.assign(translations.en,{"difficulty":"Level","beginner":"Beginner","intermediate":"Intermediate","advanced":"Advanced","unspecified":"All","allLevels":"All levels","shuffle":"Shuffle","orderedByLevel":"Easy to advanced","savedPieces":"Your saved pieces","exploreLibrary":"Explore","emptyLevel":"No pieces at this level yet","emptyLevelHelp":"Try another level.","emptyFavoritesHelp":"Tap the heart next to a piece to save it here.","showAllPieces":"Explore pieces","addFavorite":"Add to favorites","removeFavorite":"Remove from favorites","favoriteAdded":"Added to favorites","favoriteRemoved":"Removed from favorites","appearance":"Appearance","theme":"Theme","themeSystem":"System","themeLight":"Light","themeDark":"Dark","themeHelp":"System follows your device appearance.","tapFeedback":"Touch vibration","tapFeedbackHelp":"Light vibration on supported devices.","zoomIn":"Zoom in","zoomOut":"Zoom out","resetZoom":"Reset zoom","fullscreenScore":"Fullscreen score"});
+Object.assign(translations.ug,{"difficulty":"دەرىجە","beginner":"باشلانغۇچ","intermediate":"ئوتتۇرا","advanced":"ئىلغار","unspecified":"ھەممىسى","allLevels":"بارلىق دەرىجىلەر","shuffle":"ئارىلاشتۇرۇش","orderedByLevel":"ئاسانلىقتىن قىيىنلىققا","savedPieces":"ساقلىغان ئەسەرلىرىڭىز","exploreLibrary":"بايقاش","emptyLevel":"بۇ دەرىجىدە تېخى ئەسەر يوق","emptyLevelHelp":"باشقا دەرىجىلەرنى كۆرۈپ بېقىڭ.","emptyFavoritesHelp":"ئەسەر يېنىدىكى يۈرەك بەلگىسىنى بېسىپ بۇ يەرگە قوشۇڭ.","showAllPieces":"ئەسەرلەرنى كۆرۈش","addFavorite":"ياقتۇرغانلارغا قوشۇش","removeFavorite":"ياقتۇرغانلاردىن چىقىرىش","favoriteAdded":"ياقتۇرغانلارغا قوشۇلدى","favoriteRemoved":"ياقتۇرغانلاردىن چىقىرىلدى","appearance":"كۆرۈنۈش","theme":"ئۇسلۇب","themeSystem":"سىستېما","themeLight":"يورۇق","themeDark":"قاراڭغۇ","themeHelp":"سىستېما تاللانمىسى ئۈسكۈنىڭىزنىڭ كۆرۈنۈشىگە ئەگىشىدۇ.","tapFeedback":"چەككەندە تەۋرىنىش","tapFeedbackHelp":"قوللايدىغان ئۈسكۈنىلەردە يېنىك تەۋرىنىش.","zoomIn":"چوڭايتىش","zoomOut":"كىچىكلىتىش","resetZoom":"ئەسلىگە كەلتۈرۈش","fullscreenScore":"پۈتۈن ئېكرانلىق نوتا"});
+
+function renderAppearance(){
+  $('#themePreference').value=window.DuttarTheme.preference;
+  var button=$('#touchFeedbackToggle');button.textContent=t(touchFeedbackEnabled?'on':'off');button.setAttribute('aria-pressed',String(touchFeedbackEnabled));button.disabled=typeof navigator.vibrate!=='function';
+  [['scoreZoomIn','zoomIn'],['scoreZoomOut','zoomOut'],['scoreZoomLabel','resetZoom'],['scoreFullscreen','fullscreenScore']].forEach(function(pair){var el=document.getElementById(pair[0]);if(el)el.setAttribute('aria-label',t(pair[1]));});
+}
 function applyLanguage(v){
 
   lang=v;
@@ -2643,7 +2545,8 @@ function applyLanguage(v){
   }
 
   renderFeedbackSettings();
-
+  renderAppearance();
+  if(activeSong){$("#songDetailTitle").textContent=songTitle(activeSong);$("#songDetailOrigin").textContent=songMetadata(activeSong);}
 
   renderAll();
 
@@ -2691,6 +2594,19 @@ function renderNotationButton(){
 }
 
 
+function syncStringVisualState(){
+  $$('.string-card').forEach(function(card){
+    card.setAttribute('aria-pressed',String(card.classList.contains('active')));
+  });
+  var selected=$('.string-card.active');
+  $('#instrumentWrap').dataset.activeString=selected?selected.dataset.string:'none';
+}
+function flashTunerConfirmation(){
+  var card=$('.tuner-card');
+  card.classList.add('confirmed-flash');
+  clearTimeout(flashTunerConfirmation.timer);
+  flashTunerConfirmation.timer=setTimeout(function(){card.classList.remove('confirmed-flash');},550);
+}
 function renderStrings(){
 
   var data=
@@ -2748,6 +2664,7 @@ function renderStrings(){
       String(activeString)
     );
   }
+  syncStringVisualState();
 }
 
 
@@ -3738,6 +3655,7 @@ function completeActiveString(){
   );
 
 
+  flashTunerConfirmation();
   completedCard.classList.add(
     "complete-pulse"
   );
@@ -3814,6 +3732,7 @@ function completeActiveString(){
     $("#status").style.color=
       "var(--good)";
 
+    syncStringVisualState();
     showCompletionMessage();
     playCompletionFeedback(
       completedIndex,
@@ -5870,6 +5789,12 @@ if(capacitorApp){
     finally{restoringNavigation=false;}
   });
 }
+$('#adminSongList').addEventListener('click',function(event){var button=event.target.closest('[data-admin-version]');if(!button)return;var song=songsData.find(function(s){return s.id===button.dataset.adminVersion;});if(!song)return;editAdminSong(song.id);adminEditingSongId=null;var draft=Object.assign({},song,{id:null,versionLevel:Math.max.apply(null,songsData.filter(function(s){return s.versionGroup&&s.versionGroup.id===song.versionGroup.id;}).map(function(s){return s.versionLevel;}))+1});adminVersionEditor.set(draft);adminDraftSimplePages=[];adminDraftNotationPages=[];renderAdminPages('simple');renderAdminPages('notation');$('#adminPublish').textContent='Yeni versiyonu yayınla';});
 $('#libraryFilters').addEventListener('click',function(event){var button=event.target.closest('[data-category]');if(button){libraryCategory=button.dataset.category;renderSongs();}});
 
+
+$('#libraryLevels').addEventListener('click',function(event){var button=event.target.closest('[data-level]');if(button){libraryLevel=button.dataset.level;renderSongs();}});
+$('#themePreference').onchange=function(event){window.DuttarTheme.apply(event.target.value);};
+$('#touchFeedbackToggle').onclick=function(){touchFeedbackEnabled=!touchFeedbackEnabled;localStorage.setItem('touchFeedback',touchFeedbackEnabled?'1':'0');renderAppearance();};
+document.addEventListener('click',function(event){var button=event.target.closest('button,[role="button"]');if(!button||button.disabled)return;button.classList.remove('tap-confirmed');void button.offsetWidth;button.classList.add('tap-confirmed');setTimeout(function(){button.classList.remove('tap-confirmed');},220);if(touchFeedbackEnabled&&navigator.vibrate&&!listening)navigator.vibrate(8);},true);
 })();

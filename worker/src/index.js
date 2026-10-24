@@ -1,3 +1,5 @@
+import ScoreVersions from '../../www/score-versions.js';
+
 const JSON_HEADERS = { "content-type": "application/json; charset=utf-8" };
 const MAX_FILE_BYTES = 8 * 1024 * 1024;
 const MAX_TOTAL_BYTES = 32 * 1024 * 1024;
@@ -45,10 +47,13 @@ function safeId(value) {
 
 function validateCatalog(catalog) {
   if (!Array.isArray(catalog) || catalog.length > 500) throw new Error("Geçersiz nota listesi");
+  ScoreVersions.validate(catalog);
   const ids = new Set();
   for (const song of catalog) {
     if (!song || !safeId(song.id) || ids.has(song.id)) throw new Error("Geçersiz veya yinelenen nota kimliği");
     if (!song.title || typeof song.title.latin !== "string" || !song.title.latin.trim()) throw new Error("Nota adı eksik");
+    if (song.difficulty !== undefined && !["beginner", "intermediate", "advanced"].includes(song.difficulty)) throw new Error("Geçersiz seviye");
+    if (song.tuning !== undefined && !["normal", "big"].includes(song.tuning)) throw new Error("Geçersiz düzen");
     for (const key of ["simplePages", "notationPages"]) {
       if (!Array.isArray(song[key]) || song[key].some((path) => typeof path !== "string" || !/^songs\/[a-zA-Z0-9._-]+$/.test(path))) {
         throw new Error("Geçersiz nota sayfası yolu");

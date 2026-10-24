@@ -1,0 +1,184 @@
+/* Shared surfaces and interaction states; loaded after the original layout. */
+:root{--primary-bg:#173b5d;--primary-ink:#fff;--accent-ink:#fff;--accent-bg:#267b79;--focus:#176b89;--surface-soft:#edf4f2;--muted:#526874;--danger:#a6293d;--pattern-opacity:.22}
+:root[data-theme=dark]{--paper:#080c12;--card:#141d28;--surface-soft:#1b2a37;--navy:#e5eff8;--navy2:#b9d4e8;--text:#e5eff8;--muted:#a9bfcd;--line:#344a5a;--mint:#183b3b;--turq:#8ad4ce;--turq2:#9cded8;--good:#8adbb4;--warn:#edbb7e;--primary-bg:#8ad4ce;--primary-ink:#092a2a;--accent-bg:#8ad4ce;--accent-ink:#092a2a;--focus:#a4dbff;--danger:#ffadbb;--shadow:0 10px 28px #0006;--pattern-opacity:.035}
+body::before{opacity:var(--pattern-opacity)}
+:root[data-theme=dark] body::before{background-image:url('etles_desen_dark.png');opacity:.25}
+.hidden,[hidden]{display:none!important}
+button,a,select,[role=button]{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+button,[role=button],.privacy-link{transition:background-color .16s,color .16s,box-shadow .16s,filter .12s,scale .12s}
+button:not(:disabled):active,[role=button]:active{filter:brightness(.9);scale:.97}
+button:disabled{cursor:default;opacity:.5}
+:is(button,a,select,input,textarea,[role=button]):focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.tap-confirmed{animation:tap-confirm .22s ease-out}
+@keyframes tap-confirm{0%{filter:brightness(.82)}100%{filter:brightness(1)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+.bottom-nav{background:var(--card)}
+.nav-btn{color:var(--muted);font-size:11px;min-height:48px;border-radius:14px}
+.nav-btn.active{color:var(--navy);background:var(--mint)}
+.notation-btn,.icon-btn{background:var(--card);border-color:var(--line);min-width:44px;min-height:44px}
+.mode-tabs,.tuner-card,.info-card,.sheet{background:var(--card);border-color:var(--line)}
+.mode-btn{color:var(--text)}
+.mode-btn.active{background:var(--accent-bg);color:var(--accent-ink)}
+.mode-btn.active small{color:inherit;opacity:.9}
+.mode-btn small{color:var(--muted)}
+.string-card{background:var(--card);border-color:var(--line)}
+.string-card.active{background:var(--mint);border-color:var(--turq)}
+.preview-tone{background:var(--surface-soft);color:var(--navy);border-color:var(--line);min-height:38px}
+.mic-btn,.onboard-next,.admin-publish{background:var(--primary-bg);color:var(--primary-ink)}
+.mic-btn.listening{background:var(--mint);color:var(--navy);border:2px solid var(--turq)}
+.status{color:var(--good)}
+.setting-row{gap:12px;flex-wrap:wrap}
+.setting-row label{font-size:12px;line-height:1.4;flex:1;min-width:100px}
+.setting-row select,.pill{background:var(--surface-soft);color:var(--text);border-color:var(--line)}
+.admin-field select{min-height:44px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface-soft);color:var(--text);font:inherit}
+.setting-row select{max-width:58%}
+.setting-help{font-size:12px;line-height:1.55;color:var(--muted);margin:4px 0 12px}
+.setting-toggle[aria-pressed=true],#touchFeedbackToggle[aria-pressed=true]{background:var(--mint);color:var(--navy);border-color:var(--turq)}
+.about p{font-size:14px;line-height:1.65;color:var(--text)}
+.privacy-link{min-height:44px;display:inline-flex;align-items:center}
+.admin-card{text-align:left}
+.admin-field :is(input,textarea,select),.admin-song-row,.admin-mini-btn,.admin-page-row,.admin-page-row button,.admin-field-group,.admin-cancel{background:var(--surface-soft);color:var(--text);border-color:var(--line)}
+.admin-field :is(input,textarea):focus{background:var(--card)}
+.admin-mini-btn,.admin-page-row button{min-height:44px}
+.admin-page-row{grid-template-columns:minmax(0,1fr) repeat(3,44px)}
+.admin-status.error,.admin-mini-btn.danger{color:var(--danger)}
+.admin-status.success{color:var(--good)}
+.library-filters{margin:8px 0 12px;gap:6px}
+#songsPanel .library-filters button,#songsPanel .library-filters button[data-category=favorites]{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:64px;padding:7px 3px;font-size:12px;line-height:1.25;background:var(--card);color:var(--muted);border-color:var(--line)}
+#songsPanel .library-filters button[aria-pressed=true]{background:var(--primary-bg);color:var(--primary-ink);border-color:var(--primary-bg)}
+.library-filters svg,.library-empty svg,.song-favorite-btn svg{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.library-filters button[data-category=favorites][aria-pressed=true] svg{fill:currentColor}
+.library-levels{display:flex;gap:6px;overflow-x:auto;padding:3px 2px 10px;margin-bottom:8px;scrollbar-width:thin}
+.library-levels button{flex:0 0 auto;min-height:44px;border:1px solid var(--line);border-radius:22px;padding:9px 12px;background:var(--card);color:var(--muted);font-size:12px;font-weight:600}
+.library-levels button[aria-pressed=true]{border-color:var(--accent-bg);background:var(--mint);color:var(--navy)}
+.library-group{display:grid;gap:10px}
+.library-group+.library-group{margin-top:12px}
+.library-group-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 2px 2px;color:var(--navy);font-size:15px}
+.group-count{display:grid;place-items:center;min-width:25px;height:25px;border-radius:50%;background:var(--mint);font-size:12px}
+#songsPanel .song-card{grid-template-columns:48px minmax(0,1fr);gap:12px;padding:11px 12px;padding-inline-end:50px;background:var(--card);border-color:var(--line);box-shadow:none}
+#songsPanel .song-card-title{font-family:inherit;font-size:15px;line-height:1.3;font-weight:600;color:var(--text);white-space:normal;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.song-title-row{align-items:flex-start}
+#songsPanel .song-card-meta{font-size:10px;line-height:1.4;font-weight:500;color:var(--muted);margin-top:3px}
+#songsPanel .song-card-tags{font-size:8px;line-height:1.4;color:var(--muted);font-weight:500;gap:4px 8px}
+.song-new{font-size:9px;color:var(--navy);line-height:1.3;background:var(--mint);margin-top:3px}
+.song-favorite-btn{right:auto;inset-inline-end:5px;width:44px;height:48px;border:0;background:transparent;color:var(--muted);border-radius:12px}
+.song-favorite-btn.active{color:var(--accent-bg);background:var(--mint)}
+.song-favorite-btn.active svg{fill:currentColor}
+.library-empty{display:flex;flex-direction:column;align-items:center;gap:12px;padding:30px 20px;text-align:center;background:var(--card);border:1px solid var(--line);border-radius:18px;color:var(--navy)}
+.library-empty svg{width:32px;height:32px;color:var(--turq)}
+.library-empty p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
+.library-empty button{min-height:44px;padding:10px 16px;background:var(--primary-bg);color:var(--primary-ink);border:0;border-radius:12px;font-weight:600}
+.song-back,.song-view-tabs,.song-source-card,.score-toolbar,.score-tool-btn,.score-action-btn,.score-page-btn,.score-offline{background:var(--card);color:var(--text);border-color:var(--line)}
+.song-view-btn{background:var(--surface-soft);color:var(--navy);min-height:44px}
+.song-view-btn.active{background:var(--primary-bg);color:var(--primary-ink)}
+.score-tool-btn,.score-action-btn,.score-page-btn{min-width:44px;min-height:44px}
+.song-detail-origin,.song-detail-head p,.song-source-card p{color:var(--muted);font-size:13px;line-height:1.6}
+.simple-score,.notation-sheet{background:#fff;color:#172b3d}
+:root[data-theme=dark] #fretsPanel .fret-label.dual-fret{background:var(--card);color:var(--text);border:1px solid var(--line)}
+:root[data-theme=dark] .onboarding{background:linear-gradient(#080c12bf,#080c12bf),url('etles_desen_dark.png') center/360px}
+.onboard-mark{background:var(--surface-soft)}
+.sheet p{color:var(--muted)}
+.language-options button,.onboard-deny{background:var(--surface-soft);color:var(--navy);border-color:var(--line);min-height:48px}
+html[dir=rtl] .song-card-copy{text-align:right}
+html[dir=rtl] .library-filters button span{font-size:13px;line-height:1.4;overflow-wrap:anywhere}
+@media(max-width:360px){#songsPanel .library-filters button{font-size:11px}#songsPanel .song-card{grid-template-columns:40px minmax(0,1fr);gap:9px;padding-inline-start:10px;padding-inline-end:46px}#songsPanel .song-card-title{font-size:15px}.library-levels button{padding-inline:10px}.song-favorite-btn{inset-inline-end:1px}}
+
+/* Familiar score icons; color communicates the saved level. */
+#songsPanel .song-card-icon{background:var(--surface-soft);color:var(--muted);width:48px;height:48px;min-width:48px}
+#songsPanel .song-card-icon svg{stroke:currentColor}
+#songsPanel .song-card-icon[data-level=beginner]{background:#e2f2e7;color:#267341}
+#songsPanel .song-card-icon[data-level=intermediate]{background:#fff0d5;color:#8a5709}
+#songsPanel .song-card-icon[data-level=advanced]{background:#eee5fa;color:#7540a0}
+:root[data-theme=dark] #songsPanel .song-card-icon[data-level=beginner]{background:#193a2a;color:#94dbaa}
+:root[data-theme=dark] #songsPanel .song-card-icon[data-level=intermediate]{background:#3c3019;color:#efc16c}
+:root[data-theme=dark] #songsPanel .song-card-icon[data-level=advanced]{background:#342443;color:#d3a8f2}
+@media(max-width:360px){#songsPanel .song-card{grid-template-columns:48px minmax(0,1fr)}}
+
+/* Tuner spacing and a softer gauge palette for dark surfaces. */
+:root[data-theme=dark] .gauge-base{stroke:#344a5a}
+:root[data-theme=dark] .gauge-left{stroke:#789ab5}
+:root[data-theme=dark] .gauge-right{stroke:#78b7b7}
+:root[data-theme=dark] .gauge-mid{stroke:#a1dfbb}
+#tunerPanel .mode-tabs{margin-bottom:4px}
+#tunerPanel .mode-btn{min-height:58px;padding:12px 5px 10px}
+#tunerPanel .tuner-card{margin-top:4px}
+.app:has(#tunerPanel.active){padding-bottom:82px}
+
+/* Let the settings panel use the actual space above the fixed navigation. */
+.app:has(#settingsPanel.active){display:flex;flex-direction:column;box-sizing:border-box;height:100dvh;padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+.app:has(#settingsPanel.active)>.topbar{flex:none}
+#settingsPanel.active{flex:1 1 0;min-height:0;height:auto;overflow-y:auto;padding-bottom:16px;scroll-padding-bottom:16px}
+
+/* A small type increase without returning to oversized cards. */
+.setting-row label{font-size:13px}
+.setting-row select{font-size:13px}
+.setting-row .pill{font-size:12px}
+.setting-help{font-size:13px}
+#songsPanel .song-card-title{font-size:16px}
+#songsPanel .song-card-meta{font-size:11px}
+#songsPanel .song-card-tags{font-size:10px}
+.song-detail-head h2{font-size:23px}
+.song-detail-origin,.song-detail-head p,.song-source-card p{font-size:14px}
+.song-source-card h3{font-size:16px}
+.song-view-btn,.score-tool-btn,.score-action-btn,.score-page-btn{font-size:13px}
+@media(max-height:650px){#tunerPanel .mode-btn{min-height:52px;padding:9px 5px 8px}}
+
+/* Shared outer edges and compact tuning/score controls. */
+#tunerPanel .mode-tabs,#tunerPanel .tuner-card{width:100%;box-sizing:border-box;align-self:center}
+#tunerPanel .mode-btn{min-height:50px;padding:8px 5px;font-size:13px}
+#tunerPanel .mode-btn small{font-size:10px}
+.app > .mic-dock{width:100%;padding-inline:0;box-sizing:border-box}
+.app > .mic-dock .mic-btn{width:100%;margin-inline:0;box-sizing:border-box}
+:root[data-theme=dark] .gauge-left{stroke:#3d739e}
+:root[data-theme=dark] .gauge-right{stroke:#66b6bd}
+:root[data-theme=dark] .gauge-mid{stroke:#65c397}
+#tunerPanel .gauge-label.sharp{right:-4px;top:calc(100% - 10px)}
+#tunerPanel .gauge-label.flat{left:-4px;top:calc(100% - 10px)}
+.score-tool-btn,.score-action-btn{width:36px;height:36px;min-width:36px;min-height:36px;font-size:23px;line-height:1;padding:0}
+#scoreZoomLabel{font-size:13px;min-width:48px}
+
+/* Portrait tablets: use available width without stretching individual controls. */
+@media(min-width:600px){
+  .app{width:min(100%,840px);padding-inline:24px}
+  .bottom-nav{width:min(100%,840px)}
+  .topbar{padding-bottom:16px}
+  .brand{font-size:28px}
+  .app:has(#songsPanel.active){display:flex;flex-direction:column;padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+  .app:has(#songsPanel.active)>.topbar{flex:none}
+  #songsPanel.active{flex:1 1 0;min-height:0;height:auto}
+  .song-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-content:start}
+  .library-group,.library-empty{grid-column:1 / -1}
+  .library-group{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .library-group-title{grid-column:1 / -1}
+  #settingsPanel.active{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-content:start;align-items:stretch}
+  #settingsPanel>.info-card:nth-of-type(3){grid-column:1 / -1}
+  #settingsPanel>.section-sub,#settingsPanel>.about,#settingsPanel>.admin-card{grid-column:1 / -1}
+  #settingsPanel>.info-card{margin:0;min-width:0}
+  #settingsPanel .setting-row{gap:8px}
+  #settingsPanel .setting-row select{min-width:0;max-width:60%}
+  #tunerPanel .mode-tabs,#tunerPanel .tuner-card,.app:has(#tunerPanel.active)>.mic-dock{width:min(100%,600px);align-self:center}
+  #tunerPanel .gauge{width:min(100%,320px);max-height:170px}
+  #tunerPanel .instrument-wrap img{max-height:290px}
+  #fretsPanel .fret-map{width:min(100%,560px)}
+  #fretsPanel .section-sub{max-width:480px;font-size:13px;line-height:1.5}
+  .song-detail-head h2{font-size:26px}
+}
+
+/* Fill the space down to navigation, keeping artwork and fret labels together. */
+.app:has(#fretsPanel.active){display:flex;flex-direction:column;box-sizing:border-box;height:100dvh;padding-bottom:calc(80px + env(safe-area-inset-bottom))}
+.app:has(#fretsPanel.active)>.topbar{flex:none}
+#fretsPanel.active{flex:1 1 0;height:auto;min-height:0}
+#fretsPanel .fret-map{flex:1 1 0;aspect-ratio:auto;min-height:0;max-height:none;margin-bottom:0}
+
+/* Keep the artwork distinct from the dark card without a hard outline. */
+#tunerPanel .instrument-wrap img,#tunerPanel .tuner-card.in-tune .instrument-wrap img{transform:translateX(-6px) scale(.94)}
+:root[data-theme=dark] #tunerPanel .instrument-wrap::before{content:"";position:absolute;z-index:0;top:4%;bottom:4%;left:50%;width:50px;transform:translateX(calc(-50% + 2px));border-radius:8px;background:rgba(142,171,194,.17);filter:blur(16px);pointer-events:none}
+:root[data-theme=dark] #tunerPanel .instrument-wrap img,:root[data-theme=dark] #tunerPanel .tuner-card.in-tune .instrument-wrap img{filter:brightness(1.1)}
+
+/* Match panel viewport to the actual fixed navigation height. */
+.app:has(#fretsPanel.active),.app:has(#songsPanel.active),.app:has(#settingsPanel.active){display:flex;flex-direction:column;box-sizing:border-box;height:100dvh;padding-bottom:calc(72px + env(safe-area-inset-bottom))}
+.app:has(#fretsPanel.active)>.topbar,.app:has(#songsPanel.active)>.topbar,.app:has(#settingsPanel.active)>.topbar{flex:none}
+#fretsPanel.active,#songsPanel.active,#settingsPanel.active{flex:1 1 0;min-height:0;height:auto;margin-bottom:0;padding-bottom:0;scroll-padding-bottom:0}
+/* Text underlines sit under the words, rather than below a tall pressed surface. */
+.about-links .privacy-link,.about-links .privacy-link:visited{min-height:44px;margin:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;color:var(--navy);font-weight:600;text-decoration:underline;text-decoration-color:var(--turq);text-decoration-thickness:1px;text-underline-offset:4px;filter:none;scale:1;transform:none}
+.about-links .privacy-link:active{color:var(--accent-bg)}

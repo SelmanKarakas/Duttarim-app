@@ -1,0 +1,32 @@
+/* Artwork and highlights share one coordinate system, including scaling. */
+#tunerPanel .tuner-artwork{position:relative;isolation:isolate;height:100%;max-height:215px;aspect-ratio:1;max-width:92%;transform:translateX(-6px) scale(.94);flex:none}
+#tunerPanel .tuner-artwork img,#tunerPanel .tuner-card.in-tune .tuner-artwork img{display:block;width:100%;height:100%;max-width:none;max-height:none;transform:none;object-fit:contain}
+.string-light-overlay{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none;overflow:visible}
+.string-light{opacity:0;transition:opacity .18s ease;fill:none;stroke-linecap:round;stroke-linejoin:round}
+#instrumentWrap[data-active-string="0"] .light-0,#instrumentWrap[data-active-string="1"] .light-1{opacity:1}
+.string-glow{stroke:#5de3ca;stroke-width:28;stroke-opacity:.65;filter:url(#string-soft-glow)}
+.string-aura{stroke:#83f6da;stroke-width:15;stroke-opacity:.3}
+.string-glint{stroke:#e7fff7;stroke-width:5;stroke-opacity:.88}
+.string-radiance{opacity:.55}
+#tunerPanel.active #instrumentWrap[data-active-string="0"] .light-0 .string-radiance,
+#tunerPanel.active #instrumentWrap[data-active-string="1"] .light-1 .string-radiance{animation:string-breathe 2.4s ease-in-out infinite}
+@keyframes string-breathe{0%,100%{opacity:.35}50%{opacity:1}}
+:root[data-theme=dark] .string-glow{stroke:#83f4d5;stroke-opacity:.7}
+:root[data-theme=dark] .string-glint{stroke:#f0fff9}
+#tunerPanel .tuner-artwork img{z-index:1}
+#tunerPanel .string-light-overlay{z-index:5;transform:translate(2px,2px)}
+/* Fixed target remains distinguishable from the moving needle. */
+.zero-target{pointer-events:none;fill:none;stroke-linecap:round}.zero-target-outline{stroke:var(--card);stroke-width:5}.zero-target-line{stroke:var(--navy);stroke-width:2}.zero-confirm{stroke:var(--good);stroke-width:3;opacity:0;transform-box:fill-box;transform-origin:center}
+#tunerPanel .accuracy-marks{display:none}
+#tunerPanel .tuner-card.tune-hit{animation:none}
+#tunerPanel .tuner-card.confirmed-flash .zero-confirm{animation:target-confirm .55s ease-out both}
+@keyframes target-confirm{0%{opacity:0;transform:scale(.75)}30%{opacity:.85}100%{opacity:0;transform:scale(1.35)}}
+/* Small floating label does not change the card or note dimensions. */
+#tunerPanel .string-card.active{border-color:var(--turq);box-shadow:inset 0 0 0 1px var(--turq);background:var(--mint)}
+#tunerPanel .string-card.completed .radio-dot{animation:none;background:var(--good);border-color:var(--good)}
+#tunerPanel .string-card.complete-pulse{animation:none}
+@media(min-width:600px){#tunerPanel .tuner-artwork{max-height:290px}}
+@media(max-height:650px){#tunerPanel .tuner-artwork{max-height:105px}}
+@media(prefers-reduced-motion:reduce){.string-light{transition:none}#tunerPanel .tuner-card.confirmed-flash .zero-confirm{animation:none}}
+
+@media(prefers-reduced-motion:reduce){#tunerPanel.active .string-radiance{animation:none!important;opacity:.65}}

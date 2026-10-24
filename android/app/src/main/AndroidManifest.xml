@@ -17,6 +17,9 @@
             android:launchMode="singleTask"
             android:exported="true">
 
+            <!-- Keep the portrait request on API 36 tablets; fullscreen scores opt into rotation at runtime. -->
+            <property android:name="android.window.PROPERTY_COMPAT_ALLOW_RESTRICTED_RESIZABILITY" android:value="true" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

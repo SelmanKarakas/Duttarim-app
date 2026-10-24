@@ -6,6 +6,7 @@ const fsp = fs.promises;
 const path = require("path");
 const {execFile} = require("child_process");
 
+const ScoreVersions=require('../../www/score-versions.js');
 const HOST = "127.0.0.1";
 const PORT = Number(process.env.DUTTARIM_ADMIN_PORT || 4173);
 const ADMIN_DIR = __dirname;
@@ -46,6 +47,9 @@ function validatePayload(payload){
     throw new Error("Latin parça adı zorunludur.");
   }
   if(payload.category!==undefined && !['piece','exercise'].includes(payload.category)) throw new Error("Geçersiz içerik türü.");
+  if(!payload.versionGroup&&!['beginner','intermediate','advanced'].includes(payload.difficulty)) throw new Error("Seviye seçin.");
+  if(!['normal','big'].includes(payload.tuning)) throw new Error("Düzen seçin.");
+  if(payload.editingId && payload.editingId!==payload.id) throw new Error("Düzenlenen parça kimliği değiştirilemez.");
   if(typeof payload.title.ug !== "string") throw new Error("Uygurca ad geçersiz.");
   if(!Number.isFinite(payload.tempo) || payload.tempo < 20 || payload.tempo > 300){
     throw new Error("Tempo 20–300 arasında olmalıdır.");
@@ -61,7 +65,7 @@ function validatePayload(payload){
       }
     }
   }
-  if(!payload.simpleFiles.length && !payload.notationFiles.length){
+  if(!payload.editingId && !payload.simpleFiles.length && !payload.notationFiles.length){
     throw new Error("En az bir nota sayfası ekleyin.");
   }
 }
@@ -87,6 +91,12 @@ async function writeAtomic(filePath,content){
 
 async function saveSong(payload){
   validatePayload(payload);
+  const catalog = await readCatalog();
+  const existing = catalog.find(song=>song.id===payload.id);
+  if(payload.editingId && !existing) throw new Error("Düzenlenecek nota bulunamadı.");
+  if(!payload.editingId && existing) throw new Error("Bu kimlikte bir nota var; listeden Düzenle seçeneğini kullanın.");
+  const validationEntry={...payload,simplePages:payload.simpleFiles.length?['draft']:(existing?.simplePages||[]),notationPages:payload.notationFiles.length?['draft']:(existing?.notationPages||[])};
+  ScoreVersions.validate(catalog.filter(s=>s.id!==payload.id).concat(validationEntry));
   await fsp.mkdir(SONGS_DIR,{recursive:true});
 
   const writtenPaths = [];
@@ -104,20 +114,21 @@ async function saveSong(payload){
     return pages;
   };
 
-  const simplePages = await makePages(payload.simpleFiles,"simple");
-  const notationPages = await makePages(payload.notationFiles,"notation");
-  const catalog = await readCatalog();
+  const simplePages = payload.simpleFiles.length ? await makePages(payload.simpleFiles,"simple") : (existing?.simplePages || []);
+  const notationPages = payload.notationFiles.length ? await makePages(payload.notationFiles,"notation") : (existing?.notationPages || []);
   const entry = {
+    ...(existing || {originKey:"uyghurDuttarPiece",sourceKey:"arrangedSource",arrangementKey:"bothViews"}),
     id:payload.id,
+    difficulty:payload.difficulty,
+    tuning:payload.tuning,
     category:payload.category || catalog.find(song=>song.id===payload.id)?.category || "piece",
     title:{latin:payload.title.latin.trim(),ug:payload.title.ug.trim()},
-    originKey:"uyghurDuttarPiece",
     tempo:Math.round(payload.tempo),
     simplePages,
-    notationPages,
-    sourceKey:"arrangedSource",
-    arrangementKey:"bothViews"
+    notationPages
   };
+  delete entry.versionGroup;delete entry.versionLevel;
+  if(payload.versionGroup){entry.versionGroup=payload.versionGroup;entry.versionLevel=payload.versionLevel;delete entry.difficulty;}
   const existingIndex = catalog.findIndex(song => song.id === payload.id);
   if(existingIndex === -1) catalog.push(entry);
   else catalog[existingIndex] = entry;
@@ -178,6 +189,7 @@ async function readBody(req){
 
 async function serveStatic(req,res){
   const urlPath = new URL(req.url,"http://localhost").pathname;
+  if(['/shared/score-versions.js','/shared/version-editor.js','/shared/versions.css'].includes(urlPath)){res.setHeader('Content-Type',urlPath.endsWith('.css')?'text/css':'text/javascript');res.end(await fsp.readFile(path.join(REPO_DIR,'www',path.basename(urlPath))));return;}
   const relative = urlPath === "/" ? "index.html" : decodeURIComponent(urlPath.slice(1));
   const filePath = path.resolve(ADMIN_DIR,relative);
   if(!filePath.startsWith(ADMIN_DIR + path.sep)){

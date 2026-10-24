@@ -5,13 +5,14 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Duttarim Nota Yönetimi</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="/shared/versions.css">
 </head>
 <body>
   <main class="shell">
     <header class="hero">
       <div>
         <p class="eyebrow">DUTTARIM İÇERİK YÖNETİMİ</p>
-        <h1>Yeni nota ekle</h1>
+        <h1 id="editorTitle">Yeni nota ekle</h1>
         <p>Parça bilgilerini girin, sayfaları sıralayın ve Android ile iOS’un ortak kataloğuna yayınlayın.</p>
       </div>
       <div class="catalog-count"><strong id="songCount">–</strong><span>online parça</span></div>
@@ -23,6 +24,8 @@
       <form id="songForm" class="card form-card">
         <div class="section-title"><span>1</span><h2>Parça bilgileri</h2></div>
         <label>İçerik türü<select id="category"><option value="piece">Parça</option><option value="exercise">Alıştırma</option></select></label>
+        <div id="versionEditor"></div>
+        <div class="two-col"><label>Seviye<select id="difficulty" required><option value="">Seviye seçin</option><option value="beginner">Başlangıç (Kolay)</option><option value="intermediate">Orta</option><option value="advanced">İleri (Zor)</option></select></label><label>Düzen<select id="tuning" required><option value="">Düzen seçin</option><option value="normal">Küçük düzen</option><option value="big">Büyük düzen</option></select></label></div>
         <label>Latin adı<input id="latinTitle" required placeholder="Örn. Altun Tataymu"></label>
         <label>Uygurca adı<input id="ugTitle" dir="rtl" placeholder="ئۇيغۇرچە نامى"></label>
         <div class="two-col">
@@ -43,6 +46,8 @@
         </label>
         <div id="notationPreview" class="file-list"></div>
 
+        <p id="editHint" class="hint hidden">Mevcut nota sayfaları korunur. Yeni dosyalar seçerseniz yalnız o nota türünün sayfaları değiştirilir.</p>
+        <button id="newSongButton" type="button" class="secondary hidden">Yeni nota oluştur</button>
         <div class="actions">
           <button id="saveButton" type="submit" class="secondary">Projeye kaydet</button>
           <button id="publishButton" type="button" class="primary">Kaydet ve online yayınla</button>
@@ -62,6 +67,8 @@
       </aside>
     </section>
   </main>
+  <script src="/shared/score-versions.js"></script>
+  <script src="/shared/version-editor.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
