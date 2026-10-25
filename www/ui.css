@@ -1,5 +1,5 @@
 /* Shared surfaces and interaction states; loaded after the original layout. */
-:root{--primary-bg:#173b5d;--primary-ink:#fff;--accent-ink:#fff;--accent-bg:#267b79;--focus:#176b89;--surface-soft:#edf4f2;--muted:#526874;--danger:#a6293d;--pattern-opacity:.22}
+:root{--primary-bg:#173b5d;--primary-ink:#fff;--accent-ink:#fff;--accent-bg:#267b79;--focus:#176b89;--surface-soft:#edf4f2;--muted:#526874;--danger:#a6293d;--pattern-opacity:.30}
 :root[data-theme=dark]{--paper:#080c12;--card:#141d28;--surface-soft:#1b2a37;--navy:#e5eff8;--navy2:#b9d4e8;--text:#e5eff8;--muted:#a9bfcd;--line:#344a5a;--mint:#183b3b;--turq:#8ad4ce;--turq2:#9cded8;--good:#8adbb4;--warn:#edbb7e;--primary-bg:#8ad4ce;--primary-ink:#092a2a;--accent-bg:#8ad4ce;--accent-ink:#092a2a;--focus:#a4dbff;--danger:#ffadbb;--shadow:0 10px 28px #0006;--pattern-opacity:.035}
 body::before{opacity:var(--pattern-opacity)}
 :root[data-theme=dark] body::before{background-image:url('etles_desen_dark.png');opacity:.25}
@@ -172,7 +172,7 @@ html[dir=rtl] .library-filters button span{font-size:13px;line-height:1.4;overfl
 
 /* Keep the artwork distinct from the dark card without a hard outline. */
 #tunerPanel .instrument-wrap img,#tunerPanel .tuner-card.in-tune .instrument-wrap img{transform:translateX(-6px) scale(.94)}
-:root[data-theme=dark] #tunerPanel .instrument-wrap::before{content:"";position:absolute;z-index:0;top:4%;bottom:4%;left:50%;width:50px;transform:translateX(calc(-50% + 2px));border-radius:8px;background:rgba(142,171,194,.17);filter:blur(16px);pointer-events:none}
+:root[data-theme=dark] #tunerPanel .instrument-wrap::before{content:"";position:absolute;z-index:0;top:4%;bottom:4%;left:50%;width:50px;transform:translateX(calc(-50% + 2px));border-radius:8px;background:rgba(142,171,194,.045);filter:blur(16px);pointer-events:none}
 :root[data-theme=dark] #tunerPanel .instrument-wrap img,:root[data-theme=dark] #tunerPanel .tuner-card.in-tune .instrument-wrap img{filter:brightness(1.1)}
 
 /* Match panel viewport to the actual fixed navigation height. */

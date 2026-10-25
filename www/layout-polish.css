@@ -36,4 +36,23 @@ img{-webkit-user-drag:none}
 :root[data-theme=dark] .setting-toggle[aria-pressed=true],:root[data-theme=dark] #touchFeedbackToggle[aria-pressed=true]{background:#203234;border-color:#578f89}
 .preview-tone{width:44px;min-width:44px;height:44px;padding:0;display:inline-flex;align-items:center;justify-content:center}
 .preview-tone svg{width:21px;height:21px}
+/* Completion surfaces stay within the selected theme, including after selection moves. */
+:root{--tuner-success-surface:#edf7f0;--tuner-success-border:#70ad89;--tuner-success-ink:#246642;--tuner-success-glow:rgba(61,169,120,.22);--tuner-check-ink:#fff}
+:root[data-theme=dark]{--tuner-success-surface:#183129;--tuner-success-border:#589878;--tuner-success-ink:#a1e5c1;--tuner-success-glow:rgba(138,219,180,.2);--tuner-check-ink:#10271c}
+#tunerPanel .string-card.completed,:root[data-theme=dark] #tunerPanel .string-card.completed{background:var(--tuner-success-surface);border-color:var(--tuner-success-border);box-shadow:inset 0 0 0 1px var(--tuner-success-border)}
+#tunerPanel .string-card.completed .string-note{color:var(--tuner-success-ink)}
+#tunerPanel .radio-dot{width:16px;height:16px;box-sizing:border-box;background:var(--card);border-color:var(--line)}
+#tunerPanel .string-card.completed .radio-dot{background:var(--good);border-color:var(--good)}
+#tunerPanel .string-card.completed .radio-dot::after{left:4px;top:2px;width:4px;height:7px;border-color:var(--tuner-check-ink);border-width:0 2px 2px 0}
+#tunerPanel .string-card.complete-pulse{animation:confirmed-card-glow .55s ease-out}
+@keyframes confirmed-card-glow{0%,100%{box-shadow:inset 0 0 0 1px var(--tuner-success-border),0 0 0 0 transparent}40%{box-shadow:inset 0 0 0 1px var(--tuner-success-border),0 0 0 5px var(--tuner-success-glow)}}
+#tunerPanel .tuner-card.all-complete{border-color:var(--tuner-success-border);box-shadow:var(--shadow),0 0 20px var(--tuner-success-glow)}
+.tuning-complete-message{background:var(--tuner-success-surface);color:var(--tuner-success-ink);border:1px solid var(--tuner-success-border);box-shadow:0 8px 30px #0003,0 0 20px var(--tuner-success-glow)}
+.tuning-complete-message svg{width:52px;height:52px;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+.completion-ring{stroke-width:2;opacity:.5;stroke-dasharray:1;transform:rotate(-90deg);transform-origin:center}
+.completion-check{stroke-width:3.5;stroke-dasharray:1}
+.tuning-complete-message.visible .completion-ring{animation:completion-draw .6s ease-out both}
+.tuning-complete-message.visible .completion-check{animation:completion-draw .4s .15s ease-out both}
+@keyframes completion-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@media(prefers-reduced-motion:reduce){#tunerPanel .string-card.complete-pulse,.tuning-complete-message.visible .completion-ring,.tuning-complete-message.visible .completion-check{animation:none}}
 @media(max-height:650px){#tunerPanel .pitch-row,#tunerPanel .status{top:-2px}#tunerPanel .instrument-wrap{transform:translateY(-3px)}}

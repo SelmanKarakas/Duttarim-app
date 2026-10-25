@@ -5479,14 +5479,14 @@ function showCompletionMessage(){
     return;
   }
 
-  message.textContent="✓";
+
   message.setAttribute("aria-label",t("tuningComplete"));
   message.hidden=false;
   message.classList.add("visible");
 
   completionMessageTimer=setTimeout(
     hideCompletionMessage,
-    1000
+    1400
   );
 }
 
