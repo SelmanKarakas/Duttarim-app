@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="DuttarimLaunchBase" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#08121F</item>
+        <item name="android:statusBarColor">#08121F</item>
+        <item name="android:navigationBarColor">#08121F</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_image</item>
+        <item name="postSplashScreenTheme">@style/AppTheme.NoActionBar</item>
+    </style>
+    <style name="AppTheme.NoActionBarLaunch" parent="@style/DuttarimLaunchBase">
+        <item name="android:windowLightNavigationBar">false</item>
+    </style>
+</resources>

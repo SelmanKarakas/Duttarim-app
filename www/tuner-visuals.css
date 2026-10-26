@@ -14,7 +14,7 @@
 :root[data-theme=dark] .string-glow{stroke:#83f4d5;stroke-opacity:.7}
 :root[data-theme=dark] .string-glint{stroke:#f0fff9}
 #tunerPanel .tuner-artwork img{z-index:1}
-#tunerPanel .string-light-overlay{z-index:5;transform:translate(2px,2px)}
+#tunerPanel .string-light-overlay{z-index:5;transform:none}
 /* Fixed target remains distinguishable from the moving needle. */
 .zero-target{pointer-events:none;fill:none;stroke-linecap:round}.zero-target-outline{stroke:var(--card);stroke-width:5}.zero-target-line{stroke:var(--navy);stroke-width:2}.zero-confirm{stroke:var(--good);stroke-width:3;opacity:0;transform-box:fill-box;transform-origin:center}
 #tunerPanel .accuracy-marks{display:none}
