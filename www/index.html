@@ -66,9 +66,9 @@
           <g class="gauge-center" aria-hidden="true"><circle class="target-halo" cx="105" cy="93" r="12"/><circle class="target-ring" cx="105" cy="93" r="7"/><circle class="target-core" cx="105" cy="93" r="2.6"/></g>
         </svg>
         <span class="gauge-label flat" data-i18n="flat">PES</span><span class="gauge-label sharp" data-i18n="sharp">TİZ</span>
+      <div class="tuning-complete-message" id="tuningCompleteMessage" role="status" aria-live="polite" hidden aria-label="Akort tamamlandı"><svg viewBox="0 0 52 52" aria-hidden="true"><circle class="completion-ring" cx="26" cy="26" r="23"/><defs><mask id="completion-check-reveal" maskUnits="userSpaceOnUse" x="0" y="0" width="52" height="52"><path class="completion-check" d="M12 25L22 34L40 13"/></mask></defs><path class="completion-glyph" d="M12 25L21 31L40 13L23 38Z" mask="url(#completion-check-reveal)"/></svg></div>
       </div>
       <div class="status" id="status" data-i18n="ready">HAZIR</div>
-      <div class="tuning-complete-message" id="tuningCompleteMessage" role="status" aria-live="polite" hidden aria-label="Akort tamamlandı"><svg viewBox="0 0 52 52" aria-hidden="true"><circle class="completion-ring" cx="26" cy="26" r="23" pathLength="1"/><path class="completion-check" d="M14 26L22 34L38 18" pathLength="1"/></svg></div>
       <div class="pitch-row"><div class="note" id="note">RE</div><div class="cents" id="cents">0 cent</div></div>
       <div
               class="instrument-wrap"
@@ -79,8 +79,8 @@
           <img src="dutar-head.png" alt="Duttar burguluk ve sapı" width="1254" height="1254">
           <svg class="string-light-overlay" viewBox="0 0 1254 1254" aria-hidden="true">
 <defs><filter id="string-soft-glow" x="-60%" y="-30%" width="220%" height="160%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="8"/></filter></defs>
-<g class="string-light light-0"><g class="string-radiance"><path class="string-glow" d="M653 828 Q692 838 731 829 M653 854 Q691 864 731 855 M653 880 Q692 890 731 881 M729 896 C740 946 757 1013 758 1056 L758 1081 M758 1129 V1211"/><path class="string-aura" d="M653 828 Q692 838 731 829 M653 854 Q691 864 731 855 M653 880 Q692 890 731 881 M729 896 C740 946 757 1013 758 1056 L758 1081 M758 1129 V1211"/></g><path class="string-glint" d="M653 828 Q692 838 731 829 M653 854 Q691 864 731 855 M653 880 Q692 890 731 881 M729 896 C740 946 757 1013 758 1056 L758 1081 M758 1129 V1211"/></g>
-<g class="string-light light-1"><g class="string-radiance"><path class="string-glow" d="M456 285 Q446 318 451 348 M479 285 Q469 318 475 348 M503 285 Q494 318 501 348 M456 362 L617 1026 Q625 1051 625 1081 M625 1129 V1211"/><path class="string-aura" d="M456 285 Q446 318 451 348 M479 285 Q469 318 475 348 M503 285 Q494 318 501 348 M456 362 L617 1026 Q625 1051 625 1081 M625 1129 V1211"/></g><path class="string-glint" d="M456 285 Q446 318 451 348 M479 285 Q469 318 475 348 M503 285 Q494 318 501 348 M456 362 L617 1026 Q625 1051 625 1081 M625 1129 V1211"/></g>
+<g class="string-light light-0"><g class="string-radiance"><path class="string-glow" d="M685 840 Q728 852 772 840 M685 867 Q728 879 772 867 M685 894 Q728 906 772 894 M761 916 C770 970 791 1030 796 1085 M796 1148 V1238"/><path class="string-aura" d="M685 840 Q728 852 772 840 M685 867 Q728 879 772 867 M685 894 Q728 906 772 894 M761 916 C770 970 791 1030 796 1085 M796 1148 V1238"/></g><path class="string-glint" d="M685 840 Q728 852 772 840 M685 867 Q728 879 772 867 M685 894 Q728 906 772 894 M761 916 C770 970 791 1030 796 1085 M796 1148 V1238"/></g>
+<g class="string-light light-1"><g class="string-radiance"><path class="string-glow" d="M490 282 Q480 318 488 360 M516 282 Q506 318 514 360 M542 282 Q532 318 540 360 M496 374 L653 1000 Q663 1045 664 1085 M663 1148 V1238"/><path class="string-aura" d="M490 282 Q480 318 488 360 M516 282 Q506 318 514 360 M542 282 Q532 318 540 360 M496 374 L653 1000 Q663 1045 664 1085 M663 1148 V1238"/></g><path class="string-glint" d="M490 282 Q480 318 488 360 M516 282 Q506 318 514 360 M542 282 Q532 318 540 360 M496 374 L653 1000 Q663 1045 664 1085 M663 1148 V1238"/></g>
 </svg>
         </div>
       </div>
@@ -88,12 +88,10 @@
         <div class="string-card active" data-string="0" role="button" tabindex="0">
           <div class="string-copy"><div class="string-title"><span class="string-note">RE</span></div><div class="string-kicker" data-i18n="string1">1. TEL · ZİL</div></div>
           <button class="preview-tone" type="button" data-string="0" aria-label="Referans sesini dinle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9v6h4l5 4V5L9 9H5Z"/><path d="M17 9a4 4 0 0 1 0 6"/><path d="M19 6.5a8 8 0 0 1 0 11"/></svg></button>
-          <span class="radio-dot"></span>
         </div>
         <div class="string-card" data-string="1" role="button" tabindex="0">
           <div class="string-copy"><div class="string-title"><span class="string-note">SOL</span></div><div class="string-kicker" data-i18n="string2">2. TEL · BOM</div></div>
           <button class="preview-tone" type="button" data-string="1" aria-label="Referans sesini dinle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9v6h4l5 4V5L9 9H5Z"/><path d="M17 9a4 4 0 0 1 0 6"/><path d="M19 6.5a8 8 0 0 1 0 11"/></svg></button>
-          <span class="radio-dot"></span>
         </div>
       </div>
       <p class="listen-help" data-i18n="tapString">Akort etmek istediğiniz tele dokunun.</p>

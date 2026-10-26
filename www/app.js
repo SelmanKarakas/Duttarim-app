@@ -460,6 +460,7 @@ var tuningHapticsEnabled=
   localStorage.getItem("tuningHapticsEnabled")==="1";
 var completionAudioCtx=null;
 var completionMessageTimer=0;
+var completionStopTimer=0;
 
 
 /* =========================================
@@ -3000,6 +3001,8 @@ async function showPanel(name){
    ========================================= */
 
 function resetTuningProgress(){
+  clearTimeout(completionStopTimer);
+  completionStopTimer=0;
 
   cancelTuneAttempt();
 
@@ -3767,14 +3770,14 @@ function completeActiveString(){
       "var(--good)";
 
     syncStringVisualState();
-    showCompletionMessage();
+    showCompletionMessage(true);
     playCompletionFeedback(
       completedIndex,
       true
     );
 
 
-    setTimeout(
+    completionStopTimer=setTimeout(
       function(){
 
         stopTuner({
@@ -3784,13 +3787,14 @@ function completeActiveString(){
         });
 
       },
-      650
+      1500
     );
 
 
     return;
   }
 
+  showCompletionMessage(false);
   playCompletionFeedback(
     completedIndex,
     false
@@ -4535,6 +4539,7 @@ function toggleCalibration(){
 
 async function startTuner(options){
   if(tunerStartPending) return;
+  primeCompletionAudio();
   tunerStartPending=true;
   try{
     if(!listening && nativeTuner){
@@ -5405,6 +5410,7 @@ $("#settingsLang").onchange=
 $("#tuningSoundsToggle").onclick=
   function(){
     tuningSoundsEnabled=!tuningSoundsEnabled;
+    if(tuningSoundsEnabled)primeCompletionAudio();
     localStorage.setItem(
       "tuningSoundsEnabled",
       tuningSoundsEnabled ? "1" : "0"
@@ -5466,7 +5472,7 @@ function hideCompletionMessage(){
 }
 
 
-function showCompletionMessage(){
+function showCompletionMessage(allComplete){
 
   if(!appIsActive || document.hidden){
     return;
@@ -5479,17 +5485,21 @@ function showCompletionMessage(){
     return;
   }
 
-
-  message.setAttribute("aria-label",t("tuningComplete"));
+  message.setAttribute("aria-label",t(allComplete ? "tuningComplete" : "inTune"));
   message.hidden=false;
+  message.querySelectorAll('circle,path').forEach(function(shape){
+    var length=shape.getTotalLength();
+    shape.style.strokeDasharray=String(length);
+    shape.style.setProperty('--completion-length',String(length));
+  });
+  void message.offsetWidth;
   message.classList.add("visible");
 
   completionMessageTimer=setTimeout(
     hideCompletionMessage,
-    1400
+    1800
   );
 }
-
 
 function createPluck(ctx,hz,start,duration,volume){
 
@@ -5526,6 +5536,15 @@ function createPluck(ctx,hz,start,duration,volume){
 }
 
 
+function primeCompletionAudio(){
+  if(!tuningSoundsEnabled)return;
+  var AudioCtor=window.AudioContext||window.webkitAudioContext;
+  if(!AudioCtor)return;
+  if(!completionAudioCtx || completionAudioCtx.state==='closed')completionAudioCtx=new AudioCtor();
+  // Unlock playback in the microphone button's user gesture, before permission awaits.
+  completionAudioCtx.resume().catch(function(){});
+}
+
 async function playCompletionFeedback(completedIndex,allComplete){
 
   if(!appIsActive || document.hidden){
@@ -5541,6 +5560,18 @@ async function playCompletionFeedback(completedIndex,allComplete){
 
   if(!tuningSoundsEnabled){
     return;
+  }
+
+  analysisResumeAt=Math.max(analysisResumeAt,Date.now()+(allComplete?1300:800));
+  if(nativeTuner && listening){
+    try{await nativeTuner.setAnalysisMuted({muted:true});}catch(error){}
+    clearTimeout(playCompletionFeedback.unmuteTimer);
+    playCompletionFeedback.unmuteTimer=setTimeout(function(){
+      if(!referenceActive)nativeTuner.setAnalysisMuted({muted:false}).catch(function(){});
+    },allComplete?1200:650);
+  }
+  if(isIOSApp && nativeTuner && nativeTuner.prepareReferencePlayback){
+    try{await nativeTuner.prepareReferencePlayback();}catch(error){}
   }
 
   var AudioCtor=window.AudioContext||window.webkitAudioContext;
@@ -5567,13 +5598,13 @@ async function playCompletionFeedback(completedIndex,allComplete){
 
   if(allComplete){
     /* Active tuning signature: target order, never hardcoded note names. */
-    targets.forEach(function(target,index){
+    [calibratedHz(targets[0].hz)*2,calibratedHz(targets[1].hz)*2,calibratedHz(targets[1].hz)*4].forEach(function(hz,index){
       createPluck(
         completionAudioCtx,
-        calibratedHz(target.hz)*2,
-        now+(index*.34),
-        index===targets.length-1 ? .68 : .48,
-        index===targets.length-1 ? .15 : .12
+        hz,
+        now+(index*.18),
+        index===2 ? .55 : .3,
+        index===2 ? .21 : .165
       );
     });
   }else{
@@ -5582,11 +5613,11 @@ async function playCompletionFeedback(completedIndex,allComplete){
       calibratedHz(targets[completedIndex].hz)*2,
       now,
       .42,
-      .12
+      .18
     );
+    createPluck(completionAudioCtx,calibratedHz(targets[completedIndex].hz)*3,now+.12,.3,.12);
   }
 }
-
 
 function renderFeedbackSettings(){
 

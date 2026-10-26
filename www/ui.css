@@ -1,8 +1,8 @@
 /* Shared surfaces and interaction states; loaded after the original layout. */
-:root{--primary-bg:#173b5d;--primary-ink:#fff;--accent-ink:#fff;--accent-bg:#267b79;--focus:#176b89;--surface-soft:#edf4f2;--muted:#526874;--danger:#a6293d;--pattern-opacity:.30}
+:root{--primary-bg:#173b5d;--primary-ink:#fff;--accent-ink:#fff;--accent-bg:#267b79;--focus:#176b89;--surface-soft:#edf4f2;--muted:#526874;--danger:#a6293d;--pattern-opacity:.40}
 :root[data-theme=dark]{--paper:#080c12;--card:#141d28;--surface-soft:#1b2a37;--navy:#e5eff8;--navy2:#b9d4e8;--text:#e5eff8;--muted:#a9bfcd;--line:#344a5a;--mint:#183b3b;--turq:#8ad4ce;--turq2:#9cded8;--good:#8adbb4;--warn:#edbb7e;--primary-bg:#8ad4ce;--primary-ink:#092a2a;--accent-bg:#8ad4ce;--accent-ink:#092a2a;--focus:#a4dbff;--danger:#ffadbb;--shadow:0 10px 28px #0006;--pattern-opacity:.035}
 body::before{opacity:var(--pattern-opacity)}
-:root[data-theme=dark] body::before{background-image:url('etles_desen_dark.png');opacity:.25}
+:root[data-theme=dark] body::before{background-image:url('etles_desen_dark.png');opacity:.31}
 .hidden,[hidden]{display:none!important}
 button,a,select,[role=button]{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 button,[role=button],.privacy-link{transition:background-color .16s,color .16s,box-shadow .16s,filter .12s,scale .12s}
@@ -49,7 +49,8 @@ button:disabled{cursor:default;opacity:.5}
 .library-filters svg,.library-empty svg,.song-favorite-btn svg{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .library-filters button[data-category=favorites][aria-pressed=true] svg{fill:currentColor}
 .library-levels{display:flex;gap:6px;overflow-x:auto;padding:3px 2px 10px;margin-bottom:8px;scrollbar-width:thin}
-.library-levels button{flex:0 0 auto;min-height:44px;border:1px solid var(--line);border-radius:22px;padding:9px 12px;background:var(--card);color:var(--muted);font-size:12px;font-weight:600}
+.library-levels button{flex:0 0 auto;min-height:44px;border:1px solid var(--line);border-radius:22px;padding:9px 17px;background:var(--card);color:var(--muted);font-size:12px;font-weight:600}
+.library-levels button[data-level]:not([data-level=all]){min-width:88px}
 .library-levels button[aria-pressed=true]{border-color:var(--accent-bg);background:var(--mint);color:var(--navy)}
 .library-group{display:grid;gap:10px}
 .library-group+.library-group{margin-top:12px}
@@ -81,7 +82,7 @@ button:disabled{cursor:default;opacity:.5}
 .language-options button,.onboard-deny{background:var(--surface-soft);color:var(--navy);border-color:var(--line);min-height:48px}
 html[dir=rtl] .song-card-copy{text-align:right}
 html[dir=rtl] .library-filters button span{font-size:13px;line-height:1.4;overflow-wrap:anywhere}
-@media(max-width:360px){#songsPanel .library-filters button{font-size:11px}#songsPanel .song-card{grid-template-columns:40px minmax(0,1fr);gap:9px;padding-inline-start:10px;padding-inline-end:46px}#songsPanel .song-card-title{font-size:15px}.library-levels button{padding-inline:10px}.song-favorite-btn{inset-inline-end:1px}}
+@media(max-width:360px){#songsPanel .library-filters button{font-size:11px}#songsPanel .song-card{grid-template-columns:40px minmax(0,1fr);gap:9px;padding-inline-start:10px;padding-inline-end:46px}#songsPanel .song-card-title{font-size:15px}.library-levels button{padding-inline:13px}.song-favorite-btn{inset-inline-end:1px}}
 
 /* Familiar score icons; color communicates the saved level. */
 #songsPanel .song-card-icon{background:var(--surface-soft);color:var(--muted);width:48px;height:48px;min-width:48px}
