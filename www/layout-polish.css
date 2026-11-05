@@ -49,8 +49,10 @@ img{-webkit-user-drag:none}
 .tuning-complete-message{position:absolute;top:55%;background:var(--tuner-success-surface);color:var(--tuner-success-ink);border:1px solid var(--tuner-success-border);box-shadow:0 8px 30px #0003,0 0 20px var(--tuner-success-glow)}
 .tuning-complete-message svg{width:52px;height:52px;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
 .completion-ring{stroke-width:2;opacity:.5;transform:rotate(-90deg);transform-origin:center}
-.completion-glyph{fill:currentColor;stroke:none}
-.completion-check{stroke:#fff;stroke-width:11;stroke-linecap:square;stroke-linejoin:miter}
+.completion-check{stroke:currentColor;stroke-width:5;stroke-linecap:square;stroke-linejoin:miter}
+.completion-double{display:none}
+.tuning-complete-message[data-stage=all] .completion-single{display:none}
+.tuning-complete-message[data-stage=all] .completion-double{display:block}
 .tuning-complete-message.visible .completion-ring{animation:completion-draw .42s ease-out both}
 .tuning-complete-message.visible .completion-check{animation:completion-draw .32s .06s ease-out both}
 @keyframes completion-draw{from{stroke-dashoffset:var(--completion-length)}to{stroke-dashoffset:0}}

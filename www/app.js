@@ -5486,6 +5486,7 @@ function showCompletionMessage(allComplete){
   }
 
   message.setAttribute("aria-label",t(allComplete ? "tuningComplete" : "inTune"));
+  message.dataset.stage=allComplete ? "all" : "single";
   message.hidden=false;
   message.querySelectorAll('circle,path').forEach(function(shape){
     var length=shape.getTotalLength();
