@@ -16,6 +16,10 @@ img{-webkit-user-drag:none}
 /* Labels and guide lines remain below the transparent instrument artwork. */
 #fretsPanel .fret-labels{z-index:1}
 #fretsPanel .fret-duttar{z-index:2;pointer-events:none}
+#fretsPanel .fret-duttar img{height:133.33%;max-height:none}
+#fretsPanel .fret-label.dual-fret{transform:translateY(-50%)}
+#fretsPanel .fret-label.dual-fret::before{display:none}
+#fretsPanel .fret-guides{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:visible;stroke:var(--turq);stroke-width:1;stroke-dasharray:3 3;opacity:.75}
 #fretsPanel .fret-label.dual-fret{height:clamp(22px,5.8vw,26px)}
 .song-view-tabs{padding:3px;margin-bottom:8px}
 .song-view-btn{min-height:36px;padding:7px 5px;font-size:12px}
