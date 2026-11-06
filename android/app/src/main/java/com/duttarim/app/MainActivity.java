@@ -1,13 +1,18 @@
 package com.duttarim.app;
 
 import android.Manifest;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
+import android.os.Build;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.webkit.PermissionRequest;
 import android.webkit.WebView;
 
@@ -20,12 +25,14 @@ import com.getcapacitor.BridgeWebChromeClient;
 public class MainActivity extends BridgeActivity {
 
     private static final int RECORD_AUDIO_REQUEST = 1001;
-    private ImageView launchOverlay;
+    private View launchOverlay;
+    private AnimatorSet launchAnimation;
     private Runnable launchReady;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SplashScreen.installSplashScreen(this);
+        SplashScreen systemSplash = SplashScreen.installSplashScreen(this);
+        systemSplash.setOnExitAnimationListener(provider -> provider.remove());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         registerPlugin(DutarTunerPlugin.class);
         super.onCreate(savedInstanceState);
@@ -60,9 +67,8 @@ public class MainActivity extends BridgeActivity {
 
     private void showBrandedLaunch(WebView webView) {
         ViewGroup content = findViewById(android.R.id.content);
-        ImageView overlay = new ImageView(this);
-        overlay.setImageResource(R.drawable.branded_splash);
-        overlay.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        BrandedSplashView overlay = new BrandedSplashView(this);
+        View artwork = overlay.card;
         overlay.setClickable(true);
         overlay.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
         content.addView(overlay, new ViewGroup.LayoutParams(
@@ -76,11 +82,42 @@ public class MainActivity extends BridgeActivity {
                     overlay.postDelayed(this, 100);
                     return;
                 }
-                overlay.animate().alpha(0f).setDuration(180).withEndAction(() -> {
+                launchReady = null;
+                if (Build.VERSION.SDK_INT >= 26 && !ValueAnimator.areAnimatorsEnabled()) {
                     content.removeView(overlay);
-                    if (launchOverlay == overlay) launchOverlay = null;
-                    launchReady = null;
-                }).start();
+                    launchOverlay = null;
+                    return;
+                }
+                artwork.setPivotX(artwork.getWidth() * 0.5f);
+                artwork.setPivotY(artwork.getHeight() * 0.5f);
+                AnimatorSet recoil = new AnimatorSet();
+                recoil.playTogether(ObjectAnimator.ofFloat(artwork, View.SCALE_X, 1f, 0.92f),
+                        ObjectAnimator.ofFloat(artwork, View.SCALE_Y, 1f, 0.92f));
+                recoil.setDuration(180);
+                recoil.setInterpolator(new AccelerateDecelerateInterpolator());
+                AnimatorSet jump = new AnimatorSet();
+                jump.playTogether(ObjectAnimator.ofFloat(artwork, View.SCALE_X, 0.92f, 3.4f),
+                        ObjectAnimator.ofFloat(artwork, View.SCALE_Y, 0.92f, 3.4f));
+                jump.setDuration(560);
+                jump.setInterpolator(new AccelerateInterpolator(1.1f));
+                ObjectAnimator fade = ObjectAnimator.ofFloat(artwork, View.ALPHA, 1f, 0f);
+                fade.setStartDelay(200);
+                fade.setDuration(360);
+                AnimatorSet reveal = new AnimatorSet();
+                ObjectAnimator backgroundFade = ObjectAnimator.ofFloat(overlay.background, View.ALPHA, 1f, 0f);
+                backgroundFade.setStartDelay(440);
+                backgroundFade.setDuration(120);
+                reveal.playTogether(jump, fade, backgroundFade);
+                launchAnimation = new AnimatorSet();
+                launchAnimation.playSequentially(recoil, reveal);
+                launchAnimation.addListener(new android.animation.AnimatorListenerAdapter() {
+                    @Override public void onAnimationEnd(android.animation.Animator animation) {
+                        content.removeView(overlay);
+                        if (launchOverlay == overlay) launchOverlay = null;
+                        launchAnimation = null;
+                    }
+                });
+                launchAnimation.start();
             }
         };
         overlay.post(launchReady);
@@ -88,6 +125,7 @@ public class MainActivity extends BridgeActivity {
 
     @Override
     public void onDestroy() {
+        if (launchAnimation != null) launchAnimation.cancel();
         if (launchOverlay != null) {
             if (launchReady != null) launchOverlay.removeCallbacks(launchReady);
             launchOverlay.animate().cancel();
