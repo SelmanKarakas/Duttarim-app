@@ -600,43 +600,6 @@
   {
     "category": "piece",
     "tuning": "normal",
-    "id": "dadam",
-    "title": {
-      "latin": "Dadam",
-      "ug": "دادم"
-    },
-    "origin": {
-      "tr": "Dutar Eseri",
-      "en": "Dutar Piece",
-      "ug": "دۇتار ئەسىرى"
-    },
-    "tempo": 90,
-    "simplePages": [
-      "songs/dadam_basit_1791050600990_1.jpg"
-    ],
-    "notationPages": [],
-    "sourceNotes": {
-      "tr": "",
-      "en": "",
-      "ug": ""
-    },
-    "arrangementNotes": {
-      "tr": "",
-      "en": "",
-      "ug": ""
-    },
-    "versionGroup": {
-      "id": "dadam-eser",
-      "title": {
-        "latin": "Dadam",
-        "ug": ""
-      }
-    },
-    "versionLevel": 1
-  },
-  {
-    "category": "piece",
-    "tuning": "normal",
     "id": "chirayliq-eser-level-5",
     "title": {
       "latin": "Chirayliq",
@@ -670,42 +633,5 @@
       }
     },
     "versionLevel": 5
-  },
-  {
-    "category": "piece",
-    "tuning": "normal",
-    "id": "chirayliq-eser-level-1",
-    "title": {
-      "latin": "Chirayliq",
-      "ug": "چىرايلىق"
-    },
-    "origin": {
-      "tr": "Dutar Eseri",
-      "en": "Dutar Piece",
-      "ug": "دۇتار ئەسىري"
-    },
-    "tempo": 90,
-    "simplePages": [],
-    "notationPages": [
-      "songs/chirayliq_eser_level_1_normal_1794060138944_1.jpg"
-    ],
-    "sourceNotes": {
-      "tr": "Transcript by - Shohret Nur",
-      "en": "Transcript by - Shohret Nur",
-      "ug": ""
-    },
-    "arrangementNotes": {
-      "tr": "",
-      "en": "",
-      "ug": ""
-    },
-    "versionGroup": {
-      "id": "chirayliq-eser",
-      "title": {
-        "latin": "Chirayliq",
-        "ug": "چىرايلىق"
-      }
-    },
-    "versionLevel": 1
   }
 ]
