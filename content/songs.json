@@ -557,7 +557,7 @@
   {
     "category": "piece",
     "tuning": "normal",
-    "id": "chirayliq-eser-level-2",
+    "id": "chirayliq-eser-level-4",
     "title": {
       "latin": "Chirayliq",
       "ug": "چىرايلىق"
@@ -570,7 +570,7 @@
     "tempo": 90,
     "simplePages": [],
     "notationPages": [
-      "songs/chirayliq_eser_level_2_normal_1794060593968_1.jpg"
+      "songs/chirayliq_eser_level_4_normal_1794060620453_1.jpg"
     ],
     "sourceNotes": {
       "tr": "Transcript by - Shohret Nur",
@@ -589,6 +589,6 @@
         "ug": "چىرايلىق"
       }
     },
-    "versionLevel": 2
+    "versionLevel": 4
   }
 ]
