@@ -421,36 +421,6 @@
   },
   {
     "category": "piece",
-    "id": "bir-kuni",
-    "title": {
-      "latin": "Bir kuni",
-      "ug": "بىر كۈنى"
-    },
-    "origin": {
-      "tr": "Dutar Eseri",
-      "en": "Dutar Piece",
-      "ug": "دۇتار ئەسىرى"
-    },
-    "tempo": 90,
-    "simplePages": [
-      "songs/bir_kuni_basit_1789898284081_1.png"
-    ],
-    "notationPages": [
-      "songs/bir_kuni_normal_1789898284086_1.png"
-    ],
-    "sourceNotes": {
-      "tr": "",
-      "en": "",
-      "ug": ""
-    },
-    "arrangementNotes": {
-      "tr": "Orijinal ve medya kaynaklarından elle aktarılmıştır. Küçük hatalar olabilir. Herhangi bir hata fark ederseniz geri bildirim göndermekten çekinmeyin.",
-      "en": "Transcribed manually from original and media sources. Minor errors may occur. If you notice anything, feel free to send us feedback.",
-      "ug": "ئەسلى ۋە مېدىيا مەنبەلىرىدىن كۆچۈرۈپ رەتلەنگەن. كىچىك خاتالىقلار بولۇشى مۇمكىن. ئەگەر بىرەر خاتالىق بايقىسىڭىز، بىزگە پىكىر-تەكلىپ ئەۋەتىشىڭىزنى قارشى ئالىمىز."
-    }
-  },
-  {
-    "category": "piece",
     "id": "ketmigin-yarim",
     "title": {
       "latin": "Ketmigin Yarim",
@@ -525,34 +495,6 @@
     "simplePages": [],
     "notationPages": [
       "songs/ong_sol_qol_maslashturush_meshiqi_normal_1790250760808_1.jpg"
-    ],
-    "sourceNotes": {
-      "tr": "",
-      "en": "",
-      "ug": ""
-    },
-    "arrangementNotes": {
-      "tr": "1) Sol el parmak kurallarına tam olarak uyulmalı, notanın üzerinde hangi parmak numarası yazılmışsa o parmakla o sesin perdesine basarak çalınmalıdır. Perdeye basarken parmaklar düzenli olmalıdır.  \n\n 2) Alıştırma yaparken dutar sesinin kulağa hoş gelmesi ve ciddi bir şekilde çalışılması istenir. Önce yavaş bir tempoda çalışmalı, ardından giderek hızlandırmalıdır. Bu sayede el parmaklarının çevikliği ve dayanıklılığı artırılmalıdır.  \n\n 3) Bu alıştırma bir ses dizisi alıştırması olduğundan, çalışma sırasında perde yerleri ve notalar akılda tutulmalı, daha fazla pratik yapılmalıdır.",
-      "en": "1) The left-hand fingering rules must be strictly followed; whichever finger number is written above the note, that finger must be used to press the fret for that pitch. The fingers must be positioned neatly when pressing the frets.  \n\n 2) When practicing, it is required to produce a pleasant sound from the dutar and to practice diligently. You should first practice at a slow tempo and then gradually increase the speed. Doing so will improve the agility and endurance of your fingers.  \n\n 3) Because this is a scale exercise, it is necessary to memorize the fret positions and notes during practice, and to practice more frequently.",
-      "ug": "بۇ مەشقتە ئوڭ قول بىلەن سول قولنى ماسلاشتۇرۇپ چېلىش تەلەپ قىلىنىدۇ. مەشق قىلىش جەريانىدا \nتۆۋەندىكى نۇقتىلارغا دىققەت قىلىش كېرەك:\n\n1. سول قول بارماق قائىدىسىگە تولۇق ئەمەل قىلىش، نوتا ئۈستىگە قايسى بارماق نومۇرى يېزىلغان بولسا شۇ بارماق بىلەن شۇ ئاھاڭنىڭ پەدىسىنى بېسىپ چېلىش لازىم. پەدە باسقاندا بارماقلار رەتلىك بولۇشى كېرەك.\n\n2. مەشق قىلغاندا دۇتار ئاۋازىنى يېقىملىق چىقىرىش، ئەستايىدىل مەشق قىلىش تەلەپ قىلىنىدۇ. ئاۋۋال ئاستا سۈرئەتتە مەشق قىلىپ، كېيىن تەدرىجىي تېزلىتىپ مەشق قىلىش كېرەك. شۇ ئارقىلىق قول بارماقلىرىنىڭ چاققانلىقىنى، چىدامچانلىقىنى ئاشۇرۇش لازىم.\n\n3. بۇ مەشق ئاھاڭ باسقۇچ مەشقى بولغاچقا، مەشق جەريانىدا پەدە ئورنىنى ۋە نوتىنى ئەستە ساقلاش، كۆپرەك مەشق قىلىپ بېرىش كېرەك."
-    }
-  },
-  {
-    "category": "exercise",
-    "id": "meshiq",
-    "title": {
-      "latin": "Ong-Sol Qol Maslashturush 2",
-      "ug": "ئوڭ - سول قول ماسلاشتۇرۇش مەشقى"
-    },
-    "origin": {
-      "tr": "El Alıştırma",
-      "en": "Hand Exercise",
-      "ug": "قول كۆندۈرۈش"
-    },
-    "tempo": 90,
-    "simplePages": [],
-    "notationPages": [
-      "songs/meshiq_normal_1790251391129_1.jpg"
     ],
     "sourceNotes": {
       "tr": "",
