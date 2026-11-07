@@ -329,38 +329,6 @@
   },
   {
     "category": "piece",
-    "difficulty": "advanced",
-    "tuning": "normal",
-    "id": "yar-kilemsen-baraymu",
-    "title": {
-      "latin": "Yar kilemsen baraymu",
-      "ug": "يار كېلەمسەن بارايمۇ"
-    },
-    "origin": {
-      "tr": "Dutar Eseri",
-      "en": "Dutar Piece",
-      "ug": "دۇتار ئەسىرى"
-    },
-    "tempo": 90,
-    "simplePages": [
-      "songs/yar_kilemsen_baraymu_basit_1789897578175_1.png"
-    ],
-    "notationPages": [
-      "songs/yar_kilemsen_baraymu_normal_1789897578183_1.png"
-    ],
-    "sourceNotes": {
-      "tr": "",
-      "en": "",
-      "ug": ""
-    },
-    "arrangementNotes": {
-      "tr": "Orijinal ve medya kaynaklarından elle aktarılmıştır. Küçük hatalar olabilir. Herhangi bir hata fark ederseniz geri bildirim göndermekten çekinmeyin.",
-      "en": "Transcribed manually from original and media sources. Minor errors may occur. If you notice anything, feel free to send us feedback.",
-      "ug": "ئەسلى ۋە مېدىيا مەنبەلىرىدىن كۆچۈرۈپ رەتلەنگەن. كىچىك خاتالىقلار بولۇشى مۇمكىن. ئەگەر بىرەر خاتالىق بايقىسىڭىز، بىزگە پىكىر-تەكلىپ ئەۋەتىشىڭىزنى قارشى ئالىمىز."
-    }
-  },
-  {
-    "category": "piece",
     "id": "berbat-bolgan-muhabbet",
     "title": {
       "latin": "Berbat Bolgan Muhabbet",
