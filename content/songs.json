@@ -553,5 +553,42 @@
       }
     },
     "versionLevel": 3
+  },
+  {
+    "category": "piece",
+    "tuning": "normal",
+    "id": "chirayliq-eser-level-2",
+    "title": {
+      "latin": "Chirayliq",
+      "ug": "چىرايلىق"
+    },
+    "origin": {
+      "tr": "Dutar Eseri",
+      "en": "Dutar Piece",
+      "ug": "دۇتار ئەسىري"
+    },
+    "tempo": 90,
+    "simplePages": [],
+    "notationPages": [
+      "songs/chirayliq_eser_level_2_normal_1794060593968_1.jpg"
+    ],
+    "sourceNotes": {
+      "tr": "Transcript by - Shohret Nur",
+      "en": "Transcript by - Shohret Nur",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "versionGroup": {
+      "id": "chirayliq-eser",
+      "title": {
+        "latin": "Chirayliq",
+        "ug": "چىرايلىق"
+      }
+    },
+    "versionLevel": 2
   }
 ]
