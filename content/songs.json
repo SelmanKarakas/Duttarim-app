@@ -247,6 +247,8 @@
   },
   {
     "category": "piece",
+    "difficulty": "intermediate",
+    "tuning": "normal",
     "id": "ketmigin-yarim",
     "title": {
       "latin": "Ketmigin Yarim",
