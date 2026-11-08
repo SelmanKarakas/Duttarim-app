@@ -151,8 +151,6 @@
   },
   {
     "category": "piece",
-    "difficulty": "advanced",
-    "tuning": "normal",
     "id": "aldida",
     "title": {
       "latin": "Aldida",
@@ -183,6 +181,8 @@
   },
   {
     "category": "piece",
+    "difficulty": "advanced",
+    "tuning": "normal",
     "id": "uchrashqanda",
     "title": {
       "latin": "Uchrashqanda",
