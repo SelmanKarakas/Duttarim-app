@@ -151,6 +151,8 @@
   },
   {
     "category": "piece",
+    "difficulty": "advanced",
+    "tuning": "normal",
     "id": "aldida",
     "title": {
       "latin": "Aldida",
@@ -211,8 +213,6 @@
   },
   {
     "category": "piece",
-    "difficulty": "intermediate",
-    "tuning": "normal",
     "id": "tirek-bostan",
     "title": {
       "latin": "Tirek bostan",
