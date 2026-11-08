@@ -121,8 +121,6 @@
   },
   {
     "category": "piece",
-    "difficulty": "advanced",
-    "tuning": "normal",
     "id": "ketmeydu",
     "title": {
       "latin": "Ketmeydu",
@@ -243,6 +241,8 @@
   },
   {
     "category": "piece",
+    "difficulty": "intermediate",
+    "tuning": "normal",
     "id": "ketmigin-yarim",
     "title": {
       "latin": "Ketmigin Yarim",
