@@ -357,6 +357,8 @@
   },
   {
     "category": "piece",
+    "difficulty": "intermediate",
+    "tuning": "normal",
     "id": "ketmigin-yarim",
     "title": {
       "latin": "Ketmigin Yarim",
@@ -417,8 +419,6 @@
   },
   {
     "category": "exercise",
-    "difficulty": "beginner",
-    "tuning": "normal",
     "id": "ong-sol-qol-maslashturush-meshiqi",
     "title": {
       "latin": "Ong-Sol Qol Maslashturush 1",
