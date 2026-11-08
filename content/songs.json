@@ -327,36 +327,6 @@
   },
   {
     "category": "piece",
-    "id": "didar-geniymet",
-    "title": {
-      "latin": "Didar Geniymet",
-      "ug": "دىدار غەنىيمەت"
-    },
-    "origin": {
-      "tr": "Dutar Eseri",
-      "en": "Dutar Piece",
-      "ug": "دۇتار ئەسىرى"
-    },
-    "tempo": 90,
-    "simplePages": [
-      "songs/didar_geniymet_basit_1789898004974_1.png"
-    ],
-    "notationPages": [
-      "songs/didar_geniymet_normal_1789898004981_1.png"
-    ],
-    "sourceNotes": {
-      "tr": "",
-      "en": "",
-      "ug": ""
-    },
-    "arrangementNotes": {
-      "tr": "Orijinal ve medya kaynaklarından elle aktarılmıştır. Küçük hatalar olabilir. Herhangi bir hata fark ederseniz geri bildirim göndermekten çekinmeyin.",
-      "en": "Transcribed manually from original and media sources. Minor errors may occur. If you notice anything, feel free to send us feedback.",
-      "ug": "ئەسلى ۋە مېدىيا مەنبەلىرىدىن كۆچۈرۈپ رەتلەنگەن. كىچىك خاتالىقلار بولۇشى مۇمكىن. ئەگەر بىرەر خاتالىق بايقىسىڭىز، بىزگە پىكىر-تەكلىپ ئەۋەتىشىڭىزنى قارشى ئالىمىز."
-    }
-  },
-  {
-    "category": "piece",
     "id": "ketmigin-yarim",
     "title": {
       "latin": "Ketmigin Yarim",
@@ -373,6 +343,36 @@
     ],
     "notationPages": [
       "songs/ketmigin_yarim_normal_1789898411321_1.png"
+    ],
+    "sourceNotes": {
+      "tr": "",
+      "en": "",
+      "ug": ""
+    },
+    "arrangementNotes": {
+      "tr": "Orijinal ve medya kaynaklarından elle aktarılmıştır. Küçük hatalar olabilir. Herhangi bir hata fark ederseniz geri bildirim göndermekten çekinmeyin.",
+      "en": "Transcribed manually from original and media sources. Minor errors may occur. If you notice anything, feel free to send us feedback.",
+      "ug": "ئەسلى ۋە مېدىيا مەنبەلىرىدىن كۆچۈرۈپ رەتلەنگەن. كىچىك خاتالىقلار بولۇشى مۇمكىن. ئەگەر بىرەر خاتالىق بايقىسىڭىز، بىزگە پىكىر-تەكلىپ ئەۋەتىشىڭىزنى قارشى ئالىمىز."
+    }
+  },
+  {
+    "category": "piece",
+    "id": "yollugum",
+    "title": {
+      "latin": "Yollugum",
+      "ug": "يوللۇغۇم"
+    },
+    "origin": {
+      "tr": "Dutar Eseri",
+      "en": "Dutar Piece",
+      "ug": "دۇتار ئەسىرى"
+    },
+    "tempo": 90,
+    "simplePages": [
+      "songs/yollugum_basit_1789898532486_1.png"
+    ],
+    "notationPages": [
+      "songs/yollugum_normal_1789898532490_1.png"
     ],
     "sourceNotes": {
       "tr": "",
