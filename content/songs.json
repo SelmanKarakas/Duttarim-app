@@ -1,6 +1,8 @@
 [
   {
     "category": "piece",
+    "difficulty": "intermediate",
+    "tuning": "normal",
     "id": "talka-tagliri",
     "title": {
       "latin": "Talka Tagliri",
