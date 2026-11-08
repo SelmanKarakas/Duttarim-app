@@ -211,6 +211,8 @@
   },
   {
     "category": "piece",
+    "difficulty": "intermediate",
+    "tuning": "normal",
     "id": "tirek-bostan",
     "title": {
       "latin": "Tirek bostan",
@@ -241,8 +243,6 @@
   },
   {
     "category": "piece",
-    "difficulty": "intermediate",
-    "tuning": "normal",
     "id": "ketmigin-yarim",
     "title": {
       "latin": "Ketmigin Yarim",
