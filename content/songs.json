@@ -123,6 +123,8 @@
   },
   {
     "category": "piece",
+    "difficulty": "advanced",
+    "tuning": "normal",
     "id": "ketmeydu",
     "title": {
       "latin": "Ketmeydu",
