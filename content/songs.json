@@ -181,8 +181,6 @@
   },
   {
     "category": "piece",
-    "difficulty": "advanced",
-    "tuning": "normal",
     "id": "uchrashqanda",
     "title": {
       "latin": "Uchrashqanda",
@@ -213,6 +211,8 @@
   },
   {
     "category": "piece",
+    "difficulty": "intermediate",
+    "tuning": "normal",
     "id": "tirek-bostan",
     "title": {
       "latin": "Tirek bostan",
