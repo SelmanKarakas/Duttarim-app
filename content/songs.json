@@ -147,6 +147,8 @@
   },
   {
     "category": "piece",
+    "difficulty": "advanced",
+    "tuning": "normal",
     "id": "aldida",
     "title": {
       "latin": "Aldida",
