@@ -1,6 +1,8 @@
 [
   {
     "category": "piece",
+    "difficulty": "intermediate",
+    "tuning": "normal",
     "id": "talka-tagliri",
     "title": {
       "latin": "Talka Tagliri",
@@ -177,8 +179,6 @@
   },
   {
     "category": "piece",
-    "difficulty": "advanced",
-    "tuning": "normal",
     "id": "uchrashqanda",
     "title": {
       "latin": "Uchrashqanda",
