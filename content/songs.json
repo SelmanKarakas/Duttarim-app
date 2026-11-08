@@ -29,6 +29,8 @@
   },
   {
     "category": "piece",
+    "difficulty": "beginner",
+    "tuning": "normal",
     "id": "altun-tupraq",
     "title": {
       "latin": "Altun Tuprak",
@@ -119,8 +121,6 @@
   },
   {
     "category": "piece",
-    "difficulty": "advanced",
-    "tuning": "normal",
     "id": "ketmeydu",
     "title": {
       "latin": "Ketmeydu",
@@ -151,6 +151,8 @@
   },
   {
     "category": "piece",
+    "difficulty": "advanced",
+    "tuning": "normal",
     "id": "aldida",
     "title": {
       "latin": "Aldida",
